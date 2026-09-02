@@ -1,19 +1,30 @@
 import {achievements,decisions,stages,type Achievement,type DecisionId,type StageId} from './tracker-data';
 export type Flag = 'unknown'|'clear'|'broken';
 export type FlagId = 'kills'|'alarms'|'systemKills'|'criminalKills'|'drugs';
-export type Run = {stage:StageId;difficulty:'normal'|'ngplus'|'permadeath';goals:string[];flags:Record<FlagId,Flag>;decisions:Partial<Record<DecisionId,string>>;books:number;counters:Record<string,number>;notes:string};
+export type Run = {stage:StageId;completedTasks:string[];completedStages:StageId[];difficulty:'normal'|'ngplus'|'permadeath';goals:string[];flags:Record<FlagId,Flag>;decisions:Partial<Record<DecisionId,string>>;books:number;counters:Record<string,number>;notes:string};
 export type Snapshot = {id:string;name:string;createdAt:string;run:Run};
 export type TrackerState = {version:1;earned:string[];run:Run;snapshots:Snapshot[];spoilers:boolean};
-export const freshRun=():Run=>({stage:'dubai',difficulty:'normal',goals:['pacifist','fox'],flags:{kills:'unknown',alarms:'unknown',systemKills:'unknown',criminalKills:'unknown',drugs:'unknown'},decisions:{},books:0,counters:{},notes:''});
+export const freshRun=():Run=>({stage:'dubai',completedTasks:[],completedStages:[],difficulty:'normal',goals:['pacifist','fox'],flags:{kills:'unknown',alarms:'unknown',systemKills:'unknown',criminalKills:'unknown',drugs:'unknown'},decisions:{},books:0,counters:{},notes:''});
 export const freshState=():TrackerState=>({version:1,earned:[],run:freshRun(),snapshots:[],spoilers:false});
 export const storageKey='dx-achievement-protocol-v1';
 const record=(v:unknown):v is Record<string,unknown>=>typeof v==='object'&&v!==null&&!Array.isArray(v);
+const toggleIds=(current:string[],ids:string[],done:boolean)=>done?[...new Set([...current,...ids])]:current.filter(id=>!ids.includes(id));
+export function setEarned(state:TrackerState,ids:string[],earned:boolean):TrackerState{return {...state,earned:toggleIds(state.earned,ids,earned)}}
+export function setRunProgress(state:TrackerState,kind:'tasks'|'stages',ids:string[],completed:boolean):TrackerState{
+  if(kind==='tasks')return {...state,run:{...state.run,completedTasks:toggleIds(state.run.completedTasks,ids,completed)}};
+  return {...state,run:{...state.run,completedStages:toggleIds(state.run.completedStages,ids,completed) as StageId[]}};
+}
+function parseIds(v:unknown,valid:string[]):string[]{
+  if(v===undefined)return [];
+  if(!Array.isArray(v)||!v.every(id=>typeof id==='string'&&valid.includes(id)))throw Error('Некорректные отметки прохождения.');
+  return [...new Set(v)] as string[];
+}
 function parseRun(v:unknown):Run{
   if(!record(v)||!stages.some(s=>s.id===v.stage)||!['normal','ngplus','permadeath'].includes(String(v.difficulty))||!record(v.flags)||!record(v.decisions)||!record(v.counters)||!Array.isArray(v.goals)||!v.goals.every(x=>['pacifist','fox'].includes(x))||typeof v.notes!=='string'||v.notes.length>10000||!Number.isInteger(v.books)||Number(v.books)<0||Number(v.books)>75)throw Error('Некорректное состояние прохождения.');
   for(const key of Object.keys(freshRun().flags))if(!['unknown','clear','broken'].includes(String(v.flags[key])))throw Error('Некорректные условия прохождения.');
   for(const [key,value] of Object.entries(v.decisions)){const d=decisions.find(x=>x.id===key);if(!d||!d.options.some(x=>x.value===value))throw Error('Некорректное сюжетное решение.');}
   for(const [key,value] of Object.entries(v.counters)){const a=achievements.find(x=>x.id===key);if(!a?.counter||typeof value!=='number'||!Number.isInteger(value)||value<0||value>a.counter)throw Error('Некорректный счётчик.');}
-  return {stage:v.stage as StageId,difficulty:v.difficulty as Run['difficulty'],goals:[...new Set(v.goals)] as string[],flags:Object.fromEntries(Object.keys(freshRun().flags).map(k=>[k,(v.flags as Record<string,unknown>)[k]])) as Run['flags'],decisions:{...v.decisions} as Run['decisions'],books:Number(v.books),counters:{...v.counters} as Run['counters'],notes:v.notes};
+  return {stage:v.stage as StageId,completedTasks:parseIds(v.completedTasks,achievements.map(a=>a.id)),completedStages:parseIds(v.completedStages,stages.map(s=>s.id)) as StageId[],difficulty:v.difficulty as Run['difficulty'],goals:[...new Set(v.goals)] as string[],flags:Object.fromEntries(Object.keys(freshRun().flags).map(k=>[k,(v.flags as Record<string,unknown>)[k]])) as Run['flags'],decisions:{...v.decisions} as Run['decisions'],books:Number(v.books),counters:{...v.counters} as Run['counters'],notes:v.notes};
 }
 export function parseState(value:unknown):TrackerState{
   if(!record(value)||value.version!==1||!Array.isArray(value.earned)||!value.earned.every(id=>typeof id==='string'&&achievements.some(a=>a.id===id))||typeof value.spoilers!=='boolean'||!Array.isArray(value.snapshots)||value.snapshots.length>12)throw Error('Это не файл прогресса Achievement Protocol версии 1.');
@@ -44,6 +55,10 @@ export function blocker(a:Achievement,run:Run):string|null{
 }
 export function status(a:Achievement,state:TrackerState):{label:string;tone:string;detail?:string}{
   if(state.earned.includes(a.id))return {label:'Получено',tone:'done'};
+  return runStatus(a,state);
+}
+export function runStatus(a:Achievement,state:TrackerState):{label:string;tone:string;detail?:string}{
+  if(state.run.completedTasks.includes(a.id))return {label:'Шаг выполнен',tone:'done'};
   const blocked=blocker(a,state.run);if(blocked)return {label:a.id==='never'?'Другое прохождение':'Закрыто выбором',tone:'blocked',detail:blocked};
   const stage=stages.find(s=>s.id===state.run.stage)!;
   if(a.group!==stage.group)return {label:groupsLabel(a.group),tone:'later'};
