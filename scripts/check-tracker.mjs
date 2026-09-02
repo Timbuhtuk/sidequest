@@ -6,7 +6,7 @@ import ts from 'typescript';
 const out=path.resolve('.checks');
 fs.mkdirSync(out,{recursive:true});
 fs.writeFileSync(path.join(out,'package.json'),'{"type":"commonjs"}');
-for(const file of ['tracker-data','tracker-state','i18n']){
+for(const file of ['tracker-data','tracker-state','tracker-recommendations','i18n']){
  const text=fs.readFileSync(`lib/${file}.ts`,'utf8');
  fs.writeFileSync(path.join(out,`${file}.js`),ts.transpileModule(text,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
 }
@@ -27,7 +27,8 @@ assert.deepEqual(parseState(JSON.parse(JSON.stringify(original))),original);
 const edited=structuredClone(original);edited.run.decisions.bank='bank';
 assert(blocker(a('god'),edited.run));
 assert.equal(status(a('god'),edited).tone,'done');
-assert.equal(runStatus(a('god'),edited).tone,'blocked');
+assert.equal(runStatus(a('god'),edited).tone,'done');
+assert.equal(runStatus(a('god'),edited).detail,undefined);
 assert.equal(blocker(a('jim'),edited.run),null);
 edited.run.decisions.bank='allison';
 assert(blocker(a('jim'),edited.run));assert(blocker(a('tablets'),edited.run));
@@ -73,13 +74,43 @@ const invalid=structuredClone(original);change(invalid);assert.throws(()=>parseS
 }
 console.log('PASS: 81 achievements, branching, independent unlock/task/stage marks, legacy migration, export/import, new run, snapshot rollback, invalid imports.');
 
+const {stageRecommendations,beforeLeaving}=require(path.join(out,'tracker-recommendations.js'));
+const dubai=freshState();
+const before=stageRecommendations(dubai);
+const learned=setEarned(dubai,['adept'],true);
+assert(before.focused.some(a=>a.id==='adept'));
+assert(!stageRecommendations(learned).pending.some(a=>a.id==='adept'));
+assert(!beforeLeaving(learned).some(text=>text.includes('обучение')));
+assert(beforeLeaving(learned).some(text=>text.includes('Сингха')));
+assert.equal(stageRecommendations(learned).earnedHere,before.earnedHere+1);
+const removed=setEarned(learned,['adept'],false);
+assert(stageRecommendations(removed).focused.some(a=>a.id==='adept'));
+const oldTasks=setRunProgress(dubai,'tasks',['adept'],true);
+assert(stageRecommendations(oldTasks).focused.some(a=>a.id==='adept'));
+assert.equal(runStatus(a('adept'),oldTasks).tone,'now');
+const full=setEarned(dubai,achievements.map(a=>a.id),true);
+assert.equal(stageRecommendations(full).pending.length,0);
+assert.equal(stageRecommendations(full).earnedHere,stageRecommendations(full).eligible.length);
+assert(beforeLeaving(full).every(text=>!text.includes('обучение')&&!text.includes('книги')&&!text.includes('Сингха')));
+const replay={...learned,run:freshRun()};
+assert(!stageRecommendations(replay).pending.some(a=>a.id==='adept'));
+assert(!stageRecommendations({...learned,run:structuredClone(dubai.run)}).pending.some(a=>a.id==='adept'));
+const booksDone=setEarned({...dubai,run:{...dubai.run,stage:'prague2'}},['harvester'],true);
+assert(beforeLeaving(booksDone).some(text=>text.includes('Жнец')),'Keep prerequisites for still-unearned achievements');
+for(const stage of stages){
+ const state={...full,run:{...full.run,stage:stage.id}};
+ assert.equal(stageRecommendations(state).pending.length,0);
+ for(const achievement of achievements)assert.equal(runStatus(achievement,state).tone,'done');
+}
+console.log('PASS: earned achievements leave recommendations, undo restores them, legacy task marks are ignored, completed stages stay independent, prerequisite reminders are retained.');
+
 const {createTranslator,localizedCatalog,parseLocale,languageKey}=require(path.join(out,'i18n.js'));
 assert.equal(parseLocale('ua'),'uk');assert.equal(parseLocale('uk'),'uk');assert.equal(parseLocale('en'),'en');assert.equal(parseLocale('fr'),null);
 assert.notEqual(languageKey,require(path.join(out,'tracker-state.js')).storageKey);
 const dictionaries=Object.fromEntries(['uk','en'].map(l=>[l,JSON.parse(fs.readFileSync(`lib/locales/${l}.json`,'utf8'))]));
 assert.deepEqual(Object.keys(dictionaries.uk).sort(),Object.keys(dictionaries.en).sort());
 // Every authored Russian string must have both translations, including import errors and status explanations.
-for(const file of ['components/deus-ex-tracker.tsx','lib/tracker-data.ts','lib/tracker-state.ts']){
+for(const file of ['components/deus-ex-tracker.tsx','lib/tracker-data.ts','lib/tracker-state.ts','lib/tracker-recommendations.ts']){
  const sf=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,file.endsWith('tsx')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
  const visit=n=>{
   if((ts.isStringLiteral(n)||ts.isJsxText(n))&&/[А-Яа-яЁё]/.test(n.text)){

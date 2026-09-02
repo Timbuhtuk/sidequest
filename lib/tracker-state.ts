@@ -58,7 +58,7 @@ export function status(a:Achievement,state:TrackerState):{label:string;tone:stri
   return runStatus(a,state);
 }
 export function runStatus(a:Achievement,state:TrackerState):{label:string;tone:string;detail?:string}{
-  if(state.run.completedTasks.includes(a.id))return {label:'Шаг выполнен',tone:'done'};
+  if(state.earned.includes(a.id))return {label:'Получено',tone:'done'};
   const blocked=blocker(a,state.run);if(blocked)return {label:a.id==='never'?'Другое прохождение':'Закрыто выбором',tone:'blocked',detail:blocked};
   const stage=stages.find(s=>s.id===state.run.stage)!;
   if(a.group!==stage.group)return {label:groupsLabel(a.group),tone:'later'};
