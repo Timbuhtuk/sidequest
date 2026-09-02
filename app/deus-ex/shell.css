@@ -20,6 +20,10 @@
 .dx-shell .run-progress-strip{animation:dx-enter 420ms 110ms backwards;transition:border-color 180ms,background 180ms}.dx-shell .run-progress-strip:focus-within{border-color:#82764b}
 .dx-shell .progress-summary{animation:dx-enter 420ms 150ms backwards}.dx-shell .progress-summary-trigger{transition:transform 180ms}.dx-shell .progress-summary-trigger:hover,.dx-shell .progress-summary-trigger:focus-visible{transform:translateY(-2px)}
 .dx-shell .progress-summary [data-slot=progress-track]{transition:background 180ms}.dx-shell .progress-summary [data-slot=progress-indicator]{transition:width 450ms var(--dx-ease),transform 450ms var(--dx-ease)}
+.dx-shell .route-map{--route-node-size:45px;--route-step-inset:10px}
+.dx-shell .route-map .route-step{align-items:flex-start;padding-top:var(--route-step-inset);padding-bottom:var(--route-step-inset)}
+.dx-shell .route-map .route-node{width:var(--route-node-size);height:var(--route-node-size);position:relative;z-index:1}
+.dx-shell .route-map>li:not(:last-child)::before{left:calc((var(--route-node-size) - 1px)/2);top:calc(var(--route-step-inset) + var(--route-node-size));bottom:calc(-1 * var(--route-step-inset));pointer-events:none}
 @keyframes dx-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dx-fade-in{from{opacity:0}to{opacity:1}}
 @keyframes dx-stage-in{from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)}}
