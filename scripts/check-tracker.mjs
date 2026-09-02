@@ -79,7 +79,7 @@ assert.notEqual(languageKey,require(path.join(out,'tracker-state.js')).storageKe
 const dictionaries=Object.fromEntries(['uk','en'].map(l=>[l,JSON.parse(fs.readFileSync(`lib/locales/${l}.json`,'utf8'))]));
 assert.deepEqual(Object.keys(dictionaries.uk).sort(),Object.keys(dictionaries.en).sort());
 // Every authored Russian string must have both translations, including import errors and status explanations.
-for(const file of ['app/page.tsx','lib/tracker-data.ts','lib/tracker-state.ts']){
+for(const file of ['components/deus-ex-tracker.tsx','lib/tracker-data.ts','lib/tracker-state.ts']){
  const sf=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,file.endsWith('tsx')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
  const visit=n=>{
   if((ts.isStringLiteral(n)||ts.isJsxText(n))&&/[А-Яа-яЁё]/.test(n.text)){
