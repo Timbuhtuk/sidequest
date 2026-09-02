@@ -1,0 +1,43 @@
+.dx-shell{--dx-sidebar-width:224px;--dx-motion:260ms;--dx-ease:cubic-bezier(.22,.68,0,1);grid-template-columns:var(--dx-sidebar-width) minmax(0,1fr);transition:grid-template-columns var(--dx-motion) var(--dx-ease)}
+.dx-shell .sidebar{width:var(--dx-sidebar-width);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;transition:width var(--dx-motion) var(--dx-ease),padding var(--dx-motion) var(--dx-ease),opacity var(--dx-motion);animation:dx-fade-in 350ms both}
+.dx-shell .sidebar-copy,.dx-shell .sidebar-brand-copy,.dx-shell .nav-label{transition:opacity 140ms;white-space:nowrap}
+.dx-shell .tracker-library-link{display:flex;align-items:center;gap:8px;min-height:28px;flex-shrink:0}
+.dx-shell .brand{min-height:45px;flex-shrink:0}.dx-shell .brand-symbol{flex-shrink:0}
+.dx-shell .nav-item .nav-label{margin-left:0;color:inherit;font-size:inherit;font-family:inherit;min-width:0}
+.dx-shell .nav-item[data-slot=button]{transition:background 180ms,border-color 180ms,color 180ms,transform 120ms}
+.dx-shell .nav-item>svg{flex-shrink:0;transition:transform 180ms var(--dx-ease)}
+.dx-shell .nav-item:hover>svg{transform:translateX(2px)}.dx-shell .nav-item:active{transform:scale(.98)}
+.dx-shell .topbar{gap:18px;animation:dx-enter 350ms both}.dx-shell .topbar-navigation{display:flex;align-items:center;gap:13px;min-width:0}
+.dx-shell .sidebar-toggle[data-slot=button]{min-width:32px;width:32px;height:32px;min-height:32px;padding:7px;color:#b6bea5;background:transparent;border-color:transparent;transition:background 180ms,color 180ms,transform 120ms;flex-shrink:0}
+.dx-shell .sidebar-toggle:hover{background:#293021;color:#e6cb84}.dx-shell .sidebar-toggle:active{transform:scale(.92)}
+.dx-shell .tracker-breadcrumb{min-width:0}.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-list]{font:inherit;letter-spacing:inherit;text-transform:uppercase;color:#aeb598;gap:13px;row-gap:4px}
+.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-item]{min-width:0}.dx-shell .tracker-breadcrumb a{padding:6px 0;line-height:1.5;transition:color 180ms,text-decoration-color 180ms;text-decoration:underline;text-underline-offset:5px;text-decoration-color:transparent}
+.dx-shell .tracker-breadcrumb a:hover{color:#e6cb84;text-decoration-color:#95824f}.dx-shell .tracker-breadcrumb [aria-current=page]{color:#d6c287}.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-separator]{color:#697250}
+.dx-shell .top-actions{gap:18px}.dx-shell .top-actions button{transition:color 180ms,background 180ms,transform 120ms}.dx-shell .top-actions button:active{transform:translateY(1px)}
+.dx-shell .mission-banner{animation:dx-enter 420ms 50ms backwards;transition:border-color 220ms,box-shadow 220ms}.dx-shell .mission-banner:hover{border-color:#817245;box-shadow:0 4px 20px #0002}
+.dx-shell .mission-copy,.dx-shell .mission-number{animation:dx-stage-in 280ms both}.dx-shell .mission-copy{min-width:0}
+.dx-shell .mission-banner>button{transition:background 180ms,border-color 180ms,transform 150ms}.dx-shell .mission-banner>button:hover{transform:translateX(2px);border-color:#a58d51}
+.dx-shell .run-progress-strip{animation:dx-enter 420ms 110ms backwards;transition:border-color 180ms,background 180ms}.dx-shell .run-progress-strip:focus-within{border-color:#82764b}
+.dx-shell .progress-summary{animation:dx-enter 420ms 150ms backwards}.dx-shell .progress-summary-trigger{transition:transform 180ms}.dx-shell .progress-summary-trigger:hover,.dx-shell .progress-summary-trigger:focus-visible{transform:translateY(-2px)}
+.dx-shell .progress-summary [data-slot=progress-track]{transition:background 180ms}.dx-shell .progress-summary [data-slot=progress-indicator]{transition:width 450ms var(--dx-ease),transform 450ms var(--dx-ease)}
+@keyframes dx-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dx-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes dx-stage-in{from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)}}
+@media(min-width:641px){
+  .dx-shell.sidebar-collapsed{--dx-sidebar-width:72px}.dx-shell.sidebar-collapsed .sidebar{padding:25px 12px 16px}
+  .dx-shell.sidebar-collapsed .sidebar-copy,.dx-shell.sidebar-collapsed .sidebar-brand-copy,.dx-shell.sidebar-collapsed .sidebar-label,.dx-shell.sidebar-collapsed .nav-label,.dx-shell.sidebar-collapsed .nav-count,.dx-shell.sidebar-collapsed .language-picker>.eyebrow{display:none}
+  .dx-shell.sidebar-collapsed .tracker-library-link{justify-content:center;align-self:stretch;margin-bottom:14px}
+  .dx-shell.sidebar-collapsed .brand{justify-content:center;margin-bottom:30px;gap:0}.dx-shell.sidebar-collapsed .brand-symbol{display:block;width:38px;font-size:20px;padding:8px 4px}
+  .dx-shell.sidebar-collapsed .nav-item[data-slot=button]{justify-content:center;gap:0;padding:0;width:46px;height:45px}
+  .dx-shell.sidebar-collapsed .sidebar-secondary{margin-top:26px;padding-top:18px}.dx-shell.sidebar-collapsed .sidebar-secondary .nav-item>svg{width:17px;height:17px}
+  .dx-shell.sidebar-collapsed .language-picker{padding:18px 0 0}.dx-shell.sidebar-collapsed .language-picker .pick{font-size:10px;padding:8px 5px;gap:1px;min-height:36px}
+  .dx-shell.sidebar-collapsed .language-picker .pick>svg{width:12px;height:12px}
+}
+@media(min-width:641px) and (max-width:1150px){.dx-shell:not(.sidebar-collapsed){--dx-sidebar-width:190px}.dx-shell .topbar{padding:0 20px}.dx-shell .topbar-navigation{gap:9px}.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-list]{gap:9px;font-size:8px;letter-spacing:1px}}
+@media(max-width:640px){
+  .dx-shell{display:block}.dx-shell .sidebar{position:static;width:100%;max-height:620px;overflow:hidden;transition:max-height var(--dx-motion) var(--dx-ease),padding var(--dx-motion),opacity 160ms,visibility var(--dx-motion)}
+  .dx-shell.sidebar-collapsed .sidebar{max-height:0;min-height:0;padding-top:0;padding-bottom:0;border-width:0;opacity:0;visibility:hidden;pointer-events:none}
+  .dx-shell .topbar{min-height:57px;height:auto;padding:9px 12px;gap:8px}.dx-shell .topbar-navigation{gap:7px;flex:1}.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-list]{font-size:7px;letter-spacing:.5px;gap:5px}.dx-shell .tracker-breadcrumb [data-slot=breadcrumb-item]:last-child{flex-basis:100%}.dx-shell .tracker-breadcrumb a{padding:0}
+  .dx-shell .top-actions{gap:8px}.dx-shell .sidebar-toggle[data-slot=button]{width:30px;min-width:30px}.dx-shell .sidebar .nav-label{display:inline;font-size:10px}.dx-shell .sidebar-secondary .nav-label{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.dx-shell,.dx-shell *,.dx-shell *::before,.dx-shell *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
