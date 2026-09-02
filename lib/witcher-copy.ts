@@ -1,5 +1,7 @@
 import {L,type Locale} from './witcher-data';
 export const copy={
+ home:L('Главная','Головна','Home'),siteNavigation:L('Навигация по сайту','Навігація сайтом','Site navigation'),
+ collapseSidebar:L('Свернуть боковую панель','Згорнути бічну панель','Collapse sidebar'),expandSidebar:L('Развернуть боковую панель','Розгорнути бічну панель','Expand sidebar'),
  library:L('БИБЛИОТЕКА','БІБЛІОТЕКА','LIBRARY'),journal:L('ДНЕВНИК ПУТИ','ЩОДЕННИК ШЛЯХУ','JOURNAL OF THE PATH'),
  now:L('Сейчас','Зараз','Now'),achievements:L('Достижения','Досягнення','Achievements'),route:L('Маршрут','Маршрут','Journey'),collection:L('Коллекция','Колекція','Collection'),
  runs:L('Прохождения','Проходження','Playthroughs'),data:L('Данные и копии','Дані та копії','Data & backups'),

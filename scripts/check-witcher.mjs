@@ -64,3 +64,9 @@ assert(ui.includes('blockedRef.current&&!force'),'Load failures prevent overwrit
 assert(ui.includes('disabled={!backedUp}'),'Import requires a backup before replacement');
 assert(ui.includes("setRevealed([])"),'Turning off spoilers clears individual reveals');
 console.log('PASS: source-level spoiler/search and storage safeguards. Browser UI testing not performed.');
+assert(ui.includes("localStorage.getItem('sidequest.witcher3.sidebar-collapsed')"),'Shell preference has its own Witcher-only key');
+assert(ui.includes('if(sidebarReady)try{localStorage.setItem'),'Initial render must not overwrite the saved sidebar preference');
+assert(ui.includes('aria-expanded={!sidebarCollapsed}')&&ui.includes('aria-controls="wt-sidebar"'),'Sidebar toggle exposes state and target');
+assert(ui.includes('aria-label={t(n.id)} title={t(n.id)}'),'Icon-only navigation retains accessible names and hover labels');
+assert(ui.includes('<BreadcrumbLink href="/">')&&ui.includes('href="/witcher-3" aria-current="page" onClick={returnToNow}'),'Header retains library and game navigation');
+console.log('PASS: shell preference isolation, hydration guard, accessible icon navigation and breadcrumb contract.');
