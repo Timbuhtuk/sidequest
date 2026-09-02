@@ -70,3 +70,7 @@ assert(ui.includes('aria-expanded={!sidebarCollapsed}')&&ui.includes('aria-contr
 assert(ui.includes('aria-label={t(n.id)} title={t(n.id)}'),'Icon-only navigation retains accessible names and hover labels');
 assert(ui.includes('<BreadcrumbLink href="/">')&&ui.includes('href="/witcher-3" aria-current="page" onClick={returnToNow}'),'Header retains library and game navigation');
 console.log('PASS: shell preference isolation, hydration guard, accessible icon navigation and breadcrumb contract.');
+assert(!ui.includes('className="wt-page-heading"')&&!ui.includes('className="wt-run-picker"'),'The redundant intro and run-picker block must stay removed');
+assert(ui.includes('<h1 className="sr-only">'),'Keep an accessible page heading, matching the Deus Ex layout');
+assert(ui.includes('aria-label={t(\'runs\')}'),'Playthrough management remains reachable from the sidebar');
+console.log('PASS: compact stage-first layout, accessible heading and retained playthrough navigation.');
