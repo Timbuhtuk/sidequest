@@ -6,10 +6,12 @@ import ts from 'typescript';
 const out=path.resolve('.checks');
 fs.mkdirSync(out,{recursive:true});
 fs.writeFileSync(path.join(out,'package.json'),'{"type":"commonjs"}');
-for(const file of ['tracker-data','tracker-state']){
+for(const file of ['tracker-data','tracker-state','i18n']){
  const text=fs.readFileSync(`lib/${file}.ts`,'utf8');
- fs.writeFileSync(path.join(out,`${file}.js`),ts.transpileModule(text,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
+ fs.writeFileSync(path.join(out,`${file}.js`),ts.transpileModule(text,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
 }
+fs.mkdirSync(path.join(out,'locales'),{recursive:true});
+for(const locale of ['uk','en'])fs.copyFileSync(`lib/locales/${locale}.json`,path.join(out,'locales',`${locale}.json`));
 const require=createRequire(import.meta.url);
 const {achievements,stages}=require(path.join(out,'tracker-data.js'));
 const {freshRun,freshState,parseState,blocker,status,runStatus,setEarned,setRunProgress}=require(path.join(out,'tracker-state.js'));
@@ -70,3 +72,37 @@ for(const change of [s=>s.run.books=76,s=>s.run.books=-1,s=>s.earned.push('inven
 const invalid=structuredClone(original);change(invalid);assert.throws(()=>parseState(invalid));
 }
 console.log('PASS: 81 achievements, branching, independent unlock/task/stage marks, legacy migration, export/import, new run, snapshot rollback, invalid imports.');
+
+const {createTranslator,localizedCatalog,parseLocale,languageKey}=require(path.join(out,'i18n.js'));
+assert.equal(parseLocale('ua'),'uk');assert.equal(parseLocale('uk'),'uk');assert.equal(parseLocale('en'),'en');assert.equal(parseLocale('fr'),null);
+assert.notEqual(languageKey,require(path.join(out,'tracker-state.js')).storageKey);
+const dictionaries=Object.fromEntries(['uk','en'].map(l=>[l,JSON.parse(fs.readFileSync(`lib/locales/${l}.json`,'utf8'))]));
+assert.deepEqual(Object.keys(dictionaries.uk).sort(),Object.keys(dictionaries.en).sort());
+// Every authored Russian string must have both translations, including import errors and status explanations.
+for(const file of ['app/page.tsx','lib/tracker-data.ts','lib/tracker-state.ts']){
+ const sf=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,file.endsWith('tsx')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
+ const visit=n=>{
+  if((ts.isStringLiteral(n)||ts.isJsxText(n))&&/[А-Яа-яЁё]/.test(n.text)){
+   const key=n.text.trim();for(const l of ['uk','en'])assert(dictionaries[l][key],`Missing ${l}: ${key}`);
+   if(ts.isJsxText(n))assert.fail(`Untranslated JSX text in ${file}: ${key}`);
+  }
+  ts.forEachChild(n,visit);
+ };visit(sf);
+}
+const savedBefore=JSON.stringify(original);
+for(const locale of ['ru','uk','en']){
+ const t=createTranslator(locale),catalog=localizedCatalog(locale);
+ assert.deepEqual(catalog.achievements.map(a=>({id:a.id,stages:a.stages,group:a.group,kind:a.kind,counter:a.counter})),achievements.map(a=>({id:a.id,stages:a.stages,group:a.group,kind:a.kind,counter:a.counter})));
+ assert.equal(catalog.achievements.length,81);
+ assert.deepEqual(catalog.stages.map(s=>s.id),stages.map(s=>s.id));
+ assert.equal(JSON.stringify(original),savedBefore);
+ if(locale!=='ru'){
+  assert.notEqual(t('Получено достижений'),'Получено достижений');
+  assert.equal(t(' Экспорт '),' '+dictionaries[locale]['Экспорт']+' ');
+  for(const a of catalog.achievements)for(const key of ['name','description','tip','category'])assert(a[key].length>0);
+ }
+ if(locale==='en')assert(!/[А-Яа-яЁё]/.test(JSON.stringify(catalog)),'Russian text leaked into the English catalog');
+}
+assert(localizedCatalog('uk').achievements.some(a=>a.name.toLocaleLowerCase('uk').includes('калібратор')||a.description.toLocaleLowerCase('uk').includes('калібратор')));
+assert(localizedCatalog('en').achievements.some(a=>a.name.toLocaleLowerCase('en').includes('heated')));
+console.log('PASS: complete UA/RU/EN dictionaries, translated catalog/search text, stable IDs, independent language preference and preserved progress.');
