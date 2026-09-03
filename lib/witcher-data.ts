@@ -3,7 +3,7 @@ export type Locale='ru'|'uk'|'en';
 export type Text=Record<Locale,string>;
 export const L=(ru:string,uk:string,en:string):Text=>({ru,uk,en});
 export const checkedAt='2026-09-02';
-export const catalogVersion=1;
+export const catalogVersion=2;
 export const sources={
  steam:{name:'Steam · 292030',url:'https://steamcommunity.com/stats/292030/achievements'},
  crew:{name:'Gamer Guides · Full Crew',url:'https://www.gamerguides.com/the-witcher-3-wild-hunt/guide/walkthrough/the-wild-hunt/gather-allies'},
@@ -123,7 +123,7 @@ export type Achievement={id:string;name:Text;description:Text;icon:string;secret
 export const achievements:Achievement[]=steam.map(a=>({ ...a,name:{...a.name,uk:ukrainian[a.id]?.[0]??ukSecretNames[a.id]??a.name.en},description:secretConditions[a.id]??{...a.description,uk:ukrainian[a.id]?.[1]??a.description.en},campaign:hos.has(a.id)?'hos':baw.has(a.id)?'baw':'base',stages:hos.has(a.id)?['hos']:baw.has(a.id)?['baw']:stageMap[a.id]??['orchard','velen','novigrad','skellige','free'],missable:missable.has(a.id),category:/gwent|card-collector|all-in|killed-it|geralt-and-friends/.test(a.id)?'gwent':a.secret?'story':/kill|butcher|fist|brawl|odds|marksman|enemy|humpty|trained|touch|threat/.test(a.id)?'combat':'explore',source:a.secret?'guide':'steam'}));
 export type Step={id:string;title:Text;detail:Text;stages:Stage[];goals:string[];kind:'prepare'|'action';secret?:boolean;before?:string;source:Source};
 const S=(id:string,title:Text,detail:Text,stages:Stage[],goals:string[],source:Source='guide',before?:string,secret=false):Step=>({id,title,detail,stages,goals,kind:'prepare',source,before,secret});
-export const prepSteps:Step[]=[
+const preparationRecords:Step[]=[
  S('check-difficulty',L('Проверь сложность с начала игры','Перевір складність від початку гри','Check your difficulty history'),L('Для «Ведьмак на тракте» нужна «На смерть!» с начала до финала. Отметь историю сложности справа; отсутствие записи не означает, что условие соблюдено.','Для найвищого досягнення потрібен «Марш смерті!» від початку до фіналу. Познач історію складності праворуч.','For Walked the Path, maintain Death March from the start to the ending. Record your difficulty history; an empty record is not confirmation.'),['orchard','velen','novigrad','skellige','allies','finale'],['walked-the-path','ran-the-gauntlet'],'difficulty'),
  S('first-gwent',L('Сыграй первую партию в гвинт','Зіграй першу партію в ґвінт','Play your first game of Gwent'),L('В трактире Белого Сада поговори с учёным. Победа даёт карту Золтана. Это подготовка, а не весь набор карт.','У корчмі Білого Саду поговори з ученим. Перемога дає карту Золтана. Це лише підготовка.','Challenge the scholar at the White Orchard inn for Zoltan’s card. This is preparation, not a complete collection.'),['orchard'],['card-collector'],'gwent'),
  S('buy-orchard-cards',L('Проверь карты у трактирщицы','Перевір карти в корчмарки','Check the innkeeper’s Gwent cards'),L('Купи доступные карты у Эльзы. Если уже уехал, проверь ассортимент Брама: смена локации сама по себе не означает потерю карт.','Придбай доступні карти в Ельзи. Якщо вже поїхав, перевір асортимент Брама: зміна локації не означає втрату карт.','Buy Elsa’s available cards. If you have left, check Bram’s stock; simply leaving the region does not prove the cards are lost.'),['orchard'],['card-collector'],'gwent'),
@@ -144,7 +144,21 @@ export const prepSteps:Step[]=[
  S('baw-golyat',L('Подготовь арбалет к первой схватке','Підготуй арбалет до першої сутички','Ready your crossbow for the first fight'),L('В начале дополнения попади Голиафу в глаз из арбалета. Сохранись до схватки — после обычной победы понадобится откат.','На початку доповнення влуч Голіафу в око з арбалета. Збережися до бою: після звичайної перемоги потрібен відкат.','At the start of the expansion, shoot Golyat in the eye. Save before the encounter; a normal kill requires reloading for this achievement.'),['baw'],['david-and-golyat'],'guide','golyat',true),
  S('baw-branch',L('Сделай отдельное сохранение перед финалом','Зроби окреме збереження перед фіналом','Keep a separate save before the ending'),L('«Туссентский герой» и «Туссентский заключённый» относятся к разным исходам. Сохранись до «Долгой ночи»; подробная цепочка финальных выборов ещё не полностью проверена.','«Герой Туссента» та «В’язень Туссента» належать до різних наслідків. Збережися до «Довгої ночі»; повний ланцюжок виборів ще не перевірений.','Last Action Hero and Kling of the Clink belong to different outcomes. Save before The Night of Long Fangs; the complete ending decision tree is not yet verified.'),['baw'],['last-action-hero','kling-of-the-clink'],'guide',undefined,true),
 ];
-export const steps:Step[]=[...prepSteps,...achievements.map(a=>({id:`complete-${a.id}`,title:a.name,detail:a.description,stages:a.stages,goals:[a.id],kind:'action' as const,secret:a.secret,source:a.source}))];
+// Only concrete parts of complex goals are checkable; the rest are optional guidance.
+const livePreparationIds = new Set(["first-gwent","buy-orchard-cards","keira-invite","ves-rescue","zoltan-reward","skellige-succession"]);
+export type Advice=Omit<Step,'kind'>;
+export const advice:Advice[]=preparationRecords.filter(s=>!livePreparationIds.has(s.id)&&s.id!=='political-prep').map(({kind,...tip})=>tip);
+export const steps:Step[]=[
+ ...preparationRecords.filter(s=>livePreparationIds.has(s.id)).map(s=>({...s,goals:s.id==='skellige-succession'||s.id==='ves-rescue'?['full-crew']:s.goals})),
+ S('politics-eye-for-eye',L('Заверши «Око за око»','Заверши «Око за око»','Finish An Eye for an Eye'),L('Выполни задание Роше до Острова Туманов.','Виконай завдання Роше до Острова Туманів.','Finish Roche’s quest before the Isle of Mists.'),['novigrad','allies'],['assassin-of-kings'],'guide','isle',true),
+ S('politics-redania-wanted',L('Заверши «Враг народа»','Заверши «Ворог народу»','Finish Redania’s Most Wanted'),L('Заверши расследование до Острова Туманов.','Заверши розслідування до Острова Туманів.','Finish the investigation before the Isle of Mists.'),['novigrad','allies'],['assassin-of-kings'],'guide','isle',true),
+ S('politics-deadly-plot',L('Заверши «Смертельный заговор»','Заверши «Смертельну змову»','Finish A Deadly Plot'),L('Заверши это побочное задание до Острова Туманов.','Заверши це побічне завдання до Острова Туманів.','Finish this side quest before the Isle of Mists.'),['novigrad','allies'],['assassin-of-kings'],'guide','isle',true),
+ S('politics-dijkstra-talk',L('Договорись с Дийкстрой без силы','Домовся з Дійкстрою без сили','Negotiate with Dijkstra without force'),L('В «Темней всего под фонарём» выбери мирный разговор с Дийкстрой. Этот выбор происходит позже ранних приготовлений.','У «Найтемніше під ліхтарем» обери мирну розмову з Дійкстрою. Цей вибір відбувається після ранніх приготувань.','During Blindingly Obvious, resolve the conversation with Dijkstra without force. This choice comes after the earlier preparations.'),['finale'],['assassin-of-kings'],'guide',undefined,true),
+];
+export function achievementGuidance(id:string){
+ const actions=steps.filter(s=>s.goals.includes(id));
+ return {actions,tips:advice.filter(s=>s.goals.includes(id)),partial:actions.length>0};
+}
 export type Item={id:string;name:Text;region:Stage;location:Text;collection:'gwent';goals:string[];event?:string;secret?:boolean;source:Source};
 const card=(id:string,name:Text,location:Text,event?:string,region:Stage='novigrad',source:Source='gwent'):Item=>({id,name,location,event,region,collection:'gwent',goals:['card-collector'],secret:!!event,source});
 export const items:Item[]=[

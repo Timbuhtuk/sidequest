@@ -6,7 +6,7 @@ import ts from 'typescript';
 const dir=path.resolve('.checks/witcher');
 fs.mkdirSync(dir,{recursive:true});
 fs.writeFileSync(path.join(dir,'package.json'),'{"type":"commonjs"}');
-for(const file of ['witcher-data','witcher-copy','witcher-state','witcher-sources'])fs.writeFileSync(path.join(dir,`${file}.js`),ts.transpileModule(fs.readFileSync(`lib/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
+for(const file of ['witcher-data','witcher-copy','witcher-state','witcher-sources','witcher-legacy-steps'])fs.writeFileSync(path.join(dir,`${file}.js`),ts.transpileModule(fs.readFileSync(`lib/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
 fs.copyFileSync('lib/witcher-steam.json',path.join(dir,'witcher-steam.json'));
 const require=createRequire(import.meta.url);
 const data=require(path.join(dir,'witcher-data.js'));
@@ -23,7 +23,7 @@ for(const s of steps){assert(s.stages.length);for(const id of s.stages)assert(st
 for(const i of items){assert(stages.some(s=>s.id===i.region));for(const id of i.goals)achievement(id);if(i.event)assert(events.some(e=>e.id===i.event))}
 for(const record of [...achievements,...steps,...items,...stages])for(const key of ['name','description','title','detail','hint','location'])if(record[key])for(const locale of ['ru','uk','en'])assert.equal(typeof record[key][locale],'string',`${record.id}.${key}.${locale}`);
 for(const [key,value]of Object.entries(copy))for(const locale of ['ru','uk','en'])assert(value[locale]?.length,`${key}.${locale}`);
-for(const a of achievements){for(const l of ['ru','uk','en'])assert(a.name[l]&&a.description[l],`Missing localized achievement ${a.id}.${l}`);assert(steps.some(s=>s.goals.includes(a.id)))}
+for(const a of achievements){for(const l of ['ru','uk','en'])assert(a.name[l]&&a.description[l],`Missing localized achievement ${a.id}.${l}`)}
 console.log('PASS: 78 achievements (52/13/13), independent stable IDs, 11 unique cards, all links and three languages.');
 let s=freshState();assert.equal(availability(achievement('walked-the-path'),activeRun(s)).status,'unknown');
 const original=structuredClone(s);
@@ -44,7 +44,7 @@ const fresh=freshState();const allItems=mark(fresh,'items',items.map(i=>i.id),tr
 assert.deepEqual(parseState(JSON.parse(JSON.stringify(s))),s);
 assert.deepEqual(parseState(JSON.parse(JSON.stringify(allSteps))),allSteps);
 console.log('PASS: independent archive/actions/stages/cards, independent runs, NG+, checkpoint rollback and round-trip import.');
-for(const mutate of [v=>v.game='deus-ex',v=>v.platform='ps5',v=>v.version=2,v=>v.catalogVersion=2,v=>v.profile='someone-else',v=>v.runs=[],v=>v.activeRunId='bad',v=>v.earned=['invented'],v=>v.earned=['full-crew','full-crew'],v=>v.runs[0].items=['fake'],v=>v.runs[0].completedSteps=['full-crew'],v=>v.runs[0].stage='fake',v=>v.runs[0].decisions.keira='both',v=>v.runs[0].difficultyBroken='maybe',v=>v.runs[0].goals=['fake'],v=>v.runs[0].notes='x'.repeat(30001),v=>v.snapshots[0].run.id='missing',v=>v.snapshots[0].createdAt='not-a-date',v=>v.runs.push(structuredClone(v.runs[0]))]){const bad=structuredClone(s),unchanged=JSON.stringify(s);mutate(bad);assert.throws(()=>parseState(bad));assert.equal(JSON.stringify(s),unchanged)}
+for(const mutate of [v=>v.game='deus-ex',v=>v.platform='ps5',v=>v.version=2,v=>v.catalogVersion=999,v=>v.profile='someone-else',v=>v.runs=[],v=>v.activeRunId='bad',v=>v.earned=['invented'],v=>v.earned=['full-crew','full-crew'],v=>v.runs[0].items=['fake'],v=>v.runs[0].completedSteps=['full-crew'],v=>v.runs[0].stage='fake',v=>v.runs[0].decisions.keira='both',v=>v.runs[0].difficultyBroken='maybe',v=>v.runs[0].goals=['fake'],v=>v.runs[0].notes='x'.repeat(30001),v=>v.snapshots[0].run.id='missing',v=>v.snapshots[0].createdAt='not-a-date',v=>v.runs.push(structuredClone(v.runs[0]))]){const bad=structuredClone(s),unchanged=JSON.stringify(s);mutate(bad);assert.throws(()=>parseState(bad));assert.equal(JSON.stringify(s),unchanged)}
 assert.throws(()=>mark(s,'earned',['bad'],true));assert.throws(()=>restoreSnapshot(s,'bad'));
 console.log('PASS: invalid imports (game, platform, version, profile, bounds, duplicates, linked IDs) cannot mutate progress.');
 const run=activeRun(freshState());run.stage='finale';run.difficulty='death';run.difficultyBroken='no';assert.equal(availability(achievement('walked-the-path'),run).status,'now');assert.equal(availability(achievement('ran-the-gauntlet'),run).status,'now');

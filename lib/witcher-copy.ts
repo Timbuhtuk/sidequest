@@ -1,5 +1,9 @@
 import {L,type Locale} from './witcher-data';
 export const copy={
+ advice:L('Подсказки','Підказки','Tips'),recommendedGoals:L('Цели в этой локации','Цілі в цій локації','Goals in this region'),moreGoals:L('Другие цели','Інші цілі','More goals'),
+ partialActions:L('Это проверенная часть маршрута, а не полный список условий достижения.','Це перевірена частина маршруту, а не повний список умов досягнення.','These are verified parts of the route, not every requirement for the achievement.'),
+ achievementCheck:L('Получение подтверждай отдельно по Steam.','Отримання підтверджуй окремо за Steam.','Confirm the unlock separately on Steam.'),
+ historicalSteps:L('Старые отметки действий сохранены в истории и резервных копиях. Они не учитываются в новых шагах и не подтверждают достижения.','Старі позначки дій збережено в історії та резервних копіях. Вони не враховуються в нових кроках і не підтверджують досягнення.','Old action marks are preserved in history and backups. They do not count toward new steps or confirm achievements.'),
  progressSummary:L('Прогресс достижений и прохождения','Прогрес досягнень і проходження','Achievement and playthrough progress'),campaignStages:L('Пройдено этапов кампании','Пройдено етапів кампанії','Campaign stages completed'),stageAchievements:L('Получено достижений этапа','Отримано досягнень етапу','Current-stage achievements earned'),
  home:L('Главная','Головна','Home'),siteNavigation:L('Навигация по сайту','Навігація сайтом','Site navigation'),
  collapseSidebar:L('Свернуть боковую панель','Згорнути бічну панель','Collapse sidebar'),expandSidebar:L('Развернуть боковую панель','Розгорнути бічну панель','Expand sidebar'),

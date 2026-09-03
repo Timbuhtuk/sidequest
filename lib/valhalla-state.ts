@@ -1,10 +1,10 @@
-import {achievements,steps,items,stages,events,decisionDefinitions,defaultGoals,type Achievement,type Step,type Text,L,catalogVersion} from './valhalla-data';
+import {achievements,steps,items,advice,legacyStepIds,stages,events,decisionDefinitions,defaultGoals,type Achievement,type Step,type Item,type Text,L,catalogVersion} from './valhalla-data';
 export const storageKey='sidequest.valhalla.steam2208920.profile.local.v1';
-export type Run={id:string;name:string;mode:'standard';stage:string;completedSteps:string[];completedStages:string[];items:string[];events:string[];decisions:Record<string,string>;goals:string[];notes:string};
+export type Run={id:string;name:string;mode:'standard';stage:string;completedSteps:string[];legacyCompletedSteps:string[];completedStages:string[];items:string[];events:string[];decisions:Record<string,string>;goals:string[];notes:string};
 export type Snapshot={id:string;name:string;createdAt:string;run:Run};
 export type State={version:1;catalogVersion:number;game:'valhalla';platform:'steam-2208920';profile:'local';earned:string[];activeRunId:string;runs:Run[];snapshots:Snapshot[]};
 const uid=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():`run-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-export const freshRun=(name='Первое прохождение',mode:Run['mode']='standard'):Run=>({id:uid(),name,mode,stage:'norway',completedSteps:[],completedStages:[],items:[],events:[],decisions:{},goals:[...defaultGoals],notes:''});
+export const freshRun=(name='Первое прохождение',mode:Run['mode']='standard'):Run=>({id:uid(),name,mode,stage:'norway',completedSteps:[],legacyCompletedSteps:[],completedStages:[],items:[],events:[],decisions:{},goals:[...defaultGoals],notes:''});
 export function freshState():State{const run=freshRun();return{version:1,catalogVersion,game:'valhalla',platform:'steam-2208920',profile:'local',earned:[],activeRunId:run.id,runs:[run],snapshots:[]}}
 export const activeRun=(s:State)=>s.runs.find(r=>r.id===s.activeRunId)!;
 export function changeRun(state:State,patch:Partial<Run>):State{return{...state,runs:state.runs.map(r=>r.id===state.activeRunId?{...r,...patch,id:r.id}:r)}}
@@ -40,6 +40,21 @@ export function stepAvailability(s:Step,run:Run):Availability{
  if(s.before&&run.events.includes(s.before)&&!run.completedSteps.includes(s.id))return{status:'unknown',reasons:[L('Событие уже подтверждено. Уточни, было ли это действие выполнено до перехода.','Подію вже підтверджено. Уточни, чи виконано цю дію до переходу.','The event is already confirmed. Check whether this action was completed beforehand.')]};
  return{status:s.stages.includes(run.stage as never)?'now':'later',reasons:[]};
 }
+export function itemAvailability(item:Item,run:Run):Availability{
+ if(!run.items.includes(item.id)&&!run.completedSteps.includes('build-fishing-hut'))return{status:'conditions',reasons:[L('Леска ещё не подтверждена: проверь рыбацкую хижину в Рейвенсторпе.','Волосінь ще не підтверджено: перевір рибальську хатину в Рейвенсторпі.','The fishing line is not confirmed: check the fishing hut in Ravensthorpe.')]};
+ return{status:item.region===run.stage||(item.region==='norway'&&run.stage==='hordafylke')?'now':'later',reasons:[]};
+}
+export const achievementSteps=(id:string)=>steps.filter(s=>s.goals.includes(id));
+export const achievementItems=(id:string)=>items.filter(i=>i.goals.includes(id));
+export function recommendations(state:State){
+ const run=activeRun(state),relevant=(goals:string[])=>goals.some(id=>!state.earned.includes(id));
+ return{
+  achievements:achievements.filter(a=>a.stages.includes(run.stage)&&!state.earned.includes(a.id)).sort((a,b)=>Number(run.goals.includes(b.id))-Number(run.goals.includes(a.id))),
+  steps:steps.filter(s=>s.stages.includes(run.stage)&&relevant(s.goals)),
+  items:items.filter(i=>(i.region===run.stage||(i.region==='norway'&&run.stage==='hordafylke'))&&relevant(i.goals)),
+  advice:advice.filter(h=>h.stages.includes(run.stage)&&relevant(h.goals)),
+ };
+}
 const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 function text(v:unknown,max:number){if(typeof v!=='string'||v.length>max)throw Error('invalid-data');return v}
 function set(v:unknown,allowed:string[],max=2000):string[]{if(!Array.isArray(v)||v.length>max||v.some(x=>typeof x!=='string'||!allowed.includes(x))||new Set(v).size!==v.length)throw Error('invalid-data');return [...v]}
@@ -47,10 +62,12 @@ function one<T extends string>(v:unknown,allowed:readonly T[]):T{if(typeof v!=='
 function parseRun(v:unknown):Run{
  if(!object(v)||!object(v.decisions))throw Error('invalid-data');const decisions:Record<string,string>={};
  for(const [k,value]of Object.entries(v.decisions)){const def=decisionDefinitions.find(d=>d.id===k);if(!def)throw Error('invalid-data');decisions[k]=one(value,['unknown',...def.options.map(o=>o[0])])}
- return{id:text(v.id,100),name:text(v.name,100),mode:one(v.mode,['standard']),stage:one(v.stage,stages.map(s=>s.id)),completedSteps:set(v.completedSteps,steps.map(s=>s.id)),completedStages:set(v.completedStages,stages.map(s=>s.id)),items:set(v.items,items.map(i=>i.id)),events:set(v.events,events.map(e=>e.id)),goals:set(v.goals,achievements.map(a=>a.id)),decisions,notes:text(v.notes,30000)};
+ const activeIds=steps.map(s=>s.id),recorded=set(v.completedSteps,[...activeIds,...legacyStepIds]);
+ const historical=v.legacyCompletedSteps===undefined?[]:set(v.legacyCompletedSteps,[...legacyStepIds]);
+ return{id:text(v.id,100),name:text(v.name,100),mode:one(v.mode,['standard']),stage:one(v.stage,stages.map(s=>s.id)),completedSteps:recorded.filter(id=>activeIds.includes(id)),legacyCompletedSteps:[...new Set([...historical,...recorded.filter(id=>legacyStepIds.includes(id))])],completedStages:set(v.completedStages,stages.map(s=>s.id)),items:set(v.items,items.map(i=>i.id)),events:set(v.events,events.map(e=>e.id)),goals:set(v.goals,achievements.map(a=>a.id)),decisions,notes:text(v.notes,30000)};
 }
 export function parseState(v:unknown):State{
- if(!object(v)||v.version!==1||v.catalogVersion!==catalogVersion||v.game!=='valhalla'||v.platform!=='steam-2208920'||v.profile!=='local'||!Array.isArray(v.runs)||v.runs.length<1||v.runs.length>30||!Array.isArray(v.snapshots)||v.snapshots.length>100)throw Error('invalid-data');
+ if(!object(v)||v.version!==1||(v.catalogVersion!==1&&v.catalogVersion!==catalogVersion)||v.game!=='valhalla'||v.platform!=='steam-2208920'||v.profile!=='local'||!Array.isArray(v.runs)||v.runs.length<1||v.runs.length>30||!Array.isArray(v.snapshots)||v.snapshots.length>100)throw Error('invalid-data');
  const runs=v.runs.map(parseRun);const ids=runs.map(r=>r.id);if(ids.some(x=>!x)||new Set(ids).size!==ids.length||!ids.includes(String(v.activeRunId)))throw Error('invalid-data');
  const snapshots=v.snapshots.map(s=>{if(!object(s))throw Error('invalid-data');const run=parseRun(s.run);if(!ids.includes(run.id))throw Error('invalid-data');const date=text(s.createdAt,50);if(!Number.isFinite(Date.parse(date)))throw Error('invalid-data');return{id:text(s.id,100),name:text(s.name,100),createdAt:date,run}});
  if(new Set(snapshots.map(s=>s.id)).size!==snapshots.length)throw Error('invalid-data');

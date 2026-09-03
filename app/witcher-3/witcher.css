@@ -212,3 +212,6 @@ body:has(.wt-dialog) [data-slot=dialog-overlay]{background:#05090dcc;backdrop-fi
  .wt-sidebar nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
  .wt .wt-nav{flex-direction:row;height:44px;font-size:12px;padding:0 8px;justify-content:flex-start;gap:8px}
 }
+.wt-action-stage{margin-top:18px}
+.wt-action-stage h4{font-size:14px;font-weight:500;color:#a9bac3;margin:0 0 10px}
+.wt-goal-tips>div+div{margin-top:12px}

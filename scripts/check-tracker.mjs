@@ -36,17 +36,17 @@ edited.run.decisions.calibrator='early';assert(blocker(a('family'),edited.run));
 edited.run.decisions.boss='switch';assert(blocker(a('pacifist'),edited.run));assert.equal(blocker(a('fox'),edited.run),null);
 const restored={...edited,run:structuredClone(edited.snapshots[0].run)};
 assert.deepEqual(restored.earned,['heated','god']);assert.equal(restored.run.books,21);assert.equal(restored.run.decisions.bank,undefined);
-// Historical unlocks, current-run tasks and completed stages are three independent inputs.
+// Retired duplicate-task history is import-only and independent of active progress.
 const historical=setEarned(original,['human'],true);
 assert.deepEqual(historical.run,original.run);
 assert.equal(historical.run.completedTasks.includes('human'),false);
-const taskDone=setRunProgress(historical,'tasks',['human'],true);
+const taskDone=parseState({...historical,run:{...historical.run,completedTasks:['heated','human']}});
 assert.deepEqual(taskDone.earned,historical.earned);
 assert.deepEqual(taskDone.run.completedStages,historical.run.completedStages);
 const unlockRemoved=setEarned(taskDone,['human'],false);
 assert(unlockRemoved.run.completedTasks.includes('human'));
-const taskRemoved=setRunProgress(taskDone,'tasks',['human'],false);
-assert(taskRemoved.earned.includes('human'));
+assert.throws(()=>setRunProgress(taskDone,'tasks',['human'],false));
+assert.throws(()=>setRunProgress(historical,'tasks',['human'],true));
 const stageDone=setRunProgress(taskDone,'stages',['london'],true);
 assert.equal(stageDone.run.stage,'prague2');
 assert.deepEqual(stageDone.earned,taskDone.earned);
@@ -72,7 +72,7 @@ assert.deepEqual(parseState(JSON.parse(JSON.stringify(stageDone))),stageDone);
 for(const change of [s=>s.run.books=76,s=>s.run.books=-1,s=>s.earned.push('invented'),s=>s.run.flags.kills='maybe',s=>s.run.decisions.bank='both',s=>s.run.counters.emperor=999,s=>s.version=2,s=>s.run.completedTasks=['invented'],s=>s.run.completedStages=['heated'],s=>s.run.completedTasks=null,s=>s.snapshots[0].run.completedStages=['bad-stage']]){
 const invalid=structuredClone(original);change(invalid);assert.throws(()=>parseState(invalid));
 }
-console.log('PASS: 81 achievements, branching, independent unlock/task/stage marks, legacy migration, export/import, new run, snapshot rollback, invalid imports.');
+console.log('PASS: 81 achievements, branching, inactive task history, independent achievement/stage marks, legacy migration, export/import, new run, snapshot rollback, invalid imports.');
 
 const {stageRecommendations,beforeLeaving}=require(path.join(out,'tracker-recommendations.js'));
 const dubai=freshState();
@@ -85,7 +85,7 @@ assert(beforeLeaving(learned).some(text=>text.includes('Сингха')));
 assert.equal(stageRecommendations(learned).earnedHere,before.earnedHere+1);
 const removed=setEarned(learned,['adept'],false);
 assert(stageRecommendations(removed).focused.some(a=>a.id==='adept'));
-const oldTasks=setRunProgress(dubai,'tasks',['adept'],true);
+const oldTasks=parseState({...dubai,run:{...dubai.run,completedTasks:['adept']}});
 assert(stageRecommendations(oldTasks).focused.some(a=>a.id==='adept'));
 assert.equal(runStatus(a('adept'),oldTasks).tone,'now');
 const full=setEarned(dubai,achievements.map(a=>a.id),true);
@@ -103,6 +103,34 @@ for(const stage of stages){
  for(const achievement of achievements)assert.equal(runStatus(achievement,state).tone,'done');
 }
 console.log('PASS: earned achievements leave recommendations, undo restores them, legacy task marks are ignored, completed stages stay independent, prerequisite reminders are retained.');
+
+// Every former task ID remains valid history, including inside saved checkpoints.
+const allLegacy=structuredClone(original);
+allLegacy.run.completedTasks=achievements.map(a=>a.id);
+allLegacy.run.decisions={bank:'allison',calibrator:'early',otar:'no',gallois:'no'};
+allLegacy.run.notes='Historical save note';
+allLegacy.run.counters.emperor=3;
+allLegacy.snapshots[0].run=structuredClone(allLegacy.run);
+const loadedLegacy=parseState(JSON.parse(JSON.stringify(allLegacy)));
+assert.deepEqual(loadedLegacy,allLegacy);
+for(const stage of stages){
+ const saved={...loadedLegacy,run:{...loadedLegacy.run,stage:stage.id}};
+ const noHistory={...saved,run:{...saved.run,completedTasks:[]}};
+ assert.deepEqual(stageRecommendations(saved),stageRecommendations(noHistory));
+ assert.deepEqual(beforeLeaving(saved),beforeLeaving(noHistory));
+ for(const achievement of achievements)assert.deepEqual(runStatus(achievement,saved),runStatus(achievement,noHistory));
+}
+// Simple goals have instructions and remain actionable without any step model.
+assert(a('heated').tip && stageRecommendations(freshState()).focused.some(a=>a.id==='heated'));
+// A historical duplicate cannot satisfy the real multi-stage Otar prerequisites.
+assert(blocker(a('family'),loadedLegacy.run));
+const otarRoute={...loadedLegacy,earned:[],run:{...loadedLegacy.run,stage:'golem',decisions:{calibrator:'normal',otar:'yes',gallois:'yes'}}};
+assert.equal(blocker(a('family'),otarRoute.run),null);
+assert(beforeLeaving(otarRoute).some(text=>text.includes('Отара')));
+assert(!otarRoute.earned.includes('family'));
+const dxUI=fs.readFileSync('components/deus-ex-tracker.tsx','utf8');
+assert(!/completedTasks|Шаг выполнен/.test(dxUI),'Retired duplicate steps must not return to the interface or calculations');
+console.log('PASS: all retired step IDs round-trip as inactive history; simple instructions and factual cross-stage conditions remain independent.');
 
 const {createTranslator,localizedCatalog,parseLocale,languageKey}=require(path.join(out,'i18n.js'));
 assert.equal(parseLocale('ua'),'uk');assert.equal(parseLocale('uk'),'uk');assert.equal(parseLocale('en'),'en');assert.equal(parseLocale('fr'),null);

@@ -1,5 +1,13 @@
 import {L,type Locale} from './valhalla-data';
 export const copy={
+ achievementHelp:L('Отметь получение после открытия достижения в Steam.','Познач отримання після відкриття досягнення в Steam.','Mark it earned after it unlocks on Steam.'),
+ guidance:L('Подсказки для этой локации','Підказки для цієї локації','Guidance for this location'),
+ currentGoals:L('Достижения в этой локации','Досягнення в цій локації','Achievements in this location'),
+ concreteSteps:L('Конкретные шаги','Конкретні кроки','Concrete steps'),
+ currentCatch:L('Улов в этой локации','Улов у цій локації','Fish in this location'),
+ noRecommendations:L('Новых рекомендаций для выбранной локации нет. Это не подтверждение завершения игры.','Нових рекомендацій для обраної локації немає. Це не підтвердження завершення гри.','No new recommendations for this location. This does not confirm game completion.'),
+ legacyHistory:L('Старые отметки действий сохранены в истории и экспорте. Они не влияют на текущие шаги или достижения.','Старі позначки дій збережено в історії та експорті. Вони не впливають на поточні кроки чи досягнення.','Old action marks are preserved in history and exports. They do not affect current steps or achievements.'),
+ incompletePlans:L('Подробно размечена подготовка к рыбалке и поштучный улов. Остальные цели содержат условия и советы; полный пошаговый маршрут для них пока не подготовлен.','Докладно розмічено підготовку до риболовлі та окремі види улову. Решта цілей містять умови й поради; повний покроковий маршрут для них ще не підготовлено.','Fishing preparation and individual catches are mapped. Other goals include conditions and advice; their complete step-by-step routes are not yet mapped.'),
  sourceSteam:L('Steam · Каталог достижений','Steam · Каталог досягнень','Steam · Achievement catalog'),
  sourceGuide:L('Steam Community · Условия достижений и дополнения','Steam Community · Умови досягнень і доповнення','Steam Community · Achievement and DLC guide'),
  sourceRoadmap:L('PowerPyx · Маршрут и правила основной игры','PowerPyx · Маршрут і правила основної гри','PowerPyx · Base-game roadmap and rules'),

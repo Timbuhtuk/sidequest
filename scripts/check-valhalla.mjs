@@ -22,7 +22,7 @@ for(const t of Object.values(copy))for(const locale of ['ru','uk','en'])assert(t
 let state=m.freshState();
 assert.deepEqual(m.parseState(JSON.parse(JSON.stringify(state))),state);
 state=m.mark(state,'items',d.items.map(i=>i.id),true);
-state=m.mark(state,'completedSteps',['complete-good-catch'],true);
+state=m.mark(state,'completedSteps',['build-fishing-hut'],true);
 state=m.mark(state,'completedStages',['norway'],true);
 assert.deepEqual(state.earned,[]);
 const runId=state.activeRunId;
@@ -50,6 +50,103 @@ const before=JSON.stringify(state);
 for(const edit of [s=>s.game='witcher3',s=>s.platform='steam-292030',s=>s.version=2,s=>s.earned=['unknown'],s=>s.runs[0].stage='invalid',s=>s.runs[0].items=['fish-eel','fish-eel'],s=>s.runs[0].mode='ngplus',s=>s.runs[0].decisions={elk:'bad'},s=>s.snapshots[0].run.id='missing']){const bad=structuredClone(state);edit(bad);assert.throws(()=>m.parseState(bad));assert.equal(JSON.stringify(state),before);}
 assert.throws(()=>m.mark(state,'earned',['unknown'],true));
 assert(!m.storageKey.includes('witcher'));
+// No generated duplicate goals or broad advice can be active checkable steps.
+assert.equal(d.legacyStepIds.length,104);
+assert.equal(new Set(d.legacyStepIds).size,104);
+for(const step of d.steps){
+ assert(!d.legacyStepIds.includes(step.id));
+ assert(!d.advice.some(h=>h.id===step.id));
+ for(const id of step.goals){const a=d.achievements.find(a=>a.id===id);for(const locale of ['ru','uk','en']){assert.notEqual(step.title[locale],a.name[locale]);assert.notEqual(step.detail[locale],a.description[locale]);}}
+}
+assert.deepEqual(m.achievementSteps('it-s-alive'),[]);
+assert.deepEqual(m.achievementItems('it-s-alive'),[]);
+let simple=m.changeRun(m.freshState(),{stage:'settlement'});
+assert(m.recommendations(simple).achievements.some(a=>a.id==='it-s-alive'));
+assert.equal(m.availability(d.achievements.find(a=>a.id==='it-s-alive'),m.activeRun(simple)).status,'now');
+simple=m.mark(simple,'earned',['it-s-alive'],true);
+assert(!m.recommendations(simple).achievements.some(a=>a.id==='it-s-alive'));
+assert.equal(m.activeRun(simple).completedSteps.length,0);
+
+// A real cross-region fishing plan reuses collection facts, not extra action marks.
+let fishing=m.changeRun(m.freshState(),{stage:'settlement'});
+assert.deepEqual(m.recommendations(fishing).steps.map(s=>s.id),['build-fishing-hut']);
+assert.equal(m.achievementItems('good-catch').length,19);
+const bream=d.items.find(i=>i.id==='fish-bream');
+fishing=m.changeRun(fishing,{stage:'cent'});
+assert.equal(m.itemAvailability(bream,m.activeRun(fishing)).status,'conditions');
+fishing=m.mark(fishing,'earned',['good-catch'],true);
+assert.equal(m.itemAvailability(bream,m.activeRun(fishing)).status,'conditions','Archived achievement is not a prerequisite fact');
+assert(m.activeRun(fishing).goals.includes('good-catch'),'Earned flag must not silently remove a selected goal');
+assert.equal(m.recommendations(fishing).items.length,0,'Selected but earned Good Catch must not recommend fish');
+const earnedSettlement=m.changeRun(fishing,{stage:'settlement'});
+assert.equal(m.recommendations(earnedSettlement).steps.length,0,'Earned Good Catch must not recommend the hut');
+assert(!m.recommendations(earnedSettlement).advice.some(h=>h.id==='fish-line'),'No fishing-only advice after earning the goal');
+assert(m.recommendations(earnedSettlement).advice.some(h=>h.id==='settlement-build'),'Shared advice must remain for other unearned goals');
+const allSettlementGoals=m.mark(earnedSettlement,'earned',d.advice.find(h=>h.id==='settlement-build').goals,true);
+assert(!m.recommendations(allSettlementGoals).advice.some(h=>h.id==='settlement-build'),'Shared advice disappears once every linked goal is earned');
+fishing=m.mark(fishing,'earned',['good-catch'],false);
+assert(m.recommendations(fishing).items.some(i=>i.id==='fish-bream'),'Undoing earned restores fish recommendations');
+fishing=m.mark(fishing,'completedSteps',['build-fishing-hut'],true);
+assert.equal(m.itemAvailability(bream,m.activeRun(fishing)).status,'now');
+assert(m.recommendations(fishing).items.some(i=>i.id==='fish-bream'),'An unearned goal still recommends its collection');
+fishing=m.mark(fishing,'items',['fish-bream'],true);
+assert.deepEqual(m.activeRun(fishing).completedSteps,['build-fishing-hut']);
+const earnedWithFacts=m.mark(fishing,'earned',['good-catch'],true);
+assert.deepEqual(m.activeRun(earnedWithFacts).completedSteps,['build-fishing-hut']);
+assert(m.activeRun(earnedWithFacts).items.includes('fish-bream'),'Filtering recommendations must preserve actual catch facts');
+fishing=m.changeRun(fishing,{stage:'hordafylke'});
+assert.equal(m.recommendations(fishing).items.length,4);
+fishing=m.mark(fishing,'completedSteps',['build-fishing-hut'],false);
+assert(m.activeRun(fishing).items.includes('fish-bream'),'Earlier corrections must not delete later collection facts');
+
+// Migrate v1 runs and snapshots. Historical marks never unlock goals or new steps.
+let legacy=m.freshState();
+legacy.catalogVersion=1;
+legacy.runs[0].completedSteps=['complete-it-s-alive','settlement-build','fish-line','complete-good-catch'];
+delete legacy.runs[0].legacyCompletedSteps;
+legacy.runs[0].items=['fish-eel'];
+legacy.runs[0].decisions={elk:'used'};
+legacy.runs[0].notes='Keep this note';
+legacy.runs[0].completedStages=['norway'];
+legacy.runs[0].events=['sailed'];
+legacy.earned=['the-saga-begins'];
+legacy.snapshots=[{id:'old-point',name:'Old checkpoint',createdAt:'2026-09-03T12:00:00Z',run:structuredClone(legacy.runs[0])}];
+const original=JSON.stringify(legacy);
+let migrated=m.parseState(legacy);
+assert.equal(JSON.stringify(legacy),original);
+assert.equal(migrated.catalogVersion,2);
+assert.deepEqual(m.activeRun(migrated).completedSteps,[]);
+assert.deepEqual(m.activeRun(migrated).legacyCompletedSteps,legacy.runs[0].completedSteps);
+assert.deepEqual(migrated.snapshots[0].run.legacyCompletedSteps,legacy.runs[0].completedSteps);
+for(const key of ['notes','items','decisions','completedStages','events','goals'])assert.deepEqual(m.activeRun(migrated)[key],legacy.runs[0][key]);
+assert.deepEqual(migrated.earned,legacy.earned);
+assert.equal(m.itemAvailability(bream,m.activeRun(migrated)).status,'conditions');
+migrated=m.changeRun(migrated,{stage:'settlement'});
+assert(m.recommendations(migrated).achievements.some(a=>a.id==='it-s-alive'));
+migrated=m.mark(migrated,'completedSteps',['build-fishing-hut'],true);
+const roundTrip=m.parseState(JSON.parse(JSON.stringify(migrated)));
+assert.deepEqual(roundTrip,migrated);
+assert.deepEqual(m.parseState(roundTrip),roundTrip);
+migrated=m.mark(migrated,'earned',['it-s-alive'],true);
+migrated=m.restoreSnapshot(migrated,'old-point');
+assert(migrated.earned.includes('it-s-alive'));
+assert.deepEqual(m.activeRun(migrated).completedSteps,[]);
+assert.deepEqual(m.activeRun(migrated).items,['fish-eel']);
+assert.throws(()=>m.mark(migrated,'completedSteps',['complete-it-s-alive'],true));
+for(const mutate of [s=>s.runs[0].completedSteps=['complete-invented'],s=>s.runs[0].legacyCompletedSteps=['unknown'],s=>s.snapshots[0].run.completedSteps=['unknown'],s=>s.catalogVersion=99]){const invalid=structuredClone(migrated);mutate(invalid);assert.throws(()=>m.parseState(invalid));}
+const allLegacy=structuredClone(legacy);allLegacy.runs[0].completedSteps=[...d.legacyStepIds];
+assert.equal(m.activeRun(m.parseState(allLegacy)).legacyCompletedSteps.length,104);
+
+const ui=fs.readFileSync('components/valhalla-tracker.tsx','utf8');
+assert(ui.includes("achievementSteps(selectedAchievement.id).length>0&&"),'No empty action section for a simple goal');
+assert(ui.includes("achievementSteps(selectedAchievement.id).length?'nextCheck':'achievementHelp'"),'No irrelevant action warning for simple goals');
+assert(!ui.includes("primary=")&&!ui.includes('otherSteps='));
+assert(!ui.includes("pendingSteps.length===0&&"),'No false all-done state for an empty chain');
+assert(ui.includes('stageSteps.length>0&&<div className="av-before-row"'),'Do not show an empty step counter');
+assert.equal((ui.match(/<TrackerSourcesDialog\b/g)||[]).length,1);
 console.log('PASS: 92 achievements (50 base + 42 DLC), 19 fish, unique IDs, valid links and translated interface.');
 console.log('PASS: independent marks and runs, checkpoint rollback preserves earned archive, imports reject other games and malformed state.');
 console.log('PASS: Forgotten Saga restrictions preserve unknown/used/unused distinctions.');
+console.log('PASS: no active goal duplicates/advice checkboxes; simple goals remain recommended without action sections.');
+console.log('PASS: fishing preparation and collection share facts across regions without automatic achievement unlocks.');
+console.log('PASS: all 104 retired v1 IDs migrate in runs/snapshots; round-trips preserve history and real state, unknown IDs still fail.');

@@ -1,7 +1,10 @@
 import {achievements,decisions,stages,type Achievement,type DecisionId,type StageId} from './tracker-data';
 export type Flag = 'unknown'|'clear'|'broken';
 export type FlagId = 'kills'|'alarms'|'systemKills'|'criminalKills'|'drugs';
-export type Run = {stage:StageId;completedTasks:string[];completedStages:StageId[];difficulty:'normal'|'ngplus'|'permadeath';goals:string[];flags:Record<FlagId,Flag>;decisions:Partial<Record<DecisionId,string>>;books:number;counters:Record<string,number>;notes:string};
+// completedTasks is inactive history from the retired per-achievement step checkbox.
+// Keep its original key for lossless version-1 imports and snapshot round-trips.
+// It never confirms an achievement, a prerequisite, a stage or a new concrete step.
+export type Run = {stage:StageId;completedTasks:readonly string[];completedStages:StageId[];difficulty:'normal'|'ngplus'|'permadeath';goals:string[];flags:Record<FlagId,Flag>;decisions:Partial<Record<DecisionId,string>>;books:number;counters:Record<string,number>;notes:string};
 export type Snapshot = {id:string;name:string;createdAt:string;run:Run};
 export type TrackerState = {version:1;earned:string[];run:Run;snapshots:Snapshot[];spoilers:boolean};
 export const freshRun=():Run=>({stage:'dubai',completedTasks:[],completedStages:[],difficulty:'normal',goals:['pacifist','fox'],flags:{kills:'unknown',alarms:'unknown',systemKills:'unknown',criminalKills:'unknown',drugs:'unknown'},decisions:{},books:0,counters:{},notes:''});
@@ -10,8 +13,8 @@ export const storageKey='dx-achievement-protocol-v1';
 const record=(v:unknown):v is Record<string,unknown>=>typeof v==='object'&&v!==null&&!Array.isArray(v);
 const toggleIds=(current:string[],ids:string[],done:boolean)=>done?[...new Set([...current,...ids])]:current.filter(id=>!ids.includes(id));
 export function setEarned(state:TrackerState,ids:string[],earned:boolean):TrackerState{return {...state,earned:toggleIds(state.earned,ids,earned)}}
-export function setRunProgress(state:TrackerState,kind:'tasks'|'stages',ids:string[],completed:boolean):TrackerState{
-  if(kind==='tasks')return {...state,run:{...state.run,completedTasks:toggleIds(state.run.completedTasks,ids,completed)}};
+export function setRunProgress(state:TrackerState,kind:'stages',ids:string[],completed:boolean):TrackerState{
+  if(kind!=='stages')throw Error('Некорректные отметки прохождения.');
   return {...state,run:{...state.run,completedStages:toggleIds(state.run.completedStages,ids,completed) as StageId[]}};
 }
 function parseIds(v:unknown,valid:string[]):string[]{
