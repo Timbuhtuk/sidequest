@@ -13,10 +13,12 @@ for(const file of ['tracker-data','tracker-state','tracker-recommendations','i18
 fs.mkdirSync(path.join(out,'locales'),{recursive:true});
 for(const locale of ['uk','en'])fs.copyFileSync(`lib/locales/${locale}.json`,path.join(out,'locales',`${locale}.json`));
 const require=createRequire(import.meta.url);
-const {achievements,stages}=require(path.join(out,'tracker-data.js'));
+const {achievements,stages,sources}=require(path.join(out,'tracker-data.js'));
 const {freshRun,freshState,parseState,blocker,status,runStatus,setEarned,setRunProgress}=require(path.join(out,'tracker-state.js'));
 assert.equal(achievements.length,81);
 assert.equal(new Set(achievements.map(a=>a.id)).size,81);
+assert.equal(sources.booksGuide,'https://steamcommunity.com/sharedfiles/filedetails/?id=2270958276');
+assert.equal(new Set(Object.values(sources)).size,Object.keys(sources).length);
 assert.deepEqual(Object.fromEntries(['campaign','system','criminal','breach'].map(g=>[g,achievements.filter(a=>a.group===g).length])),{campaign:46,system:8,criminal:10,breach:17});
 for(const a of achievements)for(const id of a.stages)assert(stages.some(s=>s.id===id));
 const a=id=>achievements.find(a=>a.id===id);

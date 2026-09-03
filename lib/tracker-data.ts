@@ -5,6 +5,7 @@ export const sources = {
   roadmap:'https://www.powerpyx.com/deus-ex-mankind-divided-trophy-guide-roadmap/',
   steam:'https://steamcommunity.com/stats/337000/achievements/?l=russian',
   books:'https://www.youtube.com/watch?v=kZZZs8BtB3U',
+  booksGuide:'https://steamcommunity.com/sharedfiles/filedetails/?id=2270958276',
 };
 export const stages = [
   {id:'dubai',name:'Дубай. Чёрный рынок',short:'Дубай',mission:'M01',group:'campaign',subtitle:'Пролог · Первое задание Дженсена',before:'Дубай нельзя посетить повторно. Пройди обучение, спаси Сингха и проверь книги до завершения задания.'},
