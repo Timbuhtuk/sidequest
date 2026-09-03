@@ -6,7 +6,7 @@ import ts from 'typescript';
 const dir=path.resolve('.checks/witcher');
 fs.mkdirSync(dir,{recursive:true});
 fs.writeFileSync(path.join(dir,'package.json'),'{"type":"commonjs"}');
-for(const file of ['witcher-data','witcher-copy','witcher-state'])fs.writeFileSync(path.join(dir,`${file}.js`),ts.transpileModule(fs.readFileSync(`lib/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
+for(const file of ['witcher-data','witcher-copy','witcher-state','witcher-sources'])fs.writeFileSync(path.join(dir,`${file}.js`),ts.transpileModule(fs.readFileSync(`lib/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
 fs.copyFileSync('lib/witcher-steam.json',path.join(dir,'witcher-steam.json'));
 const require=createRequire(import.meta.url);
 const data=require(path.join(dir,'witcher-data.js'));
@@ -74,3 +74,19 @@ assert(!ui.includes('className="wt-page-heading"')&&!ui.includes('className="wt-
 assert(ui.includes('<h1 className="sr-only">'),'Keep an accessible page heading, matching the Deus Ex layout');
 assert(ui.includes('aria-label={t(\'runs\')}'),'Playthrough management remains reachable from the sidebar');
 console.log('PASS: compact stage-first layout, accessible heading and retained playthrough navigation.');
+const {witcherSources}=require(path.join(dir,'witcher-sources.js'));
+const catalogUrls=Object.values(data.sources).map(source=>source.url);
+assert.equal(catalogUrls.length,7,'Preserve all seven Witcher references');
+for(const record of [...achievements,...steps,...items])assert(record.source in data.sources,`Preserve source relation: ${record.id}`);
+for(const locale of ['ru','uk','en']){
+  const references=witcherSources(locale);
+  assert.deepEqual(references.map(source=>source.url),catalogUrls,'The modal receives the entire source catalog');
+  assert.equal(new Set(references.map(source=>source.url)).size,references.length,'No duplicate sources');
+  assert.equal(new Set(references.map(source=>source.title)).size,references.length,'Materials have distinct readable titles');
+  for(const source of references){assert(source.title.length>0);assert.equal(source.checkedAt,data.checkedAt);assert.equal(new URL(source.url).protocol,'https:');}
+}
+assert.equal((ui.match(/<TrackerSourcesDialog\b/g)||[]).length,1,'One sources entry point per game');
+assert.match(ui,/<footer className="wt-footer">[^]*?<TrackerSourcesDialog locale=\{locale\} theme="witcher" sources=\{witcherSources\(locale\)\}\/><\/footer>/,'Sources open only from the footer');
+assert(!ui.includes('sourceLine')&&!ui.includes('wt-source-link'),'Detail and coverage dialogs must not contain source links');
+assert(!/https?:\/\/|target="_blank"/.test(ui),'External references are rendered only by the shared sources modal');
+console.log('PASS: one footer Sources modal, seven preserved references, source relations and RU/UK/EN presentation.');

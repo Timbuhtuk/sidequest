@@ -1,5 +1,9 @@
 import {L,type Locale} from './valhalla-data';
 export const copy={
+ sourceSteam:L('Steam · Каталог достижений','Steam · Каталог досягнень','Steam · Achievement catalog'),
+ sourceGuide:L('Steam Community · Условия достижений и дополнения','Steam Community · Умови досягнень і доповнення','Steam Community · Achievement and DLC guide'),
+ sourceRoadmap:L('PowerPyx · Маршрут и правила основной игры','PowerPyx · Маршрут і правила основної гри','PowerPyx · Base-game roadmap and rules'),
+ sourceFish:L('PowerPyx · Все виды рыб и места ловли','PowerPyx · Усі види риб і місця ловлі','PowerPyx · Fish species and fishing locations'),
  progressSummary:L('Прогресс достижений и прохождения','Прогрес досягнень і проходження','Achievement and playthrough progress'),campaignStages:L('Пройдено этапов кампании','Пройдено етапів кампанії','Campaign stages completed'),stageAchievements:L('Получено достижений этапа','Отримано досягнень етапу','Current-stage achievements earned'),
  home:L('Главная','Головна','Home'),siteNavigation:L('Навигация по сайту','Навігація сайтом','Site navigation'),
  collapseSidebar:L('Свернуть боковую панель','Згорнути бічну панель','Collapse sidebar'),expandSidebar:L('Развернуть боковую панель','Розгорнути бічну панель','Expand sidebar'),
