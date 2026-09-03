@@ -1,5 +1,6 @@
 import {L,type Locale} from './witcher-data';
 export const copy={
+ progressSummary:L('Прогресс достижений и прохождения','Прогрес досягнень і проходження','Achievement and playthrough progress'),campaignStages:L('Пройдено этапов кампании','Пройдено етапів кампанії','Campaign stages completed'),stageAchievements:L('Получено достижений этапа','Отримано досягнень етапу','Current-stage achievements earned'),
  home:L('Главная','Головна','Home'),siteNavigation:L('Навигация по сайту','Навігація сайтом','Site navigation'),
  collapseSidebar:L('Свернуть боковую панель','Згорнути бічну панель','Collapse sidebar'),expandSidebar:L('Развернуть боковую панель','Розгорнути бічну панель','Expand sidebar'),
  library:L('БИБЛИОТЕКА','БІБЛІОТЕКА','LIBRARY'),journal:L('ДНЕВНИК ПУТИ','ЩОДЕННИК ШЛЯХУ','JOURNAL OF THE PATH'),

@@ -1,0 +1,16 @@
+/* Layout and behavior follow the Deus Ex reference. Themes only change colors. */
+.progress-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:14px 0 24px;animation:tracker-summary-enter 420ms 150ms backwards}
+.progress-summary-trigger{min-width:0;padding:10px 0;cursor:help;outline:none;transition:transform 180ms}
+.progress-summary-trigger [data-slot=progress-track]{height:6px;border-radius:0;background:var(--summary-track,#343a2b);transition:background 180ms}
+.progress-summary-trigger [data-slot=progress-indicator]{background:var(--summary-accent,#d6b86d);transition:width 450ms cubic-bezier(.22,.68,0,1),transform 450ms cubic-bezier(.22,.68,0,1)}
+.progress-summary-trigger:hover [data-slot=progress-track]{background:var(--summary-track-hover,#434b35)}
+.progress-summary-trigger:focus-visible{outline:1px solid var(--summary-accent,#d6b86d);outline-offset:4px}
+.progress-summary-trigger:hover,.progress-summary-trigger:focus-visible{transform:translateY(-2px)}
+.progress-summary-tooltip[data-slot=tooltip-content]{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:12px 15px;border:1px solid var(--summary-tooltip-border,#70633e);border-radius:3px;background:var(--summary-tooltip-bg,#252b1d);color:var(--summary-tooltip-text,#d7cfad);box-shadow:0 8px 24px #0005;font-size:11px;line-height:1.5}
+.progress-summary-tooltip strong{color:var(--summary-tooltip-value,#e4cc87);font-weight:500;font-size:16px;font-variant-numeric:tabular-nums}
+.progress-summary-tooltip>svg{background:var(--summary-tooltip-bg,#252b1d);fill:var(--summary-tooltip-bg,#252b1d)}
+.progress-summary-witcher{--summary-track:#343c43;--summary-track-hover:#46505a;--summary-accent:#d15b4e;--summary-tooltip-border:#8f6258;--summary-tooltip-bg:#1a232a;--summary-tooltip-text:#c2ccd2;--summary-tooltip-value:#f0b7a6}
+.progress-summary-valhalla{--summary-track:#365258;--summary-track-hover:#466970;--summary-accent:#58b8ad;--summary-tooltip-border:#4e7277;--summary-tooltip-bg:#14292e;--summary-tooltip-text:#c1d6d4;--summary-tooltip-value:#9dd7ce}
+@keyframes tracker-summary-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:640px){.progress-summary{gap:10px;margin:10px 0 20px}}
+@media(prefers-reduced-motion:reduce){.progress-summary,.progress-summary *,.progress-summary-tooltip{animation:none!important;transition:none!important}}

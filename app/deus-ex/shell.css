@@ -17,8 +17,6 @@
 .dx-shell .mission-copy,.dx-shell .mission-number{animation:dx-stage-in 280ms both}.dx-shell .mission-copy{min-width:0}
 .dx-shell .mission-banner>button{transition:background 180ms,border-color 180ms,transform 150ms}.dx-shell .mission-banner>button:hover{transform:translateX(2px);border-color:#a58d51}
 .dx-shell .run-progress-strip{animation:dx-enter 420ms 110ms backwards;transition:border-color 180ms,background 180ms}.dx-shell .run-progress-strip:focus-within{border-color:#82764b}
-.dx-shell .progress-summary{animation:dx-enter 420ms 150ms backwards}.dx-shell .progress-summary-trigger{transition:transform 180ms}.dx-shell .progress-summary-trigger:hover,.dx-shell .progress-summary-trigger:focus-visible{transform:translateY(-2px)}
-.dx-shell .progress-summary [data-slot=progress-track]{transition:background 180ms}.dx-shell .progress-summary [data-slot=progress-indicator]{transition:width 450ms var(--dx-ease),transform 450ms var(--dx-ease)}
 .dx-shell .route-map{--route-node-size:45px;--route-step-inset:10px}
 .dx-shell .route-map .route-step{align-items:flex-start;padding-top:var(--route-step-inset);padding-bottom:var(--route-step-inset)}
 .dx-shell .route-map .route-node{width:var(--route-node-size);height:var(--route-node-size);position:relative;z-index:1}
