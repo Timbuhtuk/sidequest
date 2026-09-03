@@ -1,0 +1,143 @@
+import steam from './valhalla-steam.json';
+export type Locale='ru'|'uk'|'en';
+export type Text=Record<Locale,string>;
+export const L=(ru:string,uk:string,en:string):Text=>({ru,uk,en});
+export const checkedAt='2026-09-03';
+export const catalogVersion=1;
+export const sources={
+ steam:{name:'Steam · 2208920',url:'https://steamcommunity.com/stats/2208920/achievements'},
+ guide:{name:'Steam Community · Valhalla guide',url:'https://steamcommunity.com/sharedfiles/filedetails/?id=3370462114'},
+ roadmap:{name:'PowerPyx · Valhalla roadmap',url:'https://www.powerpyx.com/assassins-creed-valhalla-trophy-guide-roadmap/'},
+ fish:{name:'PowerPyx · Fish locations',url:'https://www.powerpyx.com/assassins-creed-valhalla-all-fish-locations/'},
+};
+export type Source=keyof typeof sources;
+export const campaigns={base:L('Основная игра','Основна гра','Base game'),druids:L('Гнев друидов','Гнів друїдів','Wrath of the Druids'),paris:L('Осада Парижа','Облога Парижа','The Siege of Paris'),ragnarok:L('Заря Рагнарёка','Світанок Раґнароку','Dawn of Ragnarök'),saga:L('Забытая сага','Забута сага','The Forgotten Saga'),mastery:L('Испытания мастерства','Випробування майстерності','Mastery Challenge'),tombs:L('Гробницы павших','Гробниці полеглих','Tombs of the Fallen')};
+export type Campaign=keyof typeof campaigns;
+export type Stage=string;
+const st=(id:string,name:Text,hint:Text,campaign:Campaign='base')=>({id,name,hint,campaign});
+const arcHint=L('Союз на карте Рандви; порядок выбирай по доступности в игре.','Союз на мапі Рандві; порядок обирай за доступністю у грі.','An alliance on Randvi’s map; follow the order available in your game.');
+export const stages=[
+ st('norway',L('Норвегия · начало саги','Норвегія · початок саги','Norway · the saga begins'),L('Пролог, Рюгьяфюльке и подготовка к отплытию.','Пролог, Рюґ’яфюльке та підготовка до відплиття.','Prologue, Rygjafylke and preparations to set sail.')),
+ st('settlement',L('Рейвенсторп','Рейвенсторп','Ravensthorpe'),L('Поселение, постройки и первые набеги.','Поселення, будівлі та перші набіги.','Your settlement, buildings and first raids.')),
+ st('grantebridgescire',L('Грентебриджшир','Ґрентебриджшир','Grantebridgescire'),arcHint),
+ st('ledecestrescire',L('Ледечестершир','Ледечестершир','Ledecestrescire'),arcHint),
+ st('east-anglia',L('Восточная Англия','Східна Англія','East Anglia'),arcHint),
+ st('lunden',L('Люнден','Люнден','Lunden'),arcHint),
+ st('oxenefordscire',L('Оксенфордшир','Оксенфордшир','Oxenefordscire'),arcHint),
+ st('sciropescire',L('Широпшир','Широпшир','Sciropescire'),arcHint),
+ st('cent',L('Кент','Кент','Cent'),arcHint),
+ st('lincolnscire',L('Линкольншир','Лінкольншир','Lincolnscire'),arcHint),
+ st('essexe',L('Эссекс','Ессекс','Essexe'),arcHint),
+ st('suthsexe',L('Суссекс','Суссекс','Suthsexe'),arcHint),
+ st('jorvik',L('Йорвик','Йорвік','Jorvik'),arcHint),
+ st('eurvicscire',L('Йорвикшир','Йорвікшир','Eurvicscire'),arcHint),
+ st('glowecestrescire',L('Глостершир','Ґлостершир','Glowecestrescire'),arcHint),
+ st('snotinghamscire',L('Сноттингемшир','Сноттінґемшир','Snotinghamscire'),arcHint),
+ st('wincestre',L('Винчестер','Вінчестер','Wincestre'),arcHint),
+ st('vinland',L('Винланд','Вінланд','Vinland'),L('Отдельная экспедиция и местное снаряжение.','Окрема експедиція та місцеве спорядження.','A separate expedition with local equipment.')),
+ st('asgard',L('Асгард и Йотунхейм','Асґард та Йотунгейм','Asgard & Jotunheim'),L('Видения в хижине Вальки.','Видіння в хатині Вальки.','Visions at Valka’s hut.')),
+ st('hordafylke',L('Хордафюльке · возвращение','Гордафюльке · повернення','Hordafylke · the return'),arcHint),
+ st('hamtunscire',L('Хамптуншир','Гамптуншир','Hamtunscire'),arcHint),
+ st('england',L('Свободное исследование Англии','Вільне дослідження Англії','England · free exploration'),L('Оставшиеся тайны, богатства, артефакты и испытания.','Решта таємниць, багатств, артефактів і випробувань.','Remaining mysteries, wealth, artifacts and challenges.')),
+ st('druids',campaigns.druids,L('Ирландия и развитие Дублина.','Ірландія та розвиток Дубліна.','Ireland and Dublin’s growth.'),'druids'),
+ st('paris',campaigns.paris,L('Франкия и задания мятежников.','Франкія та завдання повстанців.','Francia and rebel missions.'),'paris'),
+ st('ragnarok',campaigns.ragnarok,L('Свартальфахейм и силы Хави.','Свартальфгейм та сили Гаві.','Svartalfheim and Havi’s powers.'),'ragnarok'),
+ st('saga',campaigns.saga,L('Забеги в Нифльхейм; ограничения проверяй для текущего забега.','Забіги у Ніфльгейм; умови перевіряй для поточного забігу.','Niflheim attempts; check restrictions for the current attempt.'),'saga'),
+ st('mastery',campaigns.mastery,L('Отдельные испытания ближнего боя, стрельбы и скрытности.','Окремі випробування бою, стрільби та скритності.','Separate melee, ranged and stealth trials.'),'mastery'),
+ st('tombs',campaigns.tombs,L('Гробницы, загадки и подземные маршруты.','Гробниці, загадки та підземні маршрути.','Tombs, puzzles and underground routes.'),'tombs'),
+];
+const groups:Partial<Record<Campaign,string[]>>={
+ druids:['ireland-s-deliverance','dawn-of-the-druids','all-roads-lead-to-dublin','like-a-druid','the-legend-of-st-patrick','king-s-maker','irish-legend','double-trouble','decked-out'],
+ paris:['do-what-is-right','future-past','l-se-majest','bad-bull','we-nobles-three','vive-la-r-sistance','know-what-is-right','vendange','pat-the-cats'],
+ ragnarok:['aesir-spelunker','ashes-of-svartalfheim','flying-fortress','expert-storyteller','it-s-all-in-the-wrist','over-the-hills','motsognir-s-blessing','hugr-incarnate','see-no-evil'],
+ saga:['returning-to-the-roots','royal-treatment','the-queen-s-fall','crossing-d-kkerland','pure-of-heart','a-favored-customer','sacrificial-victory','freedom-fighter','high-kick'],
+ mastery:['all-that-glitters','a-true-master','full-master'],tombs:['spelunker','crypt-ologist','heroes-of-ancient-britain'],
+};
+const secretConditions:Record<string,Text>={
+ 'dreamcatcher':L('Уничтожь 10 проклятых символов основной игры.','Знищ 10 проклятих символів основної гри.','Destroy 10 base-game Curse Symbols.'),
+ 'the-saga-begins':L('Пройди пролог.','Пройди пролог.','Finish the prologue.'),
+ 'to-england':L('Отправься из Норвегии в Англию.','Вируш із Норвегії до Англії.','Sail from Norway to England.'),
+ 'rampage':L('Заверши первый набег в Англии.','Заверши перший набіг в Англії.','Finish a raid in England.'),
+ 'it-s-alive':L('Создай йомсвикинга в казармах поселения.','Створи йомсвікінґа в казармах поселення.','Create your Jomsviking at the settlement barracks.'),
+ 'hard-choices':L('Заверши историю Грентебриджшира.','Заверши історію Ґрентебриджшира.','Finish the Grantebridgescire storyline.'),
+ 'it-s-not-a-bug-it-s-a-feature':L('Заверши одну аномалию Анимуса.','Заверши одну аномалію Анімуса.','Resolve an Animus anomaly.'),
+ 'the-good-saxon':L('Заверши историю Восточной Англии.','Заверши історію Східної Англії.','Finish the East Anglia storyline.'),
+ 'the-order-is-revealed':L('Заверши историю Люндена.','Заверши історію Люндена.','Finish the Lunden storyline.'),
+ 'take-my-hand':L('Заверши историю Кента.','Заверши історію Кенту.','Finish the Cent storyline.'),
+ 'calling-in-a-favor':L('Заверши историю Суссекса.','Заверши історію Суссексу.','Finish the Suthsexe storyline.'),
+ 'pioneer':L('Доберись до Винланда.','Дістанься Вінланду.','Travel to Vinland.'),
+ 'the-enemy-of-my-enemy':L('Заверши историю Винчестера.','Заверши історію Вінчестера.','Finish the Wincestre storyline.'),
+ 'as-it-was-foretold':L('Заверши сюжетную линию пророчества.','Заверши сюжетну лінію пророцтва.','Finish the Prophecy storyline.'),
+ 'godly-reward':L('Получи шлем Тора.','Отримай шолом Тора.','Acquire Thor’s helmet.'),
+ 'england-subdued':L('Заверши историю Хамптуншира.','Заверши історію Гамптуншира.','Finish the Hamtunscire storyline.'),
+ 'disorder-of-the-ancients':L('Устрани всех членов Ордена Древних.','Усунь усіх членів Ордену Стародавніх.','Eliminate every Order of the Ancients member.'),
+ 'in-the-footsteps-of-the-gods':L('Заверши задания Асгарда и Йотунхейма.','Заверши завдання Асґарду та Йотунгейму.','Finish the Asgard and Jotunheim quests.'),
+ 'ireland-s-deliverance':L('Заверши сюжет «Гнева друидов».','Заверши сюжет «Гніву друїдів».','Finish the Wrath of the Druids story.'),
+ 'dawn-of-the-druids':L('Устрани всех Детей Дану.','Усунь усіх Дітей Дану.','Eliminate all Children of Danu.'),
+ 'caladfwlch':L('Получи Экскалибур.','Отримай Екскалібур.','Acquire Excalibur.'),
+ 'seahorse':L('Проплыви 3 км верхом на лошади.','Пропливи 3 км верхи на коні.','Swim 3 km on horseback.'),
+ 'decked-out':L('Собери полный комплект брони дублинского защитника.','Збери повний комплект броні дублінського захисника.','Collect the complete Dublin Champion armor set.'),
+ 'worthy':L('Получи Мьёльнир.','Отримай Мйольнір.','Acquire Mjolnir.'),
+ 'a-picture-of-grace':L('Пробеги через 30 разрушаемых объектов.','Пробіжи крізь 30 руйнівних об’єктів.','Sprint through 30 breakable objects.'),
+ 'crossing-d-kkerland':L('Заверши все столкновения Дёккерланна.','Заверши всі сутички Дьоккерланну.','Clear every Døkkerland encounter.'),
+ 'the-hidden-truth':L('Заверши все аномалии Анимуса и посмотри итоговое видео.','Заверши всі аномалії Анімуса й переглянь підсумкове відео.','Resolve all Animus anomalies and watch the resulting video.'),
+ 'expert-storyteller':L('Пройди рассказ Кары с четырьмя или более похвальбами.','Пройди оповідь Кари із щонайменше чотирма вихваляннями.','Complete a Kára tale with at least four Boasts.'),
+ 'double-trouble':L('Экипируй серпы в обе руки.','Споряди серпи в обидві руки.','Equip a sickle in each hand.'),
+ 'motsognir-s-blessing':L('Очисти все проклятые доспехи Хрейдмара.','Очисть усі прокляті обладунки Грейдмара.','Purify Hreidmar’s cursed armor set.'),
+ 'hugr-incarnate':L('Полностью улучши Хуг-рип.','Повністю поліпши Гуґ-ріп.','Max out the Hugr-Rip upgrades.'),
+ 'sacrificial-victory':L('Победи Хель в облачении «Дань драугра».','Переможи Гель у вбранні «Данина драуґра».','Defeat Hel wearing Draugr’s Toll.'),
+};
+const stageMap:Record<string,string[]>={
+ 'the-saga-begins':['norway'],'to-england':['norway'],'rampage':['settlement'],'it-s-alive':['settlement'],'builder':['settlement'],'home-sweet-home':['settlement'],'home-decor':['settlement'],'twinkle-twinkle':['settlement'],
+ 'hard-choices':['grantebridgescire'],'the-good-saxon':['east-anglia'],'the-order-is-revealed':['lunden'],'take-my-hand':['cent'],'calling-in-a-favor':['suthsexe'],'pioneer':['vinland'],'the-enemy-of-my-enemy':['wincestre'],'in-the-footsteps-of-the-gods':['asgard'],'as-it-was-foretold':['hordafylke'],'england-subdued':['hamtunscire'],'worthy':['hordafylke','norway'],'skadi-s-hobby':['norway','hordafylke'],
+};
+const englandStages=stages.filter(s=>s.campaign==='base'&&!['norway','vinland','asgard','hordafylke'].includes(s.id)).map(s=>s.id);
+export type Achievement={id:string;name:Text;description:Text;icon:string;secret:boolean;campaign:Campaign;stages:Stage[];missable:boolean;category:'story'|'combat'|'explore';source:Source};
+export const achievements:Achievement[]=steam.map(a=>{
+ const campaign=(Object.entries(groups).find(([,ids])=>ids.includes(a.id))?.[0]??'base') as Campaign;
+ return{...a,name:a.id==='dreamcatcher'?L('Ловец снов','Ловець снів','Dreamcatcher'):a.name,description:secretConditions[a.id]??a.description,campaign,stages:campaign==='base'?stageMap[a.id]??englandStages:[campaign],missable:false,category:stageMap[a.id]&&a.secret?'story':/kill|assassinate|defeat|enemies|soldiers/i.test(a.description.en)?'combat':'explore',source:a.secret?'guide':'steam'};
+});
+export type Step={id:string;title:Text;detail:Text;stages:Stage[];goals:string[];kind:'prepare'|'action';secret?:boolean;before?:string;source:Source};
+const prep=(id:string,title:Text,detail:Text,stageIds:string[],goals:string[],source:Source='roadmap',secret=false):Step=>({id,title,detail,stages:stageIds,goals,kind:'prepare',source,secret});
+export const prepSteps:Step[]=[
+ prep('norway-start',L('Пройди пролог и исследуй Рюгьяфюльке','Пройди пролог і досліди Рюґ’яфюльке','Play the prologue and explore Rygjafylke'),L('Следуй сюжетным заданиям до отплытия. В Норвегию можно вернуться позже.','Виконуй сюжетні завдання до відплиття. До Норвегії можна повернутися пізніше.','Follow the story until departure. Norway remains available for later visits.'),['norway'],['the-saga-begins','to-england']),
+ prep('settlement-build',L('Проведи набег и начни строить поселение','Здійсни набіг і почни розбудову поселення','Raid and build your settlement'),L('Собери материалы в набеге; построй казармы и рыбацкую хижину.','Збери матеріали в набігу; збудуй казарми та рибальську хатину.','Gather raid materials; build the barracks and fishing hut.'),['settlement'],['rampage','builder','home-sweet-home','it-s-alive','good-catch']),
+ prep('territory-review',L('Сверь богатства, тайны и артефакты региона','Перевір багатства, таємниці та артефакти регіону','Review the region’s wealth, mysteries and artifacts'),L('Открой карту региона. Отложи недоступные точки до продвижения сюжета; запиши, где остановился.','Відкрий мапу регіону. Відклади недоступні точки до просування сюжету; запиши, де зупинився.','Check the region map. Revisit story-gated points later and note where you stopped.'),[...englandStages,'norway','vinland','asgard','hordafylke'],['completionist-all-the-way']),
+ prep('fish-line',L('Открой рыбалку и начни список улова','Відкрий риболовлю та почни список улову','Unlock fishing and start the catch list'),L('Построй рыбацкую хижину. В коллекции отмечай виды, пойманные леской; нужны 15 видов Англии и 4 Норвегии.','Збудуй рибальську хатину. У колекції позначай види, спіймані волосінню; потрібні 15 видів Англії та 4 Норвегії.','Build the fishing hut. Track line-caught species in Collection: 15 from England and 4 from Norway.'),['settlement','england','hordafylke'],['good-catch'],'fish'),
+ prep('order-clues',L('Собирай зацепки об Ордене','Збирай зачіпки про Орден','Collect Order clues'),L('Проверяй меню Ордена после сюжетных заданий и встреч с ревнителями.','Перевіряй меню Ордену після сюжетних завдань і зустрічей із ревнителями.','Review the Order menu after story quests and encounters with zealots.'),['lunden','jorvik','wincestre','england'],['disorder-of-the-ancients'],'roadmap',true),
+ prep('orlog-flyting',L('Сыграй в орлог и найди соперников по флютингу','Зіграй в орлоґ і знайди суперників із флайтинґу','Play Orlog and find flyting opponents'),L('Отмечай победы в игре и записывай оставшихся соперников в заметки.','Позначай перемоги в грі та записуй решту суперників у нотатки.','Check your wins in-game and note remaining opponents here.'),['norway',...englandStages],['orlog-champion','slam-master']),
+ prep('ireland-renown',L('Развивай торговлю Дублина','Розвивай торгівлю Дубліна','Grow Dublin’s trade'),L('Продвигай сюжет Ирландии, открывай торговые посты и выполняй королевские требования.','Просувай сюжет Ірландії, відкривай торгові пости й виконуй королівські вимоги.','Progress through Ireland, open trading posts and complete Royal Demands.'),['druids'],['ireland-s-deliverance','all-roads-lead-to-dublin','king-s-maker'],'guide'),
+ prep('paris-rebels',L('Выполняй задания мятежников','Виконуй завдання повстанців','Complete rebel missions'),L('Работай над заданиями мятежников параллельно с историей Франкии.','Працюй над завданнями повстанців паралельно з історією Франкії.','Work on rebel missions alongside the Francia story.'),['paris'],['l-se-majest','vive-la-r-sistance','do-what-is-right'],'guide'),
+ prep('ragnarok-powers',L('Открой убежища и улучшай Хуг-рип','Відкрий сховища та поліпшуй Гуґ-ріп','Find shelters and upgrade the Hugr-Rip'),L('Сверяй улучшения у кузнеца по мере исследования Свартальфахейма.','Перевіряй поліпшення в коваля під час дослідження Свартальфгейму.','Check blacksmith upgrades while exploring Svartalfheim.'),['ragnarok'],['aesir-spelunker','hugr-incarnate'],'guide'),
+ prep('saga-attempt',L('Проверь условие текущего забега','Перевір умову поточного забігу','Check this attempt’s restriction'),L('Для «Чистоты сердца» не используй алтари лося до победы над Нидхёггом. В «Маршруте» отметь, соблюдено ли условие.','Для «Чистоти серця» не використовуй вівтарі лося до перемоги над Нідгьоґґом. У «Маршруті» познач дотримання умови.','For Pure of Heart, avoid Elk Shrines before defeating Nidhogg. Record the condition under Journey.'),['saga'],['pure-of-heart'],'guide',true),
+ prep('mastery-gold',L('Проверь очки каждого испытания','Перевір бали кожного випробування','Check every trial’s score'),L('Для золота выполняй все указанные условия испытания. Проверяй обе части испытаний отдельно.','Для золота виконуй усі зазначені умови випробування. Перевіряй обидві частини окремо.','Meet each trial’s scoring conditions for gold. Check both challenge packs separately.'),['mastery'],['all-that-glitters','a-true-master','full-master'],'guide'),
+ prep('tombs-route',L('Исследуй гробницы павших','Досліди гробниці полеглих','Explore the Tombs of the Fallen'),L('Проверяй завершение гробниц на карте. Одной гробницы недостаточно для всей цепочки достижений.','Перевіряй завершення гробниць на мапі. Однієї гробниці недостатньо для всього ланцюжка досягнень.','Check tomb completion on your map. One tomb does not complete the entire achievement chain.'),['tombs'],['spelunker','crypt-ologist','heroes-of-ancient-britain'],'guide'),
+];
+export const steps:Step[]=[...prepSteps,...achievements.map(a=>({id:`complete-${a.id}`,title:a.name,detail:a.description,stages:a.stages,goals:[a.id],kind:'action' as const,secret:a.secret,source:a.source}))];
+export type Item={id:string;name:Text;region:Stage;location:Text;collection:'fish';goals:string[];event?:string;secret?:boolean;source:Source};
+const fishRows=[
+ ['bream','Лещ','Лящ','Bream','cent','Море · Кент','Море · Кент','Sea · Cent'],
+ ['brown-trout','Кумжа','Кумжа','Brown Trout','ledecestrescire','Реки · Ледечестершир','Річки · Ледечестершир','Rivers · Ledecestrescire'],
+ ['bullhead','Бычок','Бичок','Bullhead','grantebridgescire','Реки · Грентебриджшир','Річки · Ґрентебриджшир','Rivers · Grantebridgescire'],
+ ['burbot','Налим','Минь','Burbot','oxenefordscire','Реки · Оксенфордшир','Річки · Оксенфордшир','Rivers · Oxenefordscire'],
+ ['cod','Треска','Тріска','Cod','east-anglia','Море · Восточная Англия','Море · Східна Англія','Sea · East Anglia'],
+ ['eel','Угорь','Вугор','Eel','ledecestrescire','Реки · Ледечестершир','Річки · Ледечестершир','Rivers · Ledecestrescire'],
+ ['flatfish','Камбала','Камбала','Flatfish','cent','Море · Кент','Море · Кент','Sea · Cent'],
+ ['grey-trout','Серая форель','Сіра форель','Grey Trout','cent','Реки · Кент','Річки · Кент','Rivers · Cent'],
+ ['haddock','Пикша','Пікша','Haddock','east-anglia','Море · Восточная Англия','Море · Східна Англія','Sea · East Anglia'],
+ ['halibut','Палтус','Палтус','Halibut','east-anglia','Море · Восточная Англия','Море · Східна Англія','Sea · East Anglia'],
+ ['perch','Окунь','Окунь','Perch','grantebridgescire','Реки · Грентебриджшир','Річки · Ґрентебриджшир','Rivers · Grantebridgescire'],
+ ['pollock','Сайда','Сайда','Pollock','cent','Реки · Кент','Річки · Кент','Rivers · Cent'],
+ ['salmon','Лосось','Лосось','Salmon','lincolnscire','Реки · Линкольншир','Річки · Лінкольншир','Rivers · Lincolnscire'],
+ ['shad','Ало́за','Алоза','Shad','east-anglia','Море · Восточная Англия','Море · Східна Англія','Sea · East Anglia'],
+ ['sturgeon','Осётр','Осетер','Sturgeon','cent','Реки и море · Кент','Річки й море · Кент','Rivers and sea · Cent'],
+ ['arctic-char','Арктический голец','Арктичний голець','Arctic Char','norway','Море · Рюгьяфюльке','Море · Рюґ’яфюльке','Sea · Rygjafylke'],
+ ['hake','Хек','Хек','Hake','norway','Море · Рюгьяфюльке','Море · Рюґ’яфюльке','Sea · Rygjafylke'],
+ ['mackerel','Скумбрия','Скумбрія','Mackerel','norway','Море · Рюгьяфюльке','Море · Рюґ’яфюльке','Sea · Rygjafylke'],
+ ['redfish','Морской окунь','Морський окунь','Redfish','norway','Море · Рюгьяфюльке','Море · Рюґ’яфюльке','Sea · Rygjafylke'],
+];
+export const items:Item[]=fishRows.map(([id,ru,uk,en,region,lr,lu,le])=>({id:`fish-${id}`,name:L(ru,uk,en),region,location:L(lr,lu,le),collection:'fish',goals:['good-catch'],source:'fish'}));
+export const events:{id:string;stage:string;title:Text;warning:Text}[]=[{id:'sailed',stage:'norway',title:L('Отплытие в Англию','Відплиття до Англії','Sailing to England'),warning:L('Подтверди только после отплытия. Норвегия остаётся доступной для возвращения.','Підтвердь лише після відплиття. До Норвегії можна повернутися.','Confirm only after sailing. You can return to Norway later.')}];
+export const decisionDefinitions:{id:string;label:Text;stages:string[];source:Source;options:[string,Text][];effect:Text}[]=[{id:'elk',label:L('Алтари лося · текущий забег','Вівтарі лося · поточний забіг','Elk Shrines · current attempt'),stages:['saga'],source:'guide',options:[['unused',L('Не использовал','Не використовував','None used')],['used',L('Использовал','Використовував','Used one')]],effect:L('Использование алтаря мешает цели «Чистота сердца» в этом забеге. При новом забеге обнови эту отметку.','Використання вівтаря заважає цілі «Чистота серця» в цьому забігу. На початку нового забігу онови позначку.','Using a shrine prevents Pure of Heart in this attempt. Update this mark when starting another attempt.')}];
+export const defaultGoals=['completionist-all-the-way','good-catch','home-sweet-home'];
+

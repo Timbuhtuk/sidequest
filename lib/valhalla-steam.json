@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "the-saga-begins",
+    "name": {
+      "en": "The Saga Begins",
+      "uk": "The Saga Begins",
+      "ru": "Начало саги"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8723ae33fa74d0f87453042b9743f51e815069bd.jpg"
+  },
+  {
+    "id": "to-england",
+    "name": {
+      "en": "To England!",
+      "uk": "To England!",
+      "ru": "В Англию!"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/65d06594fd0cd4c463ae66d7b43c5c176a51fd2e.jpg"
+  },
+  {
+    "id": "rampage",
+    "name": {
+      "en": "Rampage",
+      "uk": "Rampage",
+      "ru": "Неистовство"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/3b7751902754669a21f97755d82bd384ff2109d8.jpg"
+  },
+  {
+    "id": "it-s-alive",
+    "name": {
+      "en": "It's Alive!",
+      "uk": "It's Alive!",
+      "ru": "Он живой!"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/16952546ce2ade7a88f53ffd838fe040f5f64259.jpg"
+  },
+  {
+    "id": "builder",
+    "name": {
+      "en": "Builder",
+      "uk": "Builder",
+      "ru": "Каменщик"
+    },
+    "description": {
+      "en": "Reach settlement level 3",
+      "uk": "Reach settlement level 3",
+      "ru": "Поднимите уровень поселения до 3"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/aee8b3ce211b0f8bdd602991d6c6ed676cc9146c.jpg"
+  },
+  {
+    "id": "hard-choices",
+    "name": {
+      "en": "Hard Choices",
+      "uk": "Hard Choices",
+      "ru": "Трудный выбор"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/79cd95d6d9ed6cb66f0325b1f387f0b803ed9b38.jpg"
+  },
+  {
+    "id": "face-my-might",
+    "name": {
+      "en": "Face My Might!",
+      "uk": "Face My Might!",
+      "ru": "Узрите мою мощь!"
+    },
+    "description": {
+      "en": "Equip 8 abilities",
+      "uk": "Equip 8 abilities",
+      "ru": "Выберите 8 способностей"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9d4758e3fb9341ce5a0ea73fe222dfcd77c0c686.jpg"
+  },
+  {
+    "id": "it-s-not-a-bug-it-s-a-feature",
+    "name": {
+      "en": "It's Not a Bug, It's a Feature!",
+      "uk": "It's Not a Bug, It's a Feature!",
+      "ru": "Все работает нормально, честное слово!"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/d51a6edc752249beef776b9916afcf21c5af5895.jpg"
+  },
+  {
+    "id": "tranquility",
+    "name": {
+      "en": "Tranquility",
+      "uk": "Tranquility",
+      "ru": "Спокойствие"
+    },
+    "description": {
+      "en": "Complete a Standing Stone puzzle",
+      "uk": "Complete a Standing Stone puzzle",
+      "ru": "Разгадайте тайну священных камней"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/b2a73f257c1badc2a41a258ac15ad4d4d571226e.jpg"
+  },
+  {
+    "id": "the-good-saxon",
+    "name": {
+      "en": "The Good Saxon",
+      "uk": "The Good Saxon",
+      "ru": "Добрый сакс"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/707cf13412fc2c18119a10b1667e82c80b943292.jpg"
+  },
+  {
+    "id": "everyday-life",
+    "name": {
+      "en": "Everyday Life",
+      "uk": "Everyday Life",
+      "ru": "Повседневная жизнь"
+    },
+    "description": {
+      "en": "Complete 10 World Events",
+      "uk": "Complete 10 World Events",
+      "ru": "Завершите 10 мировых событий"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/c7816697f54be140c03edab2af000ae36d4113ec.jpg"
+  },
+  {
+    "id": "the-order-is-revealed",
+    "name": {
+      "en": "The Order Is Revealed",
+      "uk": "The Order Is Revealed",
+      "ru": "След Ордена"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/cd8618d57e99cfc34a05e1a78b362f93856ff557.jpg"
+  },
+  {
+    "id": "full-mastery",
+    "name": {
+      "en": "Full Mastery",
+      "uk": "Full Mastery",
+      "ru": "Настоящее мастерство"
+    },
+    "description": {
+      "en": "Spend your first Mastery point",
+      "uk": "Spend your first Mastery point",
+      "ru": "Потратьте первое очко мастерства"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/873067662d6dd6ad7868506bb72aeaeea61ce77b.jpg"
+  },
+  {
+    "id": "ultimate-refinement",
+    "name": {
+      "en": "Ultimate Refinement",
+      "uk": "Ultimate Refinement",
+      "ru": "Настоящее совершенство"
+    },
+    "description": {
+      "en": "Fully upgrade and enhance a piece of gear",
+      "uk": "Fully upgrade and enhance a piece of gear",
+      "ru": "Полностью улучшите предмет и усильте его"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/3450c408c81a0f7ab436d7793dc932535030445e.jpg"
+  },
+  {
+    "id": "silent-viking",
+    "name": {
+      "en": "Silent Viking",
+      "uk": "Silent Viking",
+      "ru": "Бесшумный викинг"
+    },
+    "description": {
+      "en": "Assassinate 10 enemies in a row without triggering a conflict",
+      "uk": "Assassinate 10 enemies in a row without triggering a conflict",
+      "ru": "Убейте 10 противников подряд, не вступив в бой"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/fb773ceec6c34cbf9f7acf56be984a793ea66dda.jpg"
+  },
+  {
+    "id": "returning-to-the-roots",
+    "name": {
+      "en": "Returning to the Roots",
+      "uk": "Returning to the Roots",
+      "ru": "Возвращение к корням"
+    },
+    "description": {
+      "en": "Return to Odin's Camp for the first time (The Forgotten Saga)",
+      "uk": "Return to Odin's Camp for the first time (The Forgotten Saga)",
+      "ru": "Вернитесь в лагерь Одина в первый раз («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/35a68716bf39cc3ac9b77c0284df104d73965d3f.jpg"
+  },
+  {
+    "id": "take-my-hand",
+    "name": {
+      "en": "Take My Hand",
+      "uk": "Take My Hand",
+      "ru": "Возьми меня за руку"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/a1c7032e69f6561e7ba17f85456adacca74c4db2.jpg"
+  },
+  {
+    "id": "we-re-in-the-end-game-now",
+    "name": {
+      "en": "We're in the End Game Now",
+      "uk": "We're in the End Game Now",
+      "ru": "Сильнее почти некуда"
+    },
+    "description": {
+      "en": "Reach Power 280",
+      "uk": "Reach Power 280",
+      "ru": "Достигните уровня мощи 280"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/ba7c4df5cd3559a60709a103a8be6216c4ef257d.jpg"
+  },
+  {
+    "id": "calling-in-a-favor",
+    "name": {
+      "en": "Calling in a Favor",
+      "uk": "Calling in a Favor",
+      "ru": "Взыскание долга"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/d58ea0ea943062a258304cd016594fb2d4f714c8.jpg"
+  },
+  {
+    "id": "pioneer",
+    "name": {
+      "en": "Pioneer",
+      "uk": "Pioneer",
+      "ru": "Первопроходец"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/d27396d0982f3eabd7f95364c4f7e234603687c3.jpg"
+  },
+  {
+    "id": "spelunker",
+    "name": {
+      "en": "Spelunker",
+      "uk": "Spelunker",
+      "ru": "Спелеолог"
+    },
+    "description": {
+      "en": "Complete one Tomb of the Fallen",
+      "uk": "Complete one Tomb of the Fallen",
+      "ru": "Исследуйте одну гробницу Павших"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8225dd45865abbaa61371795d763f6cf44145222.jpg"
+  },
+  {
+    "id": "witch-hunter",
+    "name": {
+      "en": "Witch Hunter",
+      "uk": "Witch Hunter",
+      "ru": "Охота на ведьм"
+    },
+    "description": {
+      "en": "Defeat one Daughter of Lerion",
+      "uk": "Defeat one Daughter of Lerion",
+      "ru": "Победите одну из дочерей Лериона"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/3a8fc2baf679cb55e3834fa2a0768a60727fa68a.jpg"
+  },
+  {
+    "id": "the-enemy-of-my-enemy",
+    "name": {
+      "en": "The Enemy of My Enemy",
+      "uk": "The Enemy of My Enemy",
+      "ru": "Враг моего врага"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9b790bdd6fa4d7753c894120069e0419a4f26e6a.jpg"
+  },
+  {
+    "id": "as-it-was-foretold",
+    "name": {
+      "en": "As It Was Foretold",
+      "uk": "As It Was Foretold",
+      "ru": "Как и было предсказано"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/0f05c92eac901c9d1c442cf5907cebe420f7f688.jpg"
+  },
+  {
+    "id": "equilibrium",
+    "name": {
+      "en": "Equilibrium",
+      "uk": "Equilibrium",
+      "ru": "Равновесие"
+    },
+    "description": {
+      "en": "Complete 3 Cairn challenges",
+      "uk": "Complete 3 Cairn challenges",
+      "ru": "Сложите 3 каирна"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/4e8ccd4e34d5844678a40790be8a41155832c1c8.jpg"
+  },
+  {
+    "id": "godly-reward",
+    "name": {
+      "en": "Godly Reward",
+      "uk": "Godly Reward",
+      "ru": "Божественная награда"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/1ecd3ce0c93d19cbf8f87463f704df070478cf56.jpg"
+  },
+  {
+    "id": "dreamcatcher",
+    "name": {
+      "en": "Dreamcatcher",
+      "uk": "Godly Reward",
+      "ru": "Божественная награда"
+    },
+    "description": {
+      "en": "Destroy 10 Curse Symbols (Base game only)",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/1ecd3ce0c93d19cbf8f87463f704df070478cf56.jpg"
+  },
+  {
+    "id": "england-subdued",
+    "name": {
+      "en": "England Subdued",
+      "uk": "England Subdued",
+      "ru": "Подчинение Англии"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/aac6077dab81398df2d20518d56f6c07f65601ba.jpg"
+  },
+  {
+    "id": "disorder-of-the-ancients",
+    "name": {
+      "en": "Disorder of the Ancients",
+      "uk": "Disorder of the Ancients",
+      "ru": "Последние дни Ордена Древних"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/e98efa477537496d662ab92adb2c96d967ad9546.jpg"
+  },
+  {
+    "id": "in-the-footsteps-of-the-gods",
+    "name": {
+      "en": "In the Footsteps of the Gods",
+      "uk": "In the Footsteps of the Gods",
+      "ru": "По стопам богов"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/149418bc6c993904c35a9b399b84986635ece84e.jpg"
+  },
+  {
+    "id": "ireland-s-deliverance",
+    "name": {
+      "en": "Ireland's Deliverance",
+      "uk": "Ireland's Deliverance",
+      "ru": "Освобождение Ирландии"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/3e668a9d631af0790382efa53ca9e4c2f9fd73d3.jpg"
+  },
+  {
+    "id": "twinkle-twinkle",
+    "name": {
+      "en": "Twinkle Twinkle",
+      "uk": "Twinkle Twinkle",
+      "ru": "Мерцай, звездочка"
+    },
+    "description": {
+      "en": "Release a firefly in your settlement",
+      "uk": "Release a firefly in your settlement",
+      "ru": "Выпустите светлячка в своем поселении"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/7e3fd9c3a73a7fa34ae4d036e6533c7e13355b8e.jpg"
+  },
+  {
+    "id": "dawn-of-the-druids",
+    "name": {
+      "en": "Dawn of the Druids",
+      "uk": "Dawn of the Druids",
+      "ru": "Заря друидов"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/378dd4f2b4ea9d3c6dfd6d8192086becb2fb9967.jpg"
+  },
+  {
+    "id": "all-roads-lead-to-dublin",
+    "name": {
+      "en": "All Roads Lead to Dublin",
+      "uk": "All Roads Lead to Dublin",
+      "ru": "Все дороги ведут в Дублин"
+    },
+    "description": {
+      "en": "Reach the max level of Dublin Renown (Wrath of the Druids).",
+      "uk": "Reach the max level of Dublin Renown (Wrath of the Druids).",
+      "ru": "Добейтесь максимального уровня славы Дублина («Гнев друидов»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/fc9cd25bcc727abd094fce6d337b351655ff6b04.jpg"
+  },
+  {
+    "id": "like-a-druid",
+    "name": {
+      "en": "Like a Druid",
+      "uk": "Like a Druid",
+      "ru": "Как друид"
+    },
+    "description": {
+      "en": "Complete a Trial of the Morrigan (Wrath of the Druids).",
+      "uk": "Complete a Trial of the Morrigan (Wrath of the Druids).",
+      "ru": "Пройдите испытание Морриган («Гнев друидов»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/4d16fdae817566fdaa0e713def6ea27a39f8cc17.jpg"
+  },
+  {
+    "id": "equine-attack",
+    "name": {
+      "en": "Equine Attack",
+      "uk": "Equine Attack",
+      "ru": "Конная атака"
+    },
+    "description": {
+      "en": "Assassinate an enemy from your horse",
+      "uk": "Assassinate an enemy from your horse",
+      "ru": "Убейте противника, не слезая с лошади"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/1e5b40a7268de99086d57beabc682c55ac65f0c9.jpg"
+  },
+  {
+    "id": "not-the-norse-you-re-looking-for",
+    "name": {
+      "en": "Not the Norse You're Looking For",
+      "uk": "Not the Norse You're Looking For",
+      "ru": "Не тот норвежец, которого вы ищете"
+    },
+    "description": {
+      "en": "Successfully pass close to a guard in a distrust area by blending with a group of monks",
+      "uk": "Successfully pass close to a guard in a distrust area by blending with a group of monks",
+      "ru": "Пройдите незамеченным рядом со стражником в области подозрения, присоединившись к группе монахов"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/940aee5d0f234043159e944c49bc74fe9fe11009.jpg"
+  },
+  {
+    "id": "home-sweet-home",
+    "name": {
+      "en": "Home Sweet Home",
+      "uk": "Home Sweet Home",
+      "ru": "Дом, милый дом"
+    },
+    "description": {
+      "en": "Reach settlement level 6",
+      "uk": "Reach settlement level 6",
+      "ru": "Поднимите уровень поселения до 6"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/e2cfe4ce8242c2b7fa92c1b4636f1d95eea5d30d.jpg"
+  },
+  {
+    "id": "caladfwlch",
+    "name": {
+      "en": "Caladfwlch",
+      "uk": "Caladfwlch",
+      "ru": "Каледвулх"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/78367f8bdd94f195cadacebc929b10c2c5e9eb25.jpg"
+  },
+  {
+    "id": "seahorse",
+    "name": {
+      "en": "Seahorse",
+      "uk": "Seahorse",
+      "ru": "Морской конек"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9ddec282588f1ccc6c516282d897ec5febc1e794.jpg"
+  },
+  {
+    "id": "decked-out",
+    "name": {
+      "en": "Decked Out",
+      "uk": "Decked Out",
+      "ru": "В пух и прах"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/0539997dfdc966378a364c602ce8f00e11de8fd7.jpg"
+  },
+  {
+    "id": "all-that-glitters",
+    "name": {
+      "en": "All That Glitters",
+      "uk": "All That Glitters",
+      "ru": "Всё, что блестит"
+    },
+    "description": {
+      "en": "Get your first Gold Medal in Mastery Challenge (Part 1)",
+      "uk": "Get your first Gold Medal in Mastery Challenge (Part 1)",
+      "ru": "Заработайте первую золотую медаль в режиме испытания мастерства (часть 1)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/85a9ab437d224e6497a8b4552708b4ae0bfb7dae.jpg"
+  },
+  {
+    "id": "do-what-is-right",
+    "name": {
+      "en": "Do What Is Right",
+      "uk": "Do What Is Right",
+      "ru": "Поступай правильно"
+    },
+    "description": {
+      "en": "Complete the Siege of Paris campaign (The Siege of Paris).",
+      "uk": "Complete the Siege of Paris campaign (The Siege of Paris).",
+      "ru": "Пройдите до конца кампанию «Осада Парижа» (дополнение «Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/f654cb18879ab77b4ccada51b25b9c4c982aaa70.jpg"
+  },
+  {
+    "id": "royal-treatment",
+    "name": {
+      "en": "Royal Treatment",
+      "uk": "Royal Treatment",
+      "ru": "Достойный приём"
+    },
+    "description": {
+      "en": "Find Hel's Majordomo (The Forgotten Saga)",
+      "uk": "Find Hel's Majordomo (The Forgotten Saga)",
+      "ru": "Найдите ключника Хель («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/6d1e95df7667c70e38d2a69e4fe0def851836864.jpg"
+  },
+  {
+    "id": "the-queen-s-fall",
+    "name": {
+      "en": "The Queen's Fall",
+      "uk": "The Queen's Fall",
+      "ru": "Падение владычицы"
+    },
+    "description": {
+      "en": "Defeat Hel, ruler of Niflheim (The Forgotten Saga)",
+      "uk": "Defeat Hel, ruler of Niflheim (The Forgotten Saga)",
+      "ru": "Победите Хель, правительницу Нифльхейма («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/e3271e35cd17245b0ccc4d4b270b3a11193f74ef.jpg"
+  },
+  {
+    "id": "future-past",
+    "name": {
+      "en": "Future Past",
+      "uk": "Future Past",
+      "ru": "Грядущее прошлое"
+    },
+    "description": {
+      "en": "Enter the Assassin Bureau in Francia (The Siege of Paris).",
+      "uk": "Enter the Assassin Bureau in Francia (The Siege of Paris).",
+      "ru": "Войдите в контору ассасинов во Франкии («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/eb726b07110c7f9098eacf83b6a6462a43274048.jpg"
+  },
+  {
+    "id": "worthy",
+    "name": {
+      "en": "Worthy",
+      "uk": "Worthy",
+      "ru": "Вы достойны"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/c99694361630a97672a74d03a1602d5266bf921f.jpg"
+  },
+  {
+    "id": "crypt-ologist",
+    "name": {
+      "en": "Crypt-ologist",
+      "uk": "Crypt-ologist",
+      "ru": "Знаток гробниц"
+    },
+    "description": {
+      "en": "Complete three Tombs of the Fallen",
+      "uk": "Complete three Tombs of the Fallen",
+      "ru": "Исследуйте три гробницы Павших"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/6dbf7ab6adbbc3f463a7209f73771fe91814413b.jpg"
+  },
+  {
+    "id": "a-picture-of-grace",
+    "name": {
+      "en": "A Picture of Grace",
+      "uk": "A Picture of Grace",
+      "ru": "Образчик грациозности"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/5d8ae1af2b222a5dffbcde94323e69d75ea7fe0d.jpg"
+  },
+  {
+    "id": "master-hunter",
+    "name": {
+      "en": "Master Hunter",
+      "uk": "Master Hunter",
+      "ru": "Мастер охоты"
+    },
+    "description": {
+      "en": "Defeat all Alpha animals (Base game only)",
+      "uk": "Defeat all Alpha animals (Base game only)",
+      "ru": "Победите всех вожаков (в основной игре)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/4d02480064e90f556b71250c715300cf02314215.jpg"
+  },
+  {
+    "id": "flying-eivor",
+    "name": {
+      "en": "Flying Eivor",
+      "uk": "Flying Eivor",
+      "ru": "Лети, Эйвор"
+    },
+    "description": {
+      "en": "Get thrown 30 meters away by a destroyer or a housecarl",
+      "uk": "Get thrown 30 meters away by a destroyer or a housecarl",
+      "ru": "Пролетите 30 метров, когда разрушитель или хускерл отбросит вас"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/d2555894eadc4ea2a8485e202a3143dd85c17649.jpg"
+  },
+  {
+    "id": "crossing-d-kkerland",
+    "name": {
+      "en": "Crossing Dókkerland",
+      "uk": "Crossing Dókkerland",
+      "ru": "Путь через Дёккерланн"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/7c32129da39771519571dd82d55bc579f700ab76.jpg"
+  },
+  {
+    "id": "aesir-spelunker",
+    "name": {
+      "en": "Aesir Spelunker",
+      "uk": "Aesir Spelunker",
+      "ru": "Спелеолог из Асгарда"
+    },
+    "description": {
+      "en": "Discover all Shelters (Dawn of Ragnarök)",
+      "uk": "Discover all Shelters (Dawn of Ragnarök)",
+      "ru": "Найдите все убежища («Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/da33030aaedc3d84e057af42215449b87b3f11b5.jpg"
+  },
+  {
+    "id": "archaeologist",
+    "name": {
+      "en": "Archaeologist",
+      "uk": "Archaeologist",
+      "ru": "Археология"
+    },
+    "description": {
+      "en": "Complete all Roman collector challenges",
+      "uk": "Complete all Roman collector challenges",
+      "ru": "Завершите все испытания любителя римского искусства"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/1010ccd2ee9c64f17defc6bd53a260bf67b89db0.jpg"
+  },
+  {
+    "id": "home-decor",
+    "name": {
+      "en": "Home Decor",
+      "uk": "Home Decor",
+      "ru": "Обустройство дома"
+    },
+    "description": {
+      "en": "Place an item on each settlement cosmetic spot (Base game only)",
+      "uk": "Place an item on each settlement cosmetic spot (Base game only)",
+      "ru": "Поставьте предметы для персонализации во все подходящие места поселения (в основной игре)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/60083c8a22c5c1ec6f7719b8065be34bf5e31951.jpg"
+  },
+  {
+    "id": "the-hidden-truth",
+    "name": {
+      "en": "The Hidden Truth",
+      "uk": "The Hidden Truth",
+      "ru": "Скрытая истина"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9bad80c014a63527458895c844c06a1d44aaa6d6.jpg"
+  },
+  {
+    "id": "l-se-majest",
+    "name": {
+      "en": "Lèse-majesté",
+      "uk": "Lèse-majesté",
+      "ru": "Оскорбление величества"
+    },
+    "description": {
+      "en": "Complete 10 Rebel Missions (The Siege of Paris).",
+      "uk": "Complete 10 Rebel Missions (The Siege of Paris).",
+      "ru": "Выполните 10 заданий повстанцев («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/85aa0bf598383616d426cfbe576c868e95f9034c.jpg"
+  },
+  {
+    "id": "the-legend-of-st-patrick",
+    "name": {
+      "en": "The Legend of St. Patrick",
+      "uk": "The Legend of St. Patrick",
+      "ru": "Легенда о святом Патрике"
+    },
+    "description": {
+      "en": "Kill the only snake in Ireland (Wrath of the Druids).",
+      "uk": "Kill the only snake in Ireland (Wrath of the Druids).",
+      "ru": "Убейте единственную змею в Ирландии («Гнев друидов»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/e25b182f7f1dbbd01e6e5d3e9bf8dd9b5767dac2.jpg"
+  },
+  {
+    "id": "bad-bull",
+    "name": {
+      "en": "Bad Bull",
+      "uk": "Bad Bull",
+      "ru": "Плохой бык"
+    },
+    "description": {
+      "en": "Defeat the Ghost Auroch Boss (The Siege of Paris).",
+      "uk": "Defeat the Ghost Auroch Boss (The Siege of Paris).",
+      "ru": "Победите тура-призрака («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/642a0fb4581b6d507c32f4140848155a370a5d12.jpg"
+  },
+  {
+    "id": "ashes-of-svartalfheim",
+    "name": {
+      "en": "Ashes of Svartalfheim",
+      "uk": "Ashes of Svartalfheim",
+      "ru": "Пепел Свартальфахейма"
+    },
+    "description": {
+      "en": "Complete the Dawn of Ragnarök campaign (Dawn of Ragnarök)",
+      "uk": "Complete the Dawn of Ragnarök campaign (Dawn of Ragnarök)",
+      "ru": "Пройдите до конца кампанию «Заря Рагнарёка» (дополнение «Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8d72bdcf5eab381d1c794d87c230043f11881ef7.jpg"
+  },
+  {
+    "id": "king-s-maker",
+    "name": {
+      "en": "King’s Maker",
+      "uk": "King’s Maker",
+      "ru": "Верный клинок короля"
+    },
+    "description": {
+      "en": "Complete 10 Royal Demands (Wrath of the Druids).",
+      "uk": "Complete 10 Royal Demands (Wrath of the Druids).",
+      "ru": "Выполните 10 королевских поручений («Гнев друидов»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9f99c0c5a8e506a2f7ae318f039bb7d93a687eed.jpg"
+  },
+  {
+    "id": "we-nobles-three",
+    "name": {
+      "en": "We Nobles Three",
+      "uk": "We Nobles Three",
+      "ru": "Трое аристократов"
+    },
+    "description": {
+      "en": "Defeat all three Frankish Nobles (The Siege of Paris).",
+      "uk": "Defeat all three Frankish Nobles (The Siege of Paris).",
+      "ru": "Победите всех трех франкских аристократов («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/bc0cba5a6e30a23012fbd2e55b2ec39ad6589f50.jpg"
+  },
+  {
+    "id": "vive-la-r-sistance",
+    "name": {
+      "en": "Vive la Résistance",
+      "uk": "Vive la Résistance",
+      "ru": "Да здравствует Сопротивление"
+    },
+    "description": {
+      "en": "Reach maximum Infamy in the Rebel Missions (The Siege of Paris).",
+      "uk": "Reach maximum Infamy in the Rebel Missions (The Siege of Paris).",
+      "ru": "Достигните максимального уровня дурной славы, выполняя задания повстанцев («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/5581b905127f39228062ca101e4054782a04e843.jpg"
+  },
+  {
+    "id": "slam-master",
+    "name": {
+      "en": "Slam Master",
+      "uk": "Slam Master",
+      "ru": "Мастер рифмы"
+    },
+    "description": {
+      "en": "Complete all the flytings",
+      "uk": "Complete all the flytings",
+      "ru": "Победите во всех флютингах"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9d83b54d499d1a38d97a7066556533e5384a8d90.jpg"
+  },
+  {
+    "id": "irish-legend",
+    "name": {
+      "en": "Irish Legend",
+      "uk": "Irish Legend",
+      "ru": "Ирландская легенда"
+    },
+    "description": {
+      "en": "Complete all territories of Ireland (Wrath of the Druids).",
+      "uk": "Complete all territories of Ireland (Wrath of the Druids).",
+      "ru": "Завершите задания во всех областях Ирландии («Гнев друидов»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/70b10c1245d88eafb1b15b2f537588e35de36277.jpg"
+  },
+  {
+    "id": "flying-fortress",
+    "name": {
+      "en": "Flying Fortress",
+      "uk": "Flying Fortress",
+      "ru": "Летающая крепость"
+    },
+    "description": {
+      "en": "Reach a Muspelheim Monolith (Dawn of Ragnarök)",
+      "uk": "Reach a Muspelheim Monolith (Dawn of Ragnarök)",
+      "ru": "Заберитесь на один из монолитов Муспельхейма («Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/14c7ca8ece8a874ef997e61ccbc046dff8f282df.jpg"
+  },
+  {
+    "id": "heroes-of-ancient-britain",
+    "name": {
+      "en": "Heroes of Ancient Britain",
+      "uk": "Heroes of Ancient Britain",
+      "ru": "Герои древней Британии"
+    },
+    "description": {
+      "en": "Complete all Tombs of the Fallen",
+      "uk": "Complete all Tombs of the Fallen",
+      "ru": "Исследуйте все гробницы Павших"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8f446647e07876e917d61d97f495118ccb27b9f5.jpg"
+  },
+  {
+    "id": "old-school-treasure-hunt",
+    "name": {
+      "en": "Old School Treasure Hunt",
+      "uk": "Old School Treasure Hunt",
+      "ru": "Настоящая охота за сокровищами"
+    },
+    "description": {
+      "en": "Collect 5 Treasure Hoard rewards (Base game only)",
+      "uk": "Collect 5 Treasure Hoard rewards (Base game only)",
+      "ru": "Найдите 5 сокровищ с помощью карт (в основной игре)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/ea5588b51ff78befcaa80cabfbd6149b56a08fe4.jpg"
+  },
+  {
+    "id": "expert-storyteller",
+    "name": {
+      "en": "Expert Storyteller",
+      "uk": "Expert Storyteller",
+      "ru": "Опытный скальд"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/e958c7bee47063e7ec4fcb1efd549b3ab04d12f6.jpg"
+  },
+  {
+    "id": "double-trouble",
+    "name": {
+      "en": "Double Trouble",
+      "uk": "Double Trouble",
+      "ru": "Двойная жатва"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/924e4baa98b9839423e119d81bbe0267d52eadeb.jpg"
+  },
+  {
+    "id": "know-what-is-right",
+    "name": {
+      "en": "Know What Is Right",
+      "uk": "Know What Is Right",
+      "ru": "Реши, что правильно"
+    },
+    "description": {
+      "en": "Complete all territories of Francia (The Siege of Paris).",
+      "uk": "Complete all territories of Francia (The Siege of Paris).",
+      "ru": "Завершите задания во всех областях Франкии («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/871e29184b6f5f040f757cae80c0771ac2264c3d.jpg"
+  },
+  {
+    "id": "pure-of-heart",
+    "name": {
+      "en": "Pure of Heart",
+      "uk": "Pure of Heart",
+      "ru": "Чистота сердца"
+    },
+    "description": {
+      "en": "Defeat Nidhogg without using an Elk Shrine (The Forgotten Saga)",
+      "uk": "Defeat Nidhogg without using an Elk Shrine (The Forgotten Saga)",
+      "ru": "Победите Нидхёгга, не используя оленье святилище («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/1c0ee59dd23fbfee62fa8d0e480c3ea5ce7759d8.jpg"
+  },
+  {
+    "id": "completionist-all-the-way",
+    "name": {
+      "en": "Completionist All the Way!",
+      "uk": "Completionist All the Way!",
+      "ru": "Награда перфекционисту!"
+    },
+    "description": {
+      "en": "Complete all territories",
+      "uk": "Complete all territories",
+      "ru": "Завершите задания на всех территориях"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/bde1a92368333031ea322e6566c36357a395f0eb.jpg"
+  },
+  {
+    "id": "it-s-all-in-the-wrist",
+    "name": {
+      "en": "It's All in the Wrist",
+      "uk": "It's All in the Wrist",
+      "ru": "Ловкость рук"
+    },
+    "description": {
+      "en": "Kill 30 enemies with an Atgeir (Dawn of Ragnarök)",
+      "uk": "Kill 30 enemies with an Atgeir (Dawn of Ragnarök)",
+      "ru": "Убейте 30 врагов, используя атгейр («Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/fbd9fadd6ff0701c7315b9283453680564790c5c.jpg"
+  },
+  {
+    "id": "a-favored-customer",
+    "name": {
+      "en": "A Favored Customer",
+      "uk": "A Favored Customer",
+      "ru": "Любимый покупатель"
+    },
+    "description": {
+      "en": "Buy all of Nar's Favors at least once (The Forgotten Saga)",
+      "uk": "Buy all of Nar's Favors at least once (The Forgotten Saga)",
+      "ru": "Купите все услуги Нара не менее одного раза каждую («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/bf5bf9795aec31d6449488250dcc11079d9fc17e.jpg"
+  },
+  {
+    "id": "good-catch",
+    "name": {
+      "en": "Good Catch!",
+      "uk": "Good Catch!",
+      "ru": "Славный улов!"
+    },
+    "description": {
+      "en": "Catch a fish of each type using the fishing line",
+      "uk": "Catch a fish of each type using the fishing line",
+      "ru": "Поймайте с помощью лески рыбу каждого вида"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/74cb621f38a88d4e1ac1abd192fa15e2625ca434.jpg"
+  },
+  {
+    "id": "orlog-champion",
+    "name": {
+      "en": "Orlog Champion",
+      "uk": "Orlog Champion",
+      "ru": "Лучший игрок в орлог"
+    },
+    "description": {
+      "en": "Beat all the Orlog players",
+      "uk": "Beat all the Orlog players",
+      "ru": "Победите всех игроков в орлог"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/9f512f7b90ebc42a632c54965ae0ec3b693a9479.jpg"
+  },
+  {
+    "id": "over-the-hills",
+    "name": {
+      "en": "Over the Hills…",
+      "uk": "Over the Hills…",
+      "ru": "За холмами…"
+    },
+    "description": {
+      "en": "Complete all territories of Svartalfheim (Dawn of Ragnarök)",
+      "uk": "Complete all territories of Svartalfheim (Dawn of Ragnarök)",
+      "ru": "Завершите задания во всех областях Свартальфахейма («Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/7c8b73dea06c27a3ba347777016decd4b7388058.jpg"
+  },
+  {
+    "id": "motsognir-s-blessing",
+    "name": {
+      "en": "Motsognir's Blessing",
+      "uk": "Motsognir's Blessing",
+      "ru": "Благословение Модсогнира"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8ebaf6ffe44233dccbab014f63eb6178bb4dbf0e.jpg"
+  },
+  {
+    "id": "is-there-anybody-out-there",
+    "name": {
+      "en": "Is There Anybody Out There?",
+      "uk": "Is There Anybody Out There?",
+      "ru": "Там кто-то есть?"
+    },
+    "description": {
+      "en": "Light the unlit braziers on Hadrian's Wall",
+      "uk": "Light the unlit braziers on Hadrian's Wall",
+      "ru": "Зажгите все жаровни на валу Адриана"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/afd9fdfff474dce407a822714872a4036b9b2a12.jpg"
+  },
+  {
+    "id": "hugr-incarnate",
+    "name": {
+      "en": "Hugr Incarnate",
+      "uk": "Hugr Incarnate",
+      "ru": "Хуг во плоти"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/a7de1770b7184007b1bdef980b9935a32f47016b.jpg"
+  },
+  {
+    "id": "skadi-s-hobby",
+    "name": {
+      "en": "Skadi's Hobby",
+      "uk": "Skadi's Hobby",
+      "ru": "Увлечение Скади"
+    },
+    "description": {
+      "en": "Perform a 150m slide in the snow",
+      "uk": "Perform a 150m slide in the snow",
+      "ru": "Проскользите по снегу 150 метров"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/94cc554265a37d677e3c059737509f8434dc4cb9.jpg"
+  },
+  {
+    "id": "vendange",
+    "name": {
+      "en": "Vendange",
+      "uk": "Vendange",
+      "ru": "Жатва"
+    },
+    "description": {
+      "en": "Kill an enemy with a scythe while wearing the full Reaper armor set (The Siege of Paris).",
+      "uk": "Kill an enemy with a scythe while wearing the full Reaper armor set (The Siege of Paris).",
+      "ru": "Убейте противника косой, надев все части набора доспехов Жнеца («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/d983e942592f128a4c03a049290b1ae82e8a2adc.jpg"
+  },
+  {
+    "id": "sacrificial-victory",
+    "name": {
+      "en": "Sacrificial Victory",
+      "uk": "Sacrificial Victory",
+      "ru": "Жертва ради победы"
+    },
+    "description": {
+      "en": "",
+      "uk": "",
+      "ru": ""
+    },
+    "secret": true,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/f344d49fe950c79ae80db7963498b84429fe5ab0.jpg"
+  },
+  {
+    "id": "row-rage",
+    "name": {
+      "en": "Row Rage",
+      "uk": "Row Rage",
+      "ru": "На таран"
+    },
+    "description": {
+      "en": "Ram and destroy 5 boats in under 2 minutes with your longship (Base game only)",
+      "uk": "Ram and destroy 5 boats in under 2 minutes with your longship (Base game only)",
+      "ru": "С помощью своего драккара протараньте и уничтожьте 5 судов меньше чем за 2 минуты (в основной игре)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/669424198cc4edd191d144e6fbaca9d6d16da8fe.jpg"
+  },
+  {
+    "id": "freedom-fighter",
+    "name": {
+      "en": "Freedom Fighter",
+      "uk": "Freedom Fighter",
+      "ru": "Борьба за свободу"
+    },
+    "description": {
+      "en": "Reunite the dead within Kaldstad, Døkkerland and Nidheim (The Forgotten Saga)",
+      "uk": "Reunite the dead within Kaldstad, Døkkerland and Nidheim (The Forgotten Saga)",
+      "ru": "Воссоедините мёртвых в Кальдстаде, Дёккерланне и Нидхейме («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/ff73264d17fb8c45e3441c9c9f5e6929668e559c.jpg"
+  },
+  {
+    "id": "overdesign-ii",
+    "name": {
+      "en": "Overdesign II",
+      "uk": "Overdesign II",
+      "ru": "Слишком много условий 2"
+    },
+    "description": {
+      "en": "While on fire during a fight, kill 3 hard difficulty soldiers without breaking their shields",
+      "uk": "While on fire during a fight, kill 3 hard difficulty soldiers without breaking their shields",
+      "ru": "Пока вы горите, победите 3 элитных воинов в бою, не ломая их щиты"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/937549d79557bf4f76855bf0ad9514a7b2467c3b.jpg"
+  },
+  {
+    "id": "a-true-master",
+    "name": {
+      "en": "A True Master",
+      "uk": "A True Master",
+      "ru": "Подлинное мастерство"
+    },
+    "description": {
+      "en": "Earn all Gold Medals available in Mastery Challenge (Part 1)",
+      "uk": "Earn all Gold Medals available in Mastery Challenge (Part 1)",
+      "ru": "Заработайте все доступные золотые медали в режиме испытания мастерства (часть 1)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/209b7597a5056161bdef1d66c3b605a7fdf05e40.jpg"
+  },
+  {
+    "id": "pat-the-cats",
+    "name": {
+      "en": "Pat the Cats",
+      "uk": "Pat the Cats",
+      "ru": "Погладь кота!"
+    },
+    "description": {
+      "en": "Pat all the cats in Evreux (The Siege of Paris).",
+      "uk": "Pat all the cats in Evreux (The Siege of Paris).",
+      "ru": "Погладьте всех кошек в Эврё («Осада Парижа»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/6036c7a3883994286b7a4bc67af0ea3f22394dc1.jpg"
+  },
+  {
+    "id": "full-master",
+    "name": {
+      "en": "Full Master",
+      "uk": "Full Master",
+      "ru": "Вершина мастерства"
+    },
+    "description": {
+      "en": "Earn all Gold Medals available in Mastery Challenge",
+      "uk": "Earn all Gold Medals available in Mastery Challenge",
+      "ru": "Заработайте все доступные золотые медали в режиме испытания мастерства"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/98e9ecdadcf605bb5f84f499e2c5ca3dc6b84e0f.jpg"
+  },
+  {
+    "id": "high-kick",
+    "name": {
+      "en": "High Kick",
+      "uk": "High Kick",
+      "ru": "Могучий пинок"
+    },
+    "description": {
+      "en": "Knock 10 enemies off of ledges using the Kick of Tyr Ability (The Forgotten Saga)",
+      "uk": "Knock 10 enemies off of ledges using the Kick of Tyr Ability (The Forgotten Saga)",
+      "ru": "Столкните 10 противников с обрыва, используя способность «Пинок Тюра» («Забытая сага»)"
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/8fc1394fb729a402476fedf5963d7ac4bc53e5b0.jpg"
+  },
+  {
+    "id": "see-no-evil",
+    "name": {
+      "en": "See No Evil",
+      "uk": "See No Evil",
+      "ru": "Незримый враг"
+    },
+    "description": {
+      "en": "Teleport-Assassinate two enemies and fly away without being detected (Dawn of Ragnarök)",
+      "uk": "Teleport-Assassinate two enemies and fly away without being detected (Dawn of Ragnarök)",
+      "ru": "Убейте 2 врагов убийством с телепортацией и незаметно улетите в облике ворона («Заря Рагнарёка»)."
+    },
+    "secret": false,
+    "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/2208920/fe842a560074324b73ac23820942027a9396105b.jpg"
+  }
+]

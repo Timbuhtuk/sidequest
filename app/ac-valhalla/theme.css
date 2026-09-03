@@ -1,0 +1,29 @@
+/* Valhalla palette; geometry and interactions follow the existing tracker shell. */
+.av,.av-dialog{--background:#101b1e;--foreground:#e6eeeb;--primary:#58b8ad;--primary-foreground:#081c20;--ring:#58b8ad;--border:#365258;--muted-foreground:#abc1c3;--accent:#23464b}
+.av{background:#101b1e}
+.av-sidebar{background:#101b1e;border-color:#30474d}
+.av .av-brand{color:#b1ddd6;font-size:14px;letter-spacing:.3px}
+.av .av-brand small{font:20px/1.5 Georgia,serif;letter-spacing:3px;color:#d1be89}
+.av .av-nav.active,.av .av-nav:hover{background:#204047;color:#8ed3c7;border-color:#4e8d87}
+.av .av-stage{background:#193036;border-color:#395559}
+.av .av-stage-art{background-image:linear-gradient(90deg,#193036 3%,#19303688 42%,#0b1a1e55),url('/valhalla-landscape.jpg')}
+.av .av-kicker,.av .av-stage-number{color:#9bc9c1}
+.av [data-slot=progress-indicator]{background:#58b8ad}
+.av .av-task-icon{background:#19383d;color:#84c7bd}
+.av .av-task,.av .av-panel{border-color:#345157;background:#17282d}
+.av .av-collection-intro{background:linear-gradient(130deg,#203e40,#19292e);border-color:#49716e}
+.av .av-breadcrumb [aria-current=page]{color:#b8dcd3}
+.av .av-sidebar-toggle:hover,.av .av-breadcrumb a:hover{color:#9dd7ce}
+.av-dialog[data-slot=dialog-content]{background:#14292e;border-color:#4e7277}
+.av-dialog .active{border-color:#68afa6!important;background:#204047!important}
+.av .av-main p,.av-dialog p{font-size:14px;line-height:1.7}
+.av .av-task p,.av .av-helper,.av .av-panel p{font-size:14px}
+.av .av-task h3{font-size:16px}
+.av .av-nav,.av .av-subnav button,.av .av-route-row h3{font-size:14px}
+.av .av-stats p{font-size:12px}
+.av .av-brand-copy{white-space:normal}
+.av .av-stage h2{overflow-wrap:anywhere}
+.av-dialog .av-check-row{font-size:14px}
+.av .av-task-icon{flex-shrink:0}
+.av-dialog .av-detail-description{font-size:16px}
+@media(max-width:680px){.av .av-task h3{font-size:14px}.av .av-task p,.av .av-panel p{font-size:14px}.av .av-stage h2{font-size:23px}.av .av-top-navigation{flex:1 1 100%}.av .av-top{flex-wrap:wrap}.av .av-top-actions{margin-left:auto}.av .av-brand small{font-size:17px}.av .av-stage-number{font-size:24px}.av .av-stage-copy{min-width:0}}

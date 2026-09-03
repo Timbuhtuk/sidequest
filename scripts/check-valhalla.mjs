@@ -1,0 +1,55 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+const dir=path.resolve('.checks/valhalla');
+fs.mkdirSync(dir,{recursive:true});
+fs.writeFileSync(path.join(dir,'package.json'),'{"type":"commonjs"}');
+for(const file of ['valhalla-data','valhalla-copy','valhalla-state'])fs.writeFileSync(path.join(dir,`${file}.js`),ts.transpileModule(fs.readFileSync(`lib/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText);
+fs.copyFileSync('lib/valhalla-steam.json',path.join(dir,'valhalla-steam.json'));
+const require=createRequire(import.meta.url);
+const d=require(path.join(dir,'valhalla-data.js')),m=require(path.join(dir,'valhalla-state.js'));
+const {copy}=require(path.join(dir,'valhalla-copy.js'));
+assert.equal(d.achievements.length,92);
+assert.deepEqual(Object.fromEntries(Object.keys(d.campaigns).map(c=>[c,d.achievements.filter(a=>a.campaign===c).length])),{base:50,druids:9,paris:9,ragnarok:9,saga:9,mastery:3,tombs:3});
+assert.equal(d.items.length,19);
+for(const list of [d.achievements,d.steps,d.items,d.stages,d.events])assert.equal(new Set(list.map(x=>x.id)).size,list.length);
+for(const a of d.achievements){for(const l of ['ru','uk','en']){assert(a.name[l]?.trim());assert(a.description[l]?.trim());}assert(a.stages.length);for(const s of a.stages)assert(d.stages.some(x=>x.id===s));assert(d.sources[a.source]);}
+for(const s of d.steps){for(const id of s.goals)assert(d.achievements.some(a=>a.id===id));for(const id of s.stages)assert(d.stages.some(a=>a.id===id));}
+for(const i of d.items){assert(d.stages.some(s=>s.id===i.region));assert.deepEqual(i.goals,['good-catch']);}
+for(const t of Object.values(copy))for(const locale of ['ru','uk','en'])assert(t[locale]?.trim());
+let state=m.freshState();
+assert.deepEqual(m.parseState(JSON.parse(JSON.stringify(state))),state);
+state=m.mark(state,'items',d.items.map(i=>i.id),true);
+state=m.mark(state,'completedSteps',['complete-good-catch'],true);
+state=m.mark(state,'completedStages',['norway'],true);
+assert.deepEqual(state.earned,[]);
+const runId=state.activeRunId;
+state=m.saveSnapshot(state,'Fishing checkpoint');
+state=m.mark(state,'earned',['good-catch'],true);
+state=m.changeRun(state,{stage:'saga',items:[]});
+state=m.addRun(state,'Second run','standard');
+assert.equal(m.activeRun(state).items.length,0);
+assert.deepEqual(state.earned,['good-catch']);
+const second=state.activeRunId;
+state=m.restoreSnapshot(state,state.snapshots[0].id);
+assert.equal(state.activeRunId,runId);
+assert.equal(m.activeRun(state).items.length,19);
+assert.deepEqual(state.earned,['good-catch']);
+assert(state.runs.some(r=>r.id===second));
+assert.deepEqual(m.parseState(JSON.parse(JSON.stringify(state))),state);
+const pure=d.achievements.find(a=>a.id==='pure-of-heart');
+let run={...m.activeRun(state),stage:'saga'};
+assert.equal(m.availability(pure,run).status,'unknown');
+run={...run,decisions:{elk:'used'}};
+assert.equal(m.availability(pure,run).status,'blocked');
+run={...run,decisions:{elk:'unused'}};
+assert.equal(m.availability(pure,run).status,'now');
+const before=JSON.stringify(state);
+for(const edit of [s=>s.game='witcher3',s=>s.platform='steam-292030',s=>s.version=2,s=>s.earned=['unknown'],s=>s.runs[0].stage='invalid',s=>s.runs[0].items=['fish-eel','fish-eel'],s=>s.runs[0].mode='ngplus',s=>s.runs[0].decisions={elk:'bad'},s=>s.snapshots[0].run.id='missing']){const bad=structuredClone(state);edit(bad);assert.throws(()=>m.parseState(bad));assert.equal(JSON.stringify(state),before);}
+assert.throws(()=>m.mark(state,'earned',['unknown'],true));
+assert(!m.storageKey.includes('witcher'));
+console.log('PASS: 92 achievements (50 base + 42 DLC), 19 fish, unique IDs, valid links and translated interface.');
+console.log('PASS: independent marks and runs, checkpoint rollback preserves earned archive, imports reject other games and malformed state.');
+console.log('PASS: Forgotten Saga restrictions preserve unknown/used/unused distinctions.');
