@@ -579,5 +579,18 @@
   "Главная": "Home",
   "Навигация по сайту": "Site navigation",
   "Развернуть боковую панель": "Expand sidebar",
-  "Свернуть боковую панель": "Collapse sidebar"
+  "Свернуть боковую панель": "Collapse sidebar",
+  "Некорректные отметки книг.": "Invalid eBook marks.",
+  "Книга собрана:": "eBook collected:",
+  "ТРЕБУЕТ SM02 «КУЛЬТ ЛИЧНОСТИ»": "REQUIRES SM02 CULT OF PERSONALITY",
+  "ТРЕБУЕТ ПОБЕДЫ В СПОРЕ С РУКЕРОМ": "REQUIRES WINNING THE RUCKER DEBATE",
+  "ТРЕБУЕТ БАНКОВСКОЙ ВЕТКИ": "REQUIRES THE BANK ROUTE",
+  "ТРЕБУЕТ «ПОСЛЕДНЕГО УРОЖАЯ»": "REQUIRES THE LAST HARVEST",
+  "Книги на этом этапе": "eBooks at this stage",
+  "75 отдельных целей": "75 individual objectives",
+  "Отмечай каждую найденную электронную книгу. Общий прогресс обновляется по этим отметкам.": "Mark each eBook you collect. Overall progress is calculated from these marks.",
+  "Книги не переносятся в NG+. Для полного маршрута нужны «Культ личности», победа в споре с Рукером, банковская ветка и «Последний урожай».": "eBooks do not carry over to NG+. The complete route requires Cult of Personality, winning the Rucker debate, the bank route and The Last Harvest.",
+  "Достижение за книги уже получено. Отметки книг сохранены отдельно.": "The eBook achievement is already earned. Individual eBook marks are kept separately.",
+  "Маршрут электронных книг": "eBook route",
+  "Верни отметки книг к состоянию выбранного сохранения. Сбор из разных веток не суммируется.": "Restore the eBook marks from the selected checkpoint. Collectibles from different branches are not combined."
 }

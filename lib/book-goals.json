@@ -1,0 +1,677 @@
+[
+  {
+    "id": "book-01",
+    "number": 1,
+    "stage": "dubai",
+    "title": "Сказки с арабского фронта",
+    "location": "Заброшенный отель",
+    "titleEn": "Tales of the Arabian Front",
+    "hint": "В заброшенном отеле осмотри место рядом с подавителем сигнала."
+  },
+  {
+    "id": "book-02",
+    "number": 2,
+    "stage": "prague1",
+    "title": "Как не дать убить себя",
+    "location": "Квартира Адама",
+    "titleEn": "How Not to Get Yourself Killed",
+    "hint": "В квартире Адама открой напольный тайник справа от кровати."
+  },
+  {
+    "id": "book-03",
+    "number": 3,
+    "stage": "prague1",
+    "title": "Коллектив “Джаггернаут”",
+    "location": "Квартира Адама",
+    "titleEn": "The Juggernaut Collective",
+    "hint": "В гостиной квартиры Адама проверь столик за диваном."
+  },
+  {
+    "id": "book-04",
+    "number": 4,
+    "stage": "prague1",
+    "title": "На прочной основе",
+    "location": "Квартира Адама",
+    "titleEn": "In Terror Firma (Part 1)",
+    "hint": "На кухне квартиры Адама забери книгу с центрального стола."
+  },
+  {
+    "id": "book-05",
+    "number": 5,
+    "stage": "prague1",
+    "title": "Бог-Машина",
+    "location": "Жилой комплекс «Зелен»",
+    "titleEn": "The Machinegod",
+    "hint": "В комплексе «Зелен», квартира 41: книга лежит на кухонной столешнице."
+  },
+  {
+    "id": "book-06",
+    "number": 6,
+    "stage": "prague1",
+    "title": "Призыв к гуманности",
+    "location": "Жилой комплекс «Зелен»",
+    "titleEn": "An Appeal to Basic Humanity",
+    "hint": "В комплексе «Зелен», квартира 23: проверь кухонный комод."
+  },
+  {
+    "id": "book-07",
+    "number": 7,
+    "stage": "prague1",
+    "title": "Глобальная политика (издание 2029), глава 5",
+    "location": "Площадь фонтана",
+    "titleEn": "Global Politics (2029 Edition), Chapter 5",
+    "hint": "На площади фонтана поднимись по лестнице на щит, прыгни на балкон и осмотри комод."
+  },
+  {
+    "id": "book-08",
+    "number": 8,
+    "stage": "prague1",
+    "title": "Глобальная политика (издание 2029), глава 8",
+    "location": "Площадь фонтана",
+    "titleEn": "Global Politics (2029 Edition), Chapter 8",
+    "hint": "В мини-маркете за входом в метро проверь место справа от торгового автомата."
+  },
+  {
+    "id": "book-09",
+    "number": 9,
+    "stage": "prague1",
+    "title": "Новые законы, касающиеся аугментированных граждан",
+    "location": "Бар «Пиво свободы»",
+    "titleEn": "New Regulations for Augmented Citizens",
+    "hint": "В баре «Пиво свободы» забери книгу с барной стойки напротив входа."
+  },
+  {
+    "id": "book-10",
+    "number": 10,
+    "stage": "prague1",
+    "title": "Следующие три десятилетия",
+    "location": "Бар «Пиво свободы»",
+    "titleEn": "The Next Three Decades",
+    "hint": "Попади в подвал бара кодом 1015 или взломом уровня 4; книга лежит на столе."
+  },
+  {
+    "id": "book-11",
+    "number": 11,
+    "stage": "prague1",
+    "title": "ТОП-10 тех…заброшенных технологий",
+    "location": "Канализация, Комната гипнотизера",
+    "titleEn": "Top 10 Tech… Abandoned Technologies",
+    "hint": "Во время SM02 «Культ личности» проверь банкетку в офисе Ричарда."
+  },
+  {
+    "id": "book-12",
+    "number": 12,
+    "stage": "prague1",
+    "title": "“Р.У.Р.” (Россумские Универсальные Роботы)",
+    "location": "«Винсент Ван Ауг»",
+    "titleEn": "R.U.R. (Rossum’s Universal Robots)",
+    "hint": "В галерее «Винсент Ван Ауг» спустись в подвал и осмотри стулья зрительного зала."
+  },
+  {
+    "id": "book-13",
+    "number": 13,
+    "stage": "prague1",
+    "title": "“Р.У.Р.” (акт ІІІ пьесы Карела Чапека)",
+    "location": "«Винсент Ван Ауг»",
+    "titleEn": "R.U.R. (Act III of Karel Čapek’s Play Continued)",
+    "hint": "В подвале «Винсент Ван Ауг» забери книгу с импровизированной сцены."
+  },
+  {
+    "id": "book-14",
+    "number": 14,
+    "stage": "prague1",
+    "title": "Коллектив “Джаггернаут”",
+    "location": "Южный район Праги",
+    "titleEn": "The Juggernaut Collective",
+    "hint": "Открой дверь возле полицейского из «Золотого билета»; книга во дворе рядом с мужчиной на диване."
+  },
+  {
+    "id": "book-15",
+    "number": 15,
+    "stage": "prague1",
+    "title": "Per aspera ad astra",
+    "location": "Южный район Праги",
+    "titleEn": "Per Aspera Ad Astra",
+    "hint": "В квартире над входом в «Коницки и Рацки» проверь кровать."
+  },
+  {
+    "id": "book-16",
+    "number": 16,
+    "stage": "prague1",
+    "title": "Игрушки, которые убивают",
+    "location": "«Коницки и Рацки»",
+    "titleEn": "Toys That Kill",
+    "hint": "В магазине «Коницки и Рацки» книга лежит на правом подоконнике за лазерной защитой."
+  },
+  {
+    "id": "book-17",
+    "number": 17,
+    "stage": "prague1",
+    "title": "Город, созданный для вас!",
+    "location": "«Коницки и Рацки»",
+    "titleEn": "A City Designed For You!",
+    "hint": "Открой офис Милены с компьютера Драгомира; книга на комоде у окон."
+  },
+  {
+    "id": "book-18",
+    "number": 18,
+    "stage": "prague1",
+    "title": "Современное искусство",
+    "location": "Южная часть Праги",
+    "titleEn": "Contemporary Art Review",
+    "hint": "Поднимись в заброшенную квартиру над пропускным пунктом и осмотри пол."
+  },
+  {
+    "id": "book-19",
+    "number": 19,
+    "stage": "prague1",
+    "title": "Церковь Бога-машины",
+    "location": "Южный район Праги",
+    "titleEn": "Church of the Machinegod",
+    "hint": "За пропускным пунктом поднимись с машины или подъёмника на балкон; книга на стеклянном столике."
+  },
+  {
+    "id": "book-20",
+    "number": 20,
+    "stage": "prague1",
+    "title": "На политическую арену выходит Радко Перри",
+    "location": "Южный район Праги",
+    "titleEn": "Radko Perry Bursts Onto Local Political Scene",
+    "hint": "В предвыборном штабе Радко Перри проверь стол у левой стены."
+  },
+  {
+    "id": "book-21",
+    "number": 21,
+    "stage": "prague1",
+    "title": "Общественный контроль",
+    "location": "«Машина времени»",
+    "titleEn": "The Social Monitor",
+    "hint": "На первом этаже «Машины времени» зайди в правую подсобку; книга на столе за коробкой."
+  },
+  {
+    "id": "book-22",
+    "number": 22,
+    "stage": "prague1",
+    "title": "Глобальная политика: глава 7",
+    "location": "«Машина времени»",
+    "titleEn": "Global Politics (2029 Edition), Chapter 7",
+    "hint": "В кабинете Коллера на втором этаже проверь стол справа от входа."
+  },
+  {
+    "id": "book-23",
+    "number": 23,
+    "stage": "prague1",
+    "title": "Самая опасная семья: «Семья Двали»",
+    "location": "«Машина времени»",
+    "titleEn": "Flesh and Chrome",
+    "hint": "В подземелье Коллера отодвинь картину, перекрой газ и открой правый шкафчик."
+  },
+  {
+    "id": "book-24",
+    "number": 24,
+    "stage": "prague1",
+    "title": "Плоть и хром",
+    "location": "«Машина времени»",
+    "titleEn": "World’s Most Wanted",
+    "hint": "После ремонта аугментаций зайди в спальню Коллера и осмотри прикроватную тумбу."
+  },
+  {
+    "id": "book-25",
+    "number": 25,
+    "stage": "prague1",
+    "title": "Современный бизнес",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "Modern Business Review",
+    "hint": "После M04 в кабинете Миллера забери книгу с соседнего стола."
+  },
+  {
+    "id": "book-26",
+    "number": 26,
+    "stage": "prague1",
+    "title": "Опергруппа 29 — Заявление о миссии",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "Task Force 29 Mission Statement",
+    "hint": "В отделе по борьбе с терроризмом ОГ29 проверь стол рядом с чертежами."
+  },
+  {
+    "id": "book-27",
+    "number": 27,
+    "stage": "prague1",
+    "title": "Тем временем. Глава 1",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "The Long Mean While, Chapter 1",
+    "hint": "В кабинете Флетчера на первом этаже ОГ29 осмотри комод возле искусственного дерева."
+  },
+  {
+    "id": "book-28",
+    "number": 28,
+    "stage": "prague1",
+    "title": "Резолюция ООН 3507 (2029)",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "U.N. Resolution 3507 (2029)",
+    "hint": "Между лазаретом и охраной ОГ29 спустись к камерам; книга напротив последней камеры."
+  },
+  {
+    "id": "book-29",
+    "number": 29,
+    "stage": "prague1",
+    "title": "На прочной основе (часть 2)",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "In Terror Firma (Part 2)",
+    "hint": "На стрельбище ОГ29 проверь подлокотник кресла слева."
+  },
+  {
+    "id": "book-30",
+    "number": 30,
+    "stage": "prague1",
+    "title": "“Санто”. Подъем корпо-нации",
+    "location": "Штаб-квартира ОГ29",
+    "titleEn": "Santeau — Rise of a Corpo-Nation",
+    "hint": "В магазине «Сад Розы» справа от входа забери книгу."
+  },
+  {
+    "id": "book-31",
+    "number": 31,
+    "stage": "prague1",
+    "title": "Чехия вступает в XXI век",
+    "location": "«Сад Розы»",
+    "titleEn": "The Czech Republic Enters the 21st Century",
+    "hint": "Поднимись на крышу «Сада Розы» и проверь матрас среди мусора."
+  },
+  {
+    "id": "book-32",
+    "number": 32,
+    "stage": "prague1",
+    "title": "Тем временем. Глава 27",
+    "location": "Северный район Праги",
+    "titleEn": "The Long Mean While, Chapter 27",
+    "hint": "С крыши станции «Пэлисейд» сделай рывок к лоджии над «Негозио ди Маджия»; книга на столике."
+  },
+  {
+    "id": "book-33",
+    "number": 33,
+    "stage": "prague1",
+    "title": "Глобальная политика (издание 2029): глава 4",
+    "location": "Северный район Праги",
+    "titleEn": "Global Politics (2029 Edition), Chapter 4",
+    "hint": "С крыши метро «Пэлисейд» прыгни на балкон; книга лежит у ноутбука."
+  },
+  {
+    "id": "book-34",
+    "number": 34,
+    "stage": "prague1",
+    "title": "Семейные ценности",
+    "location": "Канализация",
+    "titleEn": "Family Values",
+    "hint": "В подпольном казино проверь столик возле офиса Отара на втором этаже."
+  },
+  {
+    "id": "book-35",
+    "number": 35,
+    "stage": "prague1",
+    "title": "Концепция будущего Ружички",
+    "location": "Автосалон",
+    "titleEn": "Růžička’s Vision for the Future",
+    "hint": "В автосалоне у рыночной площади осмотри стол из автомобильных шин."
+  },
+  {
+    "id": "book-36",
+    "number": 36,
+    "stage": "prague1",
+    "title": "Крах индустрии",
+    "location": "«У Людвика»",
+    "titleEn": "Collapse of an Industry",
+    "hint": "В лаунж-баре «У Людвика» книга лежит слева от входа."
+  },
+  {
+    "id": "book-37",
+    "number": 37,
+    "stage": "prague1",
+    "title": "Крах политического курса Ружички",
+    "location": "Туристический информационный центр",
+    "titleEn": "Růžička’s Augmented Platform Crumbles",
+    "hint": "Забери книгу в туристическом центре у метро «Монумент» до M10; она за терминалом уровня 2."
+  },
+  {
+    "id": "book-38",
+    "number": 38,
+    "stage": "prague1",
+    "title": "Общественный контроль",
+    "location": "Станция «Монумент»",
+    "titleEn": "The Social Monitor",
+    "hint": "На платформе «Монумент» дойди до схемы маршрутов и осмотри место рядом с сидящим аугом."
+  },
+  {
+    "id": "book-39",
+    "number": 39,
+    "stage": "prague1",
+    "title": "Мир лунатиков",
+    "location": "Станция «Ружичка»",
+    "titleEn": "The Sleepwalking World",
+    "hint": "На станции «Ружичка» поверни из главного зала в книжный магазин; книга возле контура тела."
+  },
+  {
+    "id": "book-40",
+    "number": 40,
+    "stage": "golem",
+    "title": "Гордость за предубеждение",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Pride in Prejudice",
+    "hint": "В Утулеке за квартирой Душана пройди в левую дверь и проверь стол у шкафа."
+  },
+  {
+    "id": "book-41",
+    "number": 41,
+    "stage": "golem",
+    "title": "Крах индустрии",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Collapse of an Industry",
+    "hint": "После разговора с Тибором сверни перед рынком в охраняемую зону; книга на карточном столе."
+  },
+  {
+    "id": "book-42",
+    "number": 42,
+    "stage": "golem",
+    "title": "Плоть и хром. Глава 9",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Flesh and Chrome, Chapter 9",
+    "hint": "Этажом выше рынка зайди в школу и проверь первый стол слева."
+  },
+  {
+    "id": "book-43",
+    "number": 43,
+    "stage": "golem",
+    "title": "“Санто”. Подъем корпо-нации: Развитие",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Santeau — Rise of a Corpo-Nation: Growth",
+    "hint": "На рыночной площади Утулека осмотри столики возле продуктовых ларьков."
+  },
+  {
+    "id": "book-44",
+    "number": 44,
+    "stage": "golem",
+    "title": "Глобальная политика (издание 2029): глава 1",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Global Politics Review (2029 Edition), Chapter 1",
+    "hint": "В общежитии над рынком проверь кровать в первой комнате слева."
+  },
+  {
+    "id": "book-45",
+    "number": 45,
+    "stage": "golem",
+    "title": "Обещание лучшей жизни",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Promise of a Better Life!",
+    "hint": "На третьем уровне напротив магазина Энтити книга лежит у овощных ящиков."
+  },
+  {
+    "id": "book-46",
+    "number": 46,
+    "stage": "golem",
+    "title": "Чертова вторая щека",
+    "location": "Комплекс «Утулек»",
+    "titleEn": "Two Bloody Cheeks",
+    "hint": "Между четвёртым и пятым уровнями взломай квартиру уровня 3; книга на столе за ноутбуком."
+  },
+  {
+    "id": "book-47",
+    "number": 47,
+    "stage": "golem",
+    "title": "Мир лунатиков (Очнитесь!)",
+    "location": "Улица Рвач",
+    "titleEn": "The Sleepwalking World (Wake Up!)",
+    "hint": "На улице Рвач поднимись в общежитие четвёртого уровня; книга на тумбе рядом с охраной."
+  },
+  {
+    "id": "book-48",
+    "number": 48,
+    "stage": "golem",
+    "title": "Неудобный ауг (глава 17)",
+    "location": "Станция «Ридит»",
+    "titleEn": "The Inconvenient Aug, Chapter 17",
+    "hint": "На втором уровне станции «Ридит» осмотри сдвоенную комнату с охранницей."
+  },
+  {
+    "id": "book-49",
+    "number": 49,
+    "stage": "golem",
+    "title": "Неудобный ауг (глава 12)",
+    "location": "Станция «Ридит»",
+    "titleEn": "The Inconvenient Aug, Chapter 12",
+    "hint": "На втором уровне «Ридит» зайди в комнату с номером 100125."
+  },
+  {
+    "id": "book-50",
+    "number": 50,
+    "stage": "golem",
+    "title": "Неудобный ауг (глава 2)",
+    "location": "Офис Талоса Рукера",
+    "titleEn": "The Inconvenient Aug, Chapter 2",
+    "hint": "После победы в споре с Рукером поверни в личный кабинет; книга лежит на диване."
+  },
+  {
+    "id": "book-51",
+    "number": 51,
+    "stage": "golem",
+    "title": "Талос Рукер: автобиография (глава 4)",
+    "location": "Офис Талоса Рукера",
+    "titleEn": "Talos Rucker: An Autobiography, Chapter 4",
+    "hint": "В основном офисе Рукера проверь стол возле входа."
+  },
+  {
+    "id": "book-52",
+    "number": 52,
+    "stage": "prague2",
+    "title": "Современный бизнес: редакционная статья",
+    "location": "«Протез»",
+    "titleEn": "Modern Business Review (Editorial)",
+    "hint": "Во второе посещение Праги спустись в подвал заброшенной клиники «Протез» и проверь столы."
+  },
+  {
+    "id": "book-53",
+    "number": 53,
+    "stage": "prague2",
+    "title": "Следующие три десятилетия: мировая полиция",
+    "location": "Северный район Праги",
+    "titleEn": "The Next Three Decades: World Police",
+    "hint": "Попади в квартиру над кофейней через подвал с кодом 5622; книга у микроскопа."
+  },
+  {
+    "id": "book-54",
+    "number": 54,
+    "stage": "prague2",
+    "title": "А., я",
+    "location": "Жилой комплекс «Либуше»",
+    "titleEn": "A., I",
+    "hint": "В квартире Джонни Ганна в «Либуше» проверь пол ванной комнаты."
+  },
+  {
+    "id": "book-55",
+    "number": 55,
+    "stage": "prague2",
+    "title": "Журнал ТЕХ-А-ТЕТ",
+    "location": "Жилой комплекс «Либуше»",
+    "titleEn": "Tech-A-Tete Magazine",
+    "hint": "В «Либуше», квартира 96: книга лежит на кухонной столешнице."
+  },
+  {
+    "id": "book-56",
+    "number": 56,
+    "stage": "prague2",
+    "title": "Крах индустрии: “ПРОТЕЗ”",
+    "location": "Квартал красных фонарей",
+    "titleEn": "Collapse of an Industry: L.I.M.B.",
+    "hint": "Поднимись через арку возле «Стула ирландского» в квартиру; книга на большой коробке."
+  },
+  {
+    "id": "book-57",
+    "number": 57,
+    "stage": "prague2",
+    "title": "Журнал “На границе”",
+    "location": "Территория Двали",
+    "titleEn": "Borderline Magazine",
+    "hint": "Во время «Дел семейных» найди комнату управления Двали; книга рядом с кнопкой тайной двери."
+  },
+  {
+    "id": "book-58",
+    "number": 58,
+    "stage": "prague2",
+    "title": "Следующие три десятилетия: Новая Россия?",
+    "location": "Территория Двали",
+    "titleEn": "The Next Three Decades: A New Russia?",
+    "hint": "В квартире 94 Двали проверь длинную тумбу под телевизором."
+  },
+  {
+    "id": "book-59",
+    "number": 59,
+    "stage": "prague2",
+    "title": "Самая опасная семья",
+    "location": "Территория Двали",
+    "titleEn": "World’s Most Wanted: The Dvali Family",
+    "hint": "До отъезда в ГАРМ проникни в офис Радича; книга лежит на диване у входа."
+  },
+  {
+    "id": "book-60",
+    "number": 60,
+    "stage": "prague2",
+    "title": "Боб Пейдж — анатомия гения",
+    "location": "Банк «Пэлисейд»",
+    "titleEn": "Bob Page — Anatomy of a Prodigy",
+    "hint": "В фойе банка «Пэлисейд» поверни налево и осмотри середину скамейки."
+  },
+  {
+    "id": "book-61",
+    "number": 61,
+    "stage": "prague2",
+    "title": "Jus in Bello",
+    "location": "Банк «Пэлисейд»",
+    "titleEn": "Jus in Bello",
+    "hint": "За столом администратора банка проверь место между двумя креслами."
+  },
+  {
+    "id": "book-62",
+    "number": 62,
+    "stage": "prague2",
+    "title": "“Пэлисейд”: клиенты и услуги",
+    "location": "Банк «Пэлисейд»",
+    "titleEn": "Palisade: Clients & Services",
+    "hint": "На уровне 7 открой комнату персонала кодом 9593; книга у ноутбука."
+  },
+  {
+    "id": "book-63",
+    "number": 63,
+    "stage": "prague2",
+    "title": "“Пэлисейд”: защита собственности и данных",
+    "location": "Банк «Пэлисейд»",
+    "titleEn": "Palisade: Property & Data Protection",
+    "hint": "Проникни в кабинет генерального директора; книга лежит на комоде у стены."
+  },
+  {
+    "id": "book-64",
+    "number": 64,
+    "stage": "prague2",
+    "title": "AJ09-0921 Пациент Икс",
+    "location": "Банк «Пэлисейд»",
+    "titleEn": "AJ09-0921 Patient X",
+    "hint": "В хранилище «Версалайф» забери книгу со стола рядом с ноутбуком."
+  },
+  {
+    "id": "book-65",
+    "number": 65,
+    "stage": "prague2",
+    "title": "Сингулярная церковь Бога-машины",
+    "location": "Церковь Бога-Машины",
+    "titleEn": "The Singularity Church of the Machine God",
+    "hint": "После ограбления банка войди через окно квартиры 90 церкви; книга у большого канделябра."
+  },
+  {
+    "id": "book-66",
+    "number": 66,
+    "stage": "prague2",
+    "title": "Глобальная политика (издание 2029), глава 6",
+    "location": "Церковь Бога-Машины",
+    "titleEn": "Global Politics Review (2029 Edition), Chapter 6",
+    "hint": "В квартире 91 церкви проверь деревянный стол возле коробок с едой."
+  },
+  {
+    "id": "book-67",
+    "number": 67,
+    "stage": "prague2",
+    "title": "Мир лунатиков",
+    "location": "Церковь Бога-Машины",
+    "titleEn": "The Sleepwalking World",
+    "hint": "В квартире 92 церкви осмотри матрас в ванной перед отъездом в ГАРМ."
+  },
+  {
+    "id": "book-68",
+    "number": 68,
+    "stage": "garm",
+    "title": "Мечты стоимостью в миллиарды",
+    "location": "Комплекс «ГАРМ»",
+    "titleEn": "Billion Dollar Daydreams",
+    "hint": "В ГАРМ отключи вентилятор и поднимись в управление ледобуром; книга у чертежей."
+  },
+  {
+    "id": "book-69",
+    "number": 69,
+    "stage": "garm",
+    "title": "Город как продукт",
+    "location": "Комплекс «ГАРМ»",
+    "titleEn": "City as Product",
+    "hint": "В дальнем конце первого ангара открой охранную комнату уровня 4; книга у ноутбука."
+  },
+  {
+    "id": "book-70",
+    "number": 70,
+    "stage": "garm",
+    "title": "Jus in Bello",
+    "location": "Комплекс «ГАРМ»",
+    "titleEn": "Jus in Bello",
+    "hint": "Перед вторым ангаром осмотри дальний стол в комнате с противниками слева."
+  },
+  {
+    "id": "book-71",
+    "number": 71,
+    "stage": "prague3",
+    "title": "По следам Жнеца",
+    "location": "Жилой комплекс «Зелен»",
+    "titleEn": "In the Footsteps of the Harvester",
+    "hint": "Во время SM11 войди в квартиру Дарии и проверь навесной шкаф справа в гостиной."
+  },
+  {
+    "id": "book-72",
+    "number": 72,
+    "stage": "prague3",
+    "title": "Отчет Тай-Юн Медикал",
+    "location": "Аптека «Лекарна»",
+    "titleEn": "Tai Yong Medical Report",
+    "hint": "В квартире доктора Ципры отодвинь холодильник и забери книгу из ниши."
+  },
+  {
+    "id": "book-73",
+    "number": 73,
+    "stage": "london",
+    "title": "Тарвос: определение целей и биография компании",
+    "location": "центр «Апекс»",
+    "titleEn": "Tarvos Mission Statement & Company Bio",
+    "hint": "В начале M15 на уровне 7 открой комнату с охранником за стеклом; книга на правом столе."
+  },
+  {
+    "id": "book-74",
+    "number": 74,
+    "stage": "london",
+    "title": "Порт во время шторма",
+    "location": "центр «Апекс»",
+    "titleEn": "Port in a Storm",
+    "hint": "В зоне поиска сервисной ключ-карты проверь диван рядом с диджеем."
+  },
+  {
+    "id": "book-75",
+    "number": 75,
+    "stage": "london",
+    "title": "“Санто”. Подъем корпо-нации: Видение будущего",
+    "location": "центр «Апекс»",
+    "titleEn": "Santeau — Rise of a Corpo-Nation: Future Vision",
+    "hint": "До боя с Марченко открой комнату делегатов кодом 2202; последняя книга лежит на столике."
+  }
+]
