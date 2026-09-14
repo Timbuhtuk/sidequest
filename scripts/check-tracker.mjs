@@ -27,6 +27,9 @@ assert.deepEqual(Object.fromEntries(['dubai','prague1','golem','prague2','garm',
 assert.deepEqual(Object.fromEntries(['campaign','system','criminal','breach'].map(g=>[g,achievements.filter(a=>a.group===g).length])),{campaign:46,system:8,criminal:10,breach:17});
 for(const a of achievements)for(const id of a.stages)assert(stages.some(s=>s.id===id));
 const a=id=>achievements.find(a=>a.id===id);
+const guided=['time','rookery','driller','neon','ticket','cult','honor','samizdat','kazdy','jim','family','harvester','harvest','spokes'];
+for(const id of guided){assert(a(id).steps.length>=4,`${id} needs a useful multi-step route`);assert(a(id).warnings.length>=1,`${id} needs a failure warning`)}
+assert.equal(a('cult').steps.length,7);assert(a('cult').warnings.some(text=>text.includes('Либорио')));
 const original=freshState();original.run.stage='prague2';original.earned=['heated','god'];original.run.collectedBooks=bookGoals.slice(0,21).map(book=>book.id);original.run.books=original.run.collectedBooks.length;
 original.run.completedTasks=['heated'];original.run.completedStages=['dubai'];
 original.snapshots=[{id:'before-bank',name:'До банка',createdAt:'2026-09-02T12:00:00Z',run:structuredClone(original.run)}];

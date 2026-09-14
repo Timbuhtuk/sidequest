@@ -27,7 +27,7 @@ export function localizedCatalog(locale:Locale){
   const t=createTranslator(locale);
   const english=createTranslator('en');
   return {
-    achievements:achievements.map(a=>({...a,name:locale==='en'?english(a.name):`${t(a.name)} (${english(a.name)})`,description:t(a.description),tip:t(a.tip),category:t(a.category)})),
+    achievements:achievements.map(a=>({...a,name:locale==='en'?english(a.name):`${t(a.name)} (${english(a.name)})`,description:t(a.description),tip:t(a.tip),steps:a.steps?.map(t),warnings:a.warnings?.map(t),category:t(a.category)})),
     stages:stages.map(s=>({...s,name:t(s.name),short:t(s.short),mission:t(s.mission),subtitle:t(s.subtitle),before:t(s.before)})),
     decisions:decisions.map(d=>({...d,title:t(d.title),note:t(d.note),options:d.options.map(o=>({...o,label:t(o.label)}))})),
     groups:{...groups,campaign:t(groups.campaign),system:t(groups.system),criminal:t(groups.criminal)},
