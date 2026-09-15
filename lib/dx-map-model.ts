@@ -10,6 +10,7 @@ export type ModelFloor = {
     registrationScore: number;
     shapes: FloorShape[];
     walls: [number, number, number, number][];
+    wallShapes: FloorShape[];
     stairs: {center: PlanPoint; width: number; run: number; angle: number; rise: number}[];
 };
 export type MapModel = {

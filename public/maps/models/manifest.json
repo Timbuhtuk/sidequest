@@ -2,8 +2,8 @@
   {
     "id": "garm",
     "floors": 4,
-    "polygons": 26,
-    "walls": 400,
+    "polygons": 23,
+    "walls": 236,
     "scores": [
       1.0,
       1.0,
@@ -15,7 +15,7 @@
     "id": "tf29",
     "floors": 3,
     "polygons": 3,
-    "walls": 127,
+    "walls": 106,
     "scores": [
       1.0,
       1.0,
@@ -26,7 +26,7 @@
     "id": "zelen",
     "floors": 4,
     "polygons": 4,
-    "walls": 119,
+    "walls": 84,
     "scores": [
       1.0,
       1.0,
@@ -38,7 +38,7 @@
     "id": "koller",
     "floors": 3,
     "polygons": 3,
-    "walls": 72,
+    "walls": 52,
     "scores": [
       1.0,
       1.0,
@@ -48,8 +48,8 @@
   {
     "id": "dubai",
     "floors": 3,
-    "polygons": 38,
-    "walls": 488,
+    "polygons": 16,
+    "walls": 250,
     "scores": [
       0.289,
       0.335,
@@ -59,8 +59,8 @@
   {
     "id": "london",
     "floors": 8,
-    "polygons": 36,
-    "walls": 1108,
+    "polygons": 17,
+    "walls": 412,
     "scores": [
       0.277,
       0.368,
@@ -75,8 +75,8 @@
   {
     "id": "ridit",
     "floors": 5,
-    "polygons": 20,
-    "walls": 306,
+    "polygons": 13,
+    "walls": 199,
     "scores": [
       0.326,
       0.433,
@@ -88,8 +88,8 @@
   {
     "id": "bank",
     "floors": 9,
-    "polygons": 20,
-    "walls": 543,
+    "polygons": 16,
+    "walls": 304,
     "scores": [
       0.544,
       1.0,
@@ -105,8 +105,8 @@
   {
     "id": "rvac",
     "floors": 7,
-    "polygons": 27,
-    "walls": 427,
+    "polygons": 15,
+    "walls": 280,
     "scores": [
       0.457,
       0.447,
@@ -121,7 +121,7 @@
     "id": "stedry",
     "floors": 8,
     "polygons": 16,
-    "walls": 536,
+    "walls": 304,
     "scores": [
       0.218,
       0.287,

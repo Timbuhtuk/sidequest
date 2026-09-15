@@ -55,6 +55,19 @@ for (const location of modelLocations) {
             geometry.dispose();
         }
         assert(floor.walls.every(w=>w.length===4&&w.every(Number.isFinite)));
+        assert(floor.wallShapes.length, `${location.id}/${floor.id}: missing unified wall volumes`);
+        for(const polygon of floor.wallShapes) {
+            const outer=polygon.outer.map(p=>new THREE.Vector2(...p));
+            const inner=polygon.holes.map(h=>h.map(p=>new THREE.Vector2(...p)));
+            const triangles=THREE.ShapeUtils.triangulateShape(outer,inner);
+            const vertices=[...outer,...inner.flat()];
+            const triangulated=triangles.reduce((sum,indices)=>{
+                const [a,b,c]=indices.map(i=>vertices[i]);
+                return sum+Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x))/2;
+            },0);
+            const expected=area(polygon.outer)-polygon.holes.reduce((sum,h)=>sum+area(h),0);
+            assert(Math.abs(triangulated-expected)<Math.max(.003,expected*.001),`${location.id}/${floor.id}: wall joint triangulation changed solid area`);
+        }
         if(location.id==='tf29')for(const [x1,z1,x2,z2]of floor.walls){
             preview.push({p:[[x1-model.center[0],floor.elevation,z1-model.center[1]],[x2-model.center[0],floor.elevation,z2-model.center[1]],[x2-model.center[0],floor.elevation+model.wallHeight,z2-model.center[1]],[x1-model.center[0],floor.elevation+model.wallHeight,z1-model.center[1]]],color:'wall'});
         }

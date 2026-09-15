@@ -93,13 +93,13 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         group.add(wallGroup);
         wallGroups.push(wallGroup);
         const wallGeometry: THREE.BufferGeometry[] = [];
-        for (const [x1, z1, x2, z2] of floor.walls)
+        for (const polygon of floor.wallShapes)
         {
-            const length = Math.hypot(x2 - x1, z2 - z1);
-            if (length < .2) continue;
-            const geometry = new THREE.BoxGeometry(length, model.wallHeight, model.wallWidth);
-            geometry.rotateY(-Math.atan2(z2 - z1, x2 - x1));
-            geometry.translate((x1+x2)/2-model.center[0], model.wallHeight/2, (z1+z2)/2-model.center[1]);
+            const vector = (p: [number, number]) => new THREE.Vector2(p[0]-model.center[0], -(p[1]-model.center[1]));
+            const shape = new THREE.Shape(polygon.outer.map(vector));
+            shape.holes = polygon.holes.map(hole => new THREE.Path(hole.map(vector)));
+            const geometry = new THREE.ExtrudeGeometry(shape, {depth: model.wallHeight, bevelEnabled: false, steps: 1, curveSegments: 1});
+            geometry.rotateX(-Math.PI/2);
             wallGeometry.push(geometry);
         }
         if (wallGeometry.length)

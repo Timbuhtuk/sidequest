@@ -13,6 +13,13 @@ before extrusion. Stair hatching is masked in the three small Prague models and
 replaced with schematic U-shaped stair flights. The renderer constructs thick floor
 slabs, wall solids, and step solids. No source texture is loaded into the 3D scene.
 
+The cleanup pass recognizes pale/pink stair ramps across all source sheets,
+merges collinear duplicate observations without closing door-sized gaps, and
+unions wall footprints before extrusion. Intersections share one solid boundary
+instead of overlapping box faces. Floor extraction includes dark red surfaces;
+shaft outlines follow the plan's dominant axes while preserving non-rectangular
+openings. Existing floor registration is retained.
+
 The offline authoring script requires Python, Pillow, NumPy, OpenCV and Shapely.
 The generated model JSON files are checked in; running the website does not require
 Python or image processing. The engine and selected model are loaded on demand.
@@ -43,7 +50,11 @@ Render frames are requested only after interaction, resize, or display changes.
 library and checks finite vertices, positive solid thickness, unique floor elevations,
 triangle area against polygon area minus holes, localization, marker-to-floor validity,
 and source-sheet bounds. `scripts/check-tracker.mjs` covers preservation of the
-independent achievement and campaign states. Browser interaction testing was not run.
+independent achievement and campaign states. `scripts/check-map-cleanup.py` checks
+door gaps, rectangular/L-shaped holes, non-overlapping wall footprints, and the
+bank's reported stair-hatching and dark-red-floor defects. Model format 2 and a
+versioned asset URL prevent loading cached box-wall data into the new renderer.
+Browser interaction testing was not run.
 
 For further accuracy work, record explicit source landmarks and physical correspondences
 before replacing an automatic registration. Inspect the full-resolution plans and

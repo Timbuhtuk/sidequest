@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw
 from shapely.geometry import Polygon
+from map_geometry_cleanup import remove_stair_hatching, principal_angle, clean_walls, regularize_ring, wall_footprints
 
 ROOT = Path.cwd()
 OUT = ROOT / 'public/maps/models'
@@ -42,6 +43,7 @@ STAIRS = {
 def trace_mask(image):
     r, g, b = [image[:, :, q].astype(float) for q in range(3)]
     colored = (r > 36) & (g > 27) & (r > b * 1.35) & (g > b * 1.18)
+    colored |= (r > 65) & (r > g*1.8) & (r > b*2) & (g >= 15)
     near_floor = cv2.dilate(colored.astype('uint8'), np.ones((25, 25), np.uint8)) > 0
     bright = (r > 110) & (g > 90) & (r > b * .92) & near_floor
     mask = (colored | bright).astype('uint8') * 255
@@ -62,7 +64,7 @@ def trace_mask(image):
                 hole_mask = np.zeros_like(mask)
                 cv2.drawContours(hole_mask, [contours[child]], -1, 255, -1)
                 # Pale machinery and stair symbols are not atrium voids.
-                if float(image[:, :, 0][hole_mask > 0].mean()) < 48:
+                if float(np.median(image[:, :, 0][hole_mask > 0])) < 48:
                     cv2.drawContours(clean, [contours[child]], -1, 0, -1)
             child = hierarchy[0][child][0]
     return clean
@@ -104,7 +106,7 @@ def walls_from_mask(mask):
             result.append(line)
     return result
 
-def polygons(mask):
+def polygons(mask, angle):
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     result = []
     if hierarchy is None:
@@ -121,7 +123,9 @@ def polygons(mask):
             child = hierarchy[0][child][0]
         # Pixel contours can touch themselves at a diagonal corner. Resolve
         # those contacts before triangulation rather than sealing a void.
-        valid = Polygon(poly['outer'], poly['holes']).buffer(0)
+        outer = regularize_ring(poly['outer'], angle)
+        holes = [regularize_ring(hole, angle, hole=True) for hole in poly['holes']]
+        valid = Polygon(outer, holes).buffer(0)
         pieces = [valid] if valid.geom_type == 'Polygon' else list(valid.geoms)
         for piece in pieces:
             if piece.geom_type != 'Polygon' or piece.area < 250:
@@ -158,10 +162,12 @@ def register_layers(masks):
 manifest = []
 sources = {s['id']: s for s in json.loads((ROOT/'public/maps/plans/sources.json').read_text(encoding='utf-8-sig'))}
 for id, config in CONFIG.items():
+    if len(sys.argv) > 1 and id not in sys.argv[1:]:
+        continue
     image = np.asarray(Image.open(ROOT/f'public/maps/plans/{id}-raw.png').convert('RGB'))
     slices = [image[a:b] for a, b in zip(config['cuts'], config['cuts'][1:])]
     masks = [trace_mask(part) for part in slices]
-    wall_masks = [line_mask(part) for part in slices]
+    wall_masks = [remove_stair_hatching(part, line_mask(part)) for part in slices]
     for q, level_id in enumerate(config['levels']):
         for x, y, width, run, angle in STAIRS.get(id, {}).get(level_id, []):
             box = cv2.boxPoints(((x, y-config['cuts'][q]), (width/.055+8, run/.055+8), angle)).astype(np.int32)
@@ -169,6 +175,10 @@ for id, config in CONFIG.items():
     if 'offsets' in config:
         offsets = [[x, y + config['cuts'][q]] for q, (x, y) in enumerate(config['offsets'])]
         scores = [1.0] * len(slices)
+    elif (OUT/f'{id}.json').exists():
+        previous = json.loads((OUT/f'{id}.json').read_text(encoding='utf-8'))
+        offsets = [[floor['sourceOffset'][0], floor['sourceOffset'][1]+config['cuts'][q]] for q, floor in enumerate(previous['floors'])]
+        scores = [floor['registrationScore'] for floor in previous['floors']]
     else:
         offsets, scores = register_layers(wall_masks)
     scale = .055
@@ -179,13 +189,17 @@ for id, config in CONFIG.items():
         dx, dz = offsets[q]
         def point(p):
             return [round((p[0]+dx)*scale, 3), round((p[1]+dz)*scale, 3)]
-        shapes = polygons(mask)
-        wall_lines = walls_from_mask(wall_masks[q])
+        raw_lines = walls_from_mask(wall_masks[q])
+        angle = principal_angle(raw_lines)
+        shapes = polygons(mask, angle)
+        wall_lines = clean_walls(raw_lines, angle)
+        footprint = wall_footprints(wall_lines, .18/scale)
         level = {'id': str(config['levels'][q]), 'elevation': (config['levels'][q]-1)*5.0,
                  'sourceBounds': [0, config['cuts'][q], image.shape[1], config['cuts'][q+1]],
                  'sourceOffset': [dx, dz-config['cuts'][q]], 'registrationScore': scores[q],
                  'shapes': [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in shapes],
                  'walls': [[*point(w[:2]), *point(w[2:])] for w in wall_lines]}
+        level['wallShapes'] = [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in footprint]
         level['stairs'] = [{'center': point([x, y-config['cuts'][q]]), 'width': width, 'run': run, 'angle': angle, 'rise': 5.0}
                            for x, y, width, run, angle in STAIRS.get(id, {}).get(config['levels'][q], [])
                            if config['levels'][q]+1 in config['levels']]
@@ -198,7 +212,7 @@ for id, config in CONFIG.items():
         pd.text((q*600+10, 10), f'{id} / level {level["id"]} / {scores[q]}', fill='white')
     all_points = np.array([p for level in levels for shape in level['shapes'] for p in shape['outer']])
     center = ((all_points.min(axis=0)+all_points.max(axis=0))/2).tolist()
-    model = {'id': id, 'format': 1, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
+    model = {'id': id, 'format': 2, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
              'sourceSize': [image.shape[1], image.shape[0]], 'scale': scale, 'center': center,
              'registration': 'landmarks' if 'offsets' in config else 'automatic',
              'slabDepth': .35, 'wallHeight': 2.8, 'wallWidth': .18, 'floors': levels}
@@ -206,5 +220,6 @@ for id, config in CONFIG.items():
     preview.save(ROOT/f'outputs/{id}-vector-review.png')
     manifest.append({'id': id, 'floors': len(levels), 'polygons': sum(len(f['shapes']) for f in levels), 'walls': sum(len(f['walls']) for f in levels), 'scores': scores})
     print(manifest[-1])
-(OUT/'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+if len(sys.argv) == 1:
+    (OUT/'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
 
