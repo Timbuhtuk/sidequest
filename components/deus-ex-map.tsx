@@ -1,52 +1,160 @@
 'use client';
-import {useEffect,useMemo,useRef,useState} from 'react';
-import {Box,ChevronRight,Crosshair,Info,Layers3,LocateFixed,Minus,MousePointer2,Plus,Rotate3D,RotateCcw,ZoomIn} from 'lucide-react';
-import {mapScenes,mapSources,type MapLocale,type MapMarker,type MapMarkerKind} from '@/lib/dx-map-data';
+import {useEffect, useRef, useState} from 'react';
+import {ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Tags} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
+import {Toggle} from '@/components/ui/toggle';
+import {mapText as t, modelLocations, type MapLocale, type MapModel, type ModelPlace} from '@/lib/dx-map-model';
+import type {MapSceneController, MapSelection, SceneOptions} from './deus-ex-map-scene';
 import './deus-ex-map.css';
 
-type Camera={pitch:number;yaw:number;zoom:number;panX:number;panY:number};
-const clamp=(value:number,min:number,max:number)=>Math.max(min,Math.min(max,value));
-const visitLayer:Record<string,string>={prague1:'visit1',prague2:'visit2',prague3:'visit3'};
-const sceneForStage=(stage:string)=>mapScenes.find(scene=>scene.stageIds.includes(stage))||mapScenes[0];
+const labels = {
+    title: t('Объёмная карта', 'Об’ємна мапа', 'Spatial map'),
+    location: t('Локация', 'Локація', 'Location'),
+    floor: t('Уровень', 'Рівень', 'Level'),
+    all: t('Все этажи', 'Усі поверхи', 'All floors'),
+    explode: t('Разнести этажи', 'Рознести поверхи', 'Separate floors'),
+    xray: t('Просвечивание', 'Просвічування', 'X-ray'),
+    walls: t('Стены', 'Стіни', 'Walls'),
+    names: t('Подписи', 'Підписи', 'Labels'),
+    top: t('Вид сверху', 'Вигляд зверху', 'Top view'),
+    reset: t('Весь макет', 'Увесь макет', 'Fit model'),
+    zoomIn: t('Приблизить', 'Наблизити', 'Zoom in'),
+    zoomOut: t('Отдалить', 'Віддалити', 'Zoom out'),
+    left: t('Повернуть влево', 'Повернути ліворуч', 'Rotate left'),
+    right: t('Повернуть вправо', 'Повернути праворуч', 'Rotate right'),
+    controls: t('Тяни — вращение · правая кнопка — перемещение · колесо — масштаб. На телефоне: один палец — вращение, два — масштаб и перемещение.', 'Тягни — обертання · права кнопка — переміщення · колесо — масштаб. На телефоні: один палець — обертання, два — масштаб і переміщення.', 'Drag to orbit · right-drag to pan · scroll to zoom. Touch: one finger to orbit, two to zoom and pan.'),
+    loading: t('Строим макет…', 'Будуємо макет…', 'Building model…'),
+    error: t('Не удалось открыть 3D-макет. Повтори загрузку или открой исходный план.', 'Не вдалося відкрити 3D-макет. Повтори завантаження або відкрий вихідний план.', 'Could not open the 3D model. Retry or open the source plan.'),
+    retry: t('Повторить', 'Повторити', 'Retry'),
+    objects: t('Места на карте', 'Місця на мапі', 'Places on the map'),
+    pick: t('Нажми на помещение, стену или метку', 'Натисни на приміщення, стіну або позначку', 'Select a floor, wall or marker'),
+    source: t('Исходная схема · полное разрешение', 'Вихідна схема · повна роздільність', 'Source plan · full resolution'),
+    accuracy: t('Контуры восстановлены по полноразмерной схеме. Мелкие проёмы и детали ещё требуют сверки. Высота стен и расстояние между этажами условные: на планах нет этих размеров.', 'Контури відновлені за повнорозмірною схемою. Дрібні отвори й деталі ще потребують перевірки. Висота стін і відстань між поверхами умовні: на планах немає цих розмірів.', 'Footprints are reconstructed from the full-resolution plan. Small openings and details still need verification. Wall heights and floor spacing are schematic: these dimensions are absent from the plans.'),
+    draft: t('Совмещение этажей этого макета ещё требует ручной сверки. Для изучения планировки выбери отдельный уровень.', 'Суміщення поверхів цього макета ще потребує ручної перевірки. Для вивчення планування вибери окремий рівень.', 'Floor alignment in this model still needs manual verification. Select a single level to explore its layout.'),
+    draftShort: t('Черновая реконструкция', 'Чорнова реконструкція', 'Draft reconstruction'),
+    model: t('Макет по схеме', 'Макет за схемою', 'Plan reconstruction'),
+    focus: t('Показать крупнее', 'Показати ближче', 'Focus here'),
+    isolate: t('Оставить этот этаж', 'Залишити цей поверх', 'Isolate this floor'),
+    wall: t('Перегородка', 'Перегородка', 'Wall segment'),
+    space: t('Участок этажа', 'Ділянка поверху', 'Floor area'),
+    spaceDetail: t('Рассмотри форму помещения, соседние перегородки и проёмы. Разнеси этажи или включи просвечивание, чтобы увидеть пространство внутри.', 'Розглянь форму приміщення, сусідні перегородки й отвори. Рознеси поверхи або ввімкни просвічування, щоб побачити простір усередині.', 'Inspect the floor outline, surrounding partitions and openings. Separate the floors or enable X-ray to reveal the space inside.'),
+};
 
-export default function DeusExMap({locale,currentStage}:{locale:MapLocale;currentStage:string}){
-  const initialScene=sceneForStage(currentStage);
-  const initialLayer=visitLayer[currentStage]||initialScene.layers[0].id;
-  const [sceneId,setSceneId]=useState(initialScene.id),[layerId,setLayerId]=useState(initialLayer),[kind,setKind]=useState<MapMarkerKind|'all'>('all');
-  const [selectedId,setSelectedId]=useState<string|null>(null),[camera,setCamera]=useState<Camera>({pitch:52,yaw:-2,zoom:initialScene.layers.find(layer=>layer.id===initialLayer)?.initialZoom||.8,panX:0,panY:0});
-  const pointer=useRef<{id:number;x:number;y:number;camera:Camera;mode:'rotate'|'pan'}|null>(null);
-  const scene=mapScenes.find(item=>item.id===sceneId)||mapScenes[0];
-  const layer=scene.layers.find(item=>item.id===layerId)||scene.layers[0];
-  const markers=useMemo(()=>scene.markers.filter(item=>(kind==='all'||item.kind===kind)&&(!item.layers||item.layers.includes(layer.id))),[scene,layer.id,kind]);
-  const selected=scene.markers.find(item=>item.id===selectedId)||markers[0]||null;
-  const tr=(value:Record<MapLocale,string>)=>value[locale];
-  const labels={
-    all:{ru:'Все',uk:'Усі',en:'All'},mission:{ru:'Миссии',uk:'Місії',en:'Missions'},achievement:{ru:'Достижения',uk:'Досягнення',en:'Achievements'},collectible:{ru:'Предметы',uk:'Предмети',en:'Collectibles'},poi:{ru:'Места',uk:'Місця',en:'Places'},transition:{ru:'Переходы',uk:'Переходи',en:'Connections'},
-    map:{ru:'Интерактивная карта',uk:'Інтерактивна карта',en:'Interactive map'},objects:{ru:'Объекты',uk:'Об’єкти',en:'Objects'},layers:{ru:'Слои',uk:'Шари',en:'Layers'},controls:{ru:'Тяни для вращения · Shift + тяни для перемещения · колесо для масштаба',uk:'Тягни для обертання · Shift + тягни для переміщення · колесо для масштабу',en:'Drag to rotate · Shift-drag to pan · wheel to zoom'},reset:{ru:'Сбросить вид',uk:'Скинути вигляд',en:'Reset view'},zoomIn:{ru:'Приблизить',uk:'Наблизити',en:'Zoom in'},zoomOut:{ru:'Отдалить',uk:'Віддалити',en:'Zoom out'},rotateLeft:{ru:'Повернуть влево',uk:'Повернути ліворуч',en:'Rotate left'},rotateRight:{ru:'Повернуть вправо',uk:'Повернути праворуч',en:'Rotate right'},current:{ru:'ТЕКУЩАЯ ЛОКАЦИЯ',uk:'ПОТОЧНА ЛОКАЦІЯ',en:'CURRENT LOCATION'},missionLabel:{ru:'МИССИЯ',uk:'МІСІЯ',en:'MISSION'},achievementLabel:{ru:'СВЯЗАННОЕ ДОСТИЖЕНИЕ',uk:'ПОВ’ЯЗАНЕ ДОСЯГНЕННЯ',en:'RELATED ACHIEVEMENT'},source:{ru:'Основа и сведения: Deus Ex Wiki, CC BY-SA. Позиции интерактивных маркеров адаптированы для трекера.',uk:'Основа й відомості: Deus Ex Wiki, CC BY-SA. Позиції інтерактивних маркерів адаптовані для трекера.',en:'Map base and information: Deus Ex Wiki, CC BY-SA. Interactive marker positions are adapted for this tracker.'}
-  };
-  function reset(nextLayer=layer){setCamera({pitch:52,yaw:-2,zoom:nextLayer.initialZoom,panX:0,panY:0})}
-  function chooseScene(id:string){const next=mapScenes.find(item=>item.id===id)||mapScenes[0],nextLayer=visitLayer[currentStage]&&next.id==='prague'?next.layers.find(item=>item.id===visitLayer[currentStage])||next.layers[0]:next.layers[0];setSceneId(next.id);setLayerId(nextLayer.id);setSelectedId(null);reset(nextLayer)}
-  function chooseLayer(id:string){const next=scene.layers.find(item=>item.id===id)||scene.layers[0];setLayerId(next.id);setSelectedId(null);reset(next)}
-  function pointerDown(event:React.PointerEvent<HTMLDivElement>){if((event.target as HTMLElement).closest('button,a'))return;event.currentTarget.setPointerCapture(event.pointerId);pointer.current={id:event.pointerId,x:event.clientX,y:event.clientY,camera,mode:event.shiftKey||event.button===1?'pan':'rotate'}}
-  function pointerMove(event:React.PointerEvent<HTMLDivElement>){const start=pointer.current;if(!start||start.id!==event.pointerId)return;const dx=event.clientX-start.x,dy=event.clientY-start.y;if(start.mode==='pan')setCamera({...start.camera,panX:start.camera.panX+dx,panY:start.camera.panY+dy});else setCamera({...start.camera,yaw:start.camera.yaw+dx*.22,pitch:clamp(start.camera.pitch-dy*.18,18,74)})}
-  function pointerUp(event:React.PointerEvent<HTMLDivElement>){if(pointer.current?.id===event.pointerId)pointer.current=null}
-  function zoom(delta:number){setCamera(value=>({...value,zoom:clamp(value.zoom+delta,.35,2.2)}))}
-  useEffect(()=>{if(selectedId&&!markers.some(item=>item.id===selectedId))setSelectedId(null)},[markers,selectedId]);
-  return <section className="dx-map" aria-labelledby="dx-map-title">
-    <header className="dx-map-header"><div><span className="eyebrow"><Box size={14}/>{labels.map[locale]}</span><h2 id="dx-map-title">{tr(scene.label)} <b>/ {scene.code}</b></h2><p>{labels.controls[locale]}</p></div><div className="dx-map-scene-tabs" role="tablist" aria-label={labels.map[locale]}>{mapScenes.map(item=><button role="tab" aria-selected={item.id===scene.id} className={item.id===scene.id?'active':''} onClick={()=>chooseScene(item.id)} key={item.id}><span>{item.code}</span>{tr(item.label)}{item.stageIds.includes(currentStage)&&<i title={labels.current[locale]}/>}</button>)}</div></header>
-    <div className="dx-map-toolbar"><div className="dx-map-layer-tabs" role="tablist" aria-label={labels.layers[locale]}><span><Layers3 size={14}/>{labels.layers[locale]}</span>{scene.layers.map(item=><button role="tab" aria-selected={item.id===layer.id} onClick={()=>chooseLayer(item.id)} className={item.id===layer.id?'active':''} key={item.id}>{tr(item.label)}</button>)}</div><div className="dx-map-camera-controls"><button onClick={()=>setCamera(value=>({...value,yaw:value.yaw-18}))} title={labels.rotateLeft[locale]} aria-label={labels.rotateLeft[locale]}><Rotate3D/></button><button onClick={()=>setCamera(value=>({...value,yaw:value.yaw+18}))} title={labels.rotateRight[locale]} aria-label={labels.rotateRight[locale]}><Rotate3D className="flip"/></button><button onClick={()=>zoom(-.14)} title={labels.zoomOut[locale]} aria-label={labels.zoomOut[locale]}><Minus/></button><button onClick={()=>zoom(.14)} title={labels.zoomIn[locale]} aria-label={labels.zoomIn[locale]}><Plus/></button><button onClick={()=>reset()} title={labels.reset[locale]} aria-label={labels.reset[locale]}><RotateCcw/></button></div></div>
-    <div className="dx-map-workspace">
-      <div className="dx-map-viewport" onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerUp} onPointerCancel={pointerUp} onWheel={event=>{event.preventDefault();zoom(event.deltaY<0?.1:-.1)}}>
-        <div className="dx-map-grid"/><div className="dx-map-axis axis-x"/><div className="dx-map-axis axis-y"/>
-        <div className="dx-map-plane" style={{width:`${layer.planeWidth}%`,aspectRatio:layer.aspectRatio,transform:`translate3d(${camera.panX}px,${camera.panY}px,0) scale(${camera.zoom}) rotateX(${camera.pitch}deg) rotateZ(${camera.yaw}deg)`}}>
-          <div className="dx-map-depth depth-3"/><div className="dx-map-depth depth-2"/><div className="dx-map-depth depth-1"/><img src={layer.image} alt={`${tr(scene.label)} — ${tr(layer.label)}`} draggable={false}/>
-          {markers.map(item=><button key={item.id} className={`dx-map-marker ${item.kind} ${selected?.id===item.id?'selected':''}`} style={{left:`${item.x}%`,top:`${item.y}%`,transform:`translate(-50%,-50%) translateZ(${item.height||22}px)`}} onClick={event=>{event.stopPropagation();setSelectedId(item.id)}} aria-label={tr(item.title)} title={tr(item.title)}><span/><i>{String(scene.markers.indexOf(item)+1).padStart(2,'0')}</i></button>)}
+export default function DeusExMap({locale, currentStage}: {locale: MapLocale; currentStage: string})
+{
+    const [locationId, setLocationId] = useState(() => (modelLocations.find(item => item.stageIds.includes(currentStage)) || modelLocations[0]).id);
+    const [model, setModel] = useState<MapModel | null>(null);
+    const [options, setOptions] = useState<SceneOptions>({floor: 'all', exploded: false, xray: false, labels: true, walls: true});
+    const [selection, setSelection] = useState<MapSelection | null>(null);
+    const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+    const [attempt, setAttempt] = useState(0);
+    const host = useRef<HTMLDivElement>(null);
+    const controller = useRef<MapSceneController | null>(null);
+    const pendingOptions = useRef(options);
+    pendingOptions.current = options;
+    const location = modelLocations.find(item => item.id === locationId)!;
+    const selectedPlace = location.places.find(item => item.id === selection?.place);
+    const places = location.places.filter(item => options.floor === 'all' || item.floor === options.floor);
+    const text = (key: keyof typeof labels) => labels[key][locale];
+
+    useEffect(() => {
+        const abort = new AbortController();
+        let disposed = false;
+        let instance: MapSceneController | null = null;
+        setStatus('loading'); setModel(null); setSelection(null);
+        async function load()
+        {
+            try
+            {
+                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
+                if (!response.ok) throw new Error('Map model unavailable');
+                const next = await response.json() as MapModel;
+                if (disposed || !host.current) return;
+                if (next.format !== 1 || !next.floors.length) throw new Error('Unsupported map model');
+                const initial = {...pendingOptions.current, floor: next.registration === 'automatic' ? next.floors[next.floors.length-1].id : 'all'};
+                setOptions(initial);
+                instance = engine.createMapScene(host.current, next, location.places, locale, setSelection, () => {if (!disposed) setStatus('error');});
+                controller.current = instance;
+                instance.update(initial, null); instance.reset();
+                setModel(next); setStatus('ready');
+            }
+            catch (error) {if (!disposed && !(error instanceof DOMException && error.name === 'AbortError')) setStatus('error');}
+        }
+        void load();
+        return () => {disposed = true; abort.abort(); instance?.dispose(); controller.current = null;};
+    }, [locationId, locale, attempt, location.places]);
+    useEffect(() => {controller.current?.update(options, selection?.place || null);}, [options, selection]);
+
+    function chooseFloor(floor: string)
+    {
+        const next = {...options, floor};
+        setOptions(next); setSelection(null);
+        controller.current?.update(next, null); controller.current?.reset();
+    }
+    function choosePlace(place: ModelPlace)
+    {
+        const next = {...options, floor: place.floor};
+        setOptions(next); setSelection({floor: place.floor, place: place.id, kind: 'place'});
+        controller.current?.update(next, place.id); controller.current?.focus(place.id);
+    }
+    function toggle(key: 'exploded' | 'xray' | 'walls' | 'labels', pressed: boolean)
+    {
+        const next = {...options, [key]: pressed};
+        setOptions(next); controller.current?.update(next, selection?.place || null);
+        if (key === 'exploded') controller.current?.reset();
+    }
+    return <section className="dx-model" aria-labelledby="dx-model-title">
+        <header className="dx-model-heading">
+            <div><span className="eyebrow"><Box size={14}/>{text('title')}</span><h2 id="dx-model-title">{location.name[locale]}</h2></div>
+            <Select value={locationId} onValueChange={value => {if (value) setLocationId(value);}}>
+                <SelectTrigger className="dx-model-select" aria-label={text('location')}><SelectValue>{location.name[locale]}</SelectValue></SelectTrigger>
+                <SelectContent>{modelLocations.map(item => <SelectItem value={item.id} key={item.id}>{item.name[locale]}</SelectItem>)}</SelectContent>
+            </Select>
+        </header>
+        {model?.registration === 'automatic' && <p className="dx-model-notice">{text('draftShort')} · {text('draft')}</p>}
+        <div className="dx-model-toolbar">
+            <div className="dx-model-floors" aria-label={text('floor')}><Layers3 size={17}/>
+                <Button variant="ghost" aria-pressed={options.floor === 'all'} onClick={() => chooseFloor('all')} disabled={!model}>{text('all')}</Button>
+                {model?.floors.map(floor => <Button key={floor.id} variant="ghost" aria-label={`${text('floor')} ${floor.id}`} aria-pressed={floor.id === options.floor} onClick={() => chooseFloor(floor.id)}>{floor.id.padStart(2, '0')}</Button>)}
+            </div>
+            <div className="dx-model-toggles">
+                <Toggle pressed={options.exploded} onPressedChange={value => toggle('exploded', value)} disabled={options.floor !== 'all'} title={text('explode')}><Layers3/>{text('explode')}</Toggle>
+                <Toggle pressed={options.xray} onPressedChange={value => toggle('xray', value)} title={text('xray')}><Eye/>{text('xray')}</Toggle>
+                <Toggle pressed={options.walls} onPressedChange={value => toggle('walls', value)} title={text('walls')}><Box/>{text('walls')}</Toggle>
+                <Toggle pressed={options.labels} onPressedChange={value => toggle('labels', value)} title={text('names')}><Tags/>{text('names')}</Toggle>
+            </div>
         </div>
-        <div className="dx-map-hud"><span><MousePointer2/>ROT {Math.round(camera.yaw)}°</span><span><ZoomIn/>ZOOM {Math.round(camera.zoom*100)}%</span><span><LocateFixed/>TILT {Math.round(camera.pitch)}°</span></div>
-      </div>
-      <aside className="dx-map-panel"><div className="dx-map-filter"><span className="eyebrow">{labels.objects[locale]}</span>{(['all','mission','achievement','collectible','poi','transition'] as const).map(value=><button key={value} onClick={()=>setKind(value)} className={kind===value?'active':''}>{labels[value][locale]}<span>{value==='all'?scene.markers.filter(item=>!item.layers||item.layers.includes(layer.id)).length:scene.markers.filter(item=>item.kind===value&&(!item.layers||item.layers.includes(layer.id))).length}</span></button>)}</div>{selected?<MapDetails item={selected} locale={locale}/>:<div className="dx-map-empty"><Crosshair/><p>{labels.controls[locale]}</p></div>}<div className="dx-map-source"><Info/><p>{labels.source[locale]}</p>{mapSources.map(source=><a href={source.href} target="_blank" rel="noreferrer" key={source.href}>{source.label}<ChevronRight/></a>)}</div></aside>
-    </div>
-  </section>;
+        <div className="dx-model-workspace">
+            <div className="dx-model-stage">
+                <div ref={host} className="dx-model-canvas"/>
+                <div className="dx-model-stamp" aria-hidden="true">DX / SPATIAL ARCHIVE <span>{locationId.toUpperCase()} · {options.floor === 'all' ? 'ALL' : `L${options.floor}`}</span></div>
+                {status !== 'ready' && <div className="dx-model-state" role="status"><Box size={32}/><p>{text(status === 'error' ? 'error' : 'loading')}</p>{status === 'error' && <><Button variant="outline" onClick={() => setAttempt(value => value+1)}>{text('retry')}</Button><a href={`/maps/plans/${locationId}-raw.png`} target="_blank" rel="noreferrer">{text('source')}</a></>}</div>}
+                <div className="dx-model-camera">
+                    <Button variant="ghost" size="icon" title={text('left')} aria-label={text('left')} onClick={() => controller.current?.rotate(-1)}><RotateCcw/></Button>
+                    <Button variant="ghost" size="icon" title={text('right')} aria-label={text('right')} onClick={() => controller.current?.rotate(1)}><RotateCw/></Button><i/>
+                    <Button variant="ghost" size="icon" title={text('zoomOut')} aria-label={text('zoomOut')} onClick={() => controller.current?.zoom(1.2)}><Minus/></Button>
+                    <Button variant="ghost" size="icon" title={text('zoomIn')} aria-label={text('zoomIn')} onClick={() => controller.current?.zoom(1/1.2)}><Plus/></Button><i/>
+                    <Button variant="ghost" size="icon" title={text('top')} aria-label={text('top')} onClick={() => controller.current?.reset(true)}><ArrowDownToLine/></Button>
+                    <Button variant="ghost" size="icon" title={text('reset')} aria-label={text('reset')} onClick={() => controller.current?.reset()}><ScanLine/></Button>
+                </div>
+            </div>
+            <aside className="dx-model-panel">
+                <span className="eyebrow">{text('objects')} <b>{places.length || model?.floors.length || '—'}</b></span>
+                {selection ? <article className="dx-model-detail">
+                    <span className="dx-model-level">{text('floor')} {selection.floor}</span>
+                    <h3>{selectedPlace ? selectedPlace.name[locale] : text(selection.kind === 'wall' ? 'wall' : 'space')}</h3>
+                    {selectedPlace && locale !== 'en' && <p className="dx-model-en">({selectedPlace.name.en})</p>}
+                    <p>{selectedPlace ? selectedPlace.detail[locale] : text('spaceDetail')}</p>
+                    <Button variant="outline" onClick={() => chooseFloor(selection.floor)}><Layers3/>{text('isolate')}</Button>
+                    {selectedPlace && <Button variant="ghost" onClick={() => choosePlace(selectedPlace)}><Crosshair/>{text('focus')}</Button>}
+                </article> : <div className="dx-model-pick"><Crosshair/><p>{text('pick')}</p></div>}
+                <div className="dx-model-place-list">
+                    {places.length ? places.map(place => <Button variant="ghost" key={place.id} className={selectedPlace?.id === place.id ? 'selected' : ''} onClick={() => choosePlace(place)}><span className="dx-model-place-floor">{place.floor.padStart(2, '0')}</span><span>{place.name[locale]}</span><ChevronRight/></Button>) : model?.floors.map(floor => <Button variant="ghost" key={floor.id} onClick={() => chooseFloor(floor.id)}><Layers3/><span>{text('floor')} {floor.id}</span><ChevronRight/></Button>)}
+                </div>
+                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' ? text('draftShort') : text('model')}</span><p>{text('accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a><a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
+            </aside>
+        </div>
+        <p className="dx-model-help">{text('controls')}</p>
+    </section>;
 }
-
-function MapDetails({item,locale}:{item:MapMarker;locale:MapLocale}){const tr=(value:Record<MapLocale,string>)=>value[locale];const kindLabels={mission:{ru:'МИССИЯ',uk:'МІСІЯ',en:'MISSION'},achievement:{ru:'ДОСТИЖЕНИЕ',uk:'ДОСЯГНЕННЯ',en:'ACHIEVEMENT'},collectible:{ru:'КОЛЛЕКЦИЯ',uk:'КОЛЕКЦІЯ',en:'COLLECTIBLE'},poi:{ru:'ТОЧКА ИНТЕРЕСА',uk:'ТОЧКА ІНТЕРЕСУ',en:'POINT OF INTEREST'},transition:{ru:'ПЕРЕХОД',uk:'ПЕРЕХІД',en:'CONNECTION'}};return <article className="dx-map-details" key={item.id}><span className={`dx-map-kind ${item.kind}`}>{kindLabels[item.kind][locale]}</span><h3>{tr(item.title)}</h3><p className="dx-map-location"><LocateFixed/>{tr(item.location)}</p><p>{tr(item.description)}</p>{item.mission&&<dl><dt>{locale==='ru'?'Миссия':locale==='uk'?'Місія':'Mission'}</dt><dd>{item.mission}</dd></dl>}{item.achievement&&<dl><dt>{locale==='ru'?'Достижение':locale==='uk'?'Досягнення':'Achievement'}</dt><dd>{tr(item.achievement)}</dd></dl>}</article>}
