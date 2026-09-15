@@ -10,7 +10,7 @@ fs.mkdirSync(out, {recursive: true});
 fs.writeFileSync(path.join(out, 'package.json'), '{"type":"commonjs"}');
 fs.writeFileSync(path.join(out, 'dx-map-model.js'), ts.transpileModule(fs.readFileSync('lib/dx-map-model.ts', 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}}).outputText);
 const require = createRequire(import.meta.url);
-const {modelLocations, modelPoint, mapDestination, pragueInteriorMaps} = require(path.join(out, 'dx-map-model.js'));
+const {modelLocations, modelPoint, modelFloorElevation, mapDestination, pragueInteriorMaps} = require(path.join(out, 'dx-map-model.js'));
 let floors = 0, solids = 0, holes = 0, points = 0;
 const area = ring => Math.abs(ring.reduce((sum, p, i) => {const next = ring[(i+1)%ring.length]; return sum+p[0]*next[1]-next[0]*p[1];}, 0)/2);
 function inside(p, ring) {
@@ -24,6 +24,17 @@ function inside(p, ring) {
 for (const location of modelLocations) {
     const model = JSON.parse(fs.readFileSync(`public/maps/models/${location.id}.json`, 'utf8'));
     assert.equal(model.id, location.id);
+    const orderedFloors = [...model.floors].sort((a,b)=>a.elevation-b.elevation);
+    for(let q=1;q<orderedFloors.length;q++) {
+        const lower = modelFloorElevation(model, orderedFloors[q-1].id);
+        const upper = modelFloorElevation(model, orderedFloors[q].id);
+        assert(Math.abs(upper-model.slabDepth-lower-model.wallHeight)<1e-8, 'Gap between walls and the upper slab');
+        assert(modelFloorElevation(model, orderedFloors[q].id, true)>upper, 'Exploded mode must remain available');
+    }
+    for(const floor of model.floors)for(const stair of floor.stairs) {
+        const rise=modelFloorElevation(model, stair.toFloor)-modelFloorElevation(model, floor.id);
+        assert(rise>0 && Number.isFinite(rise), 'Stair must reach an upper assembled floor');
+    }
     if (model.id === 'prague') {
         const destinations = model.buildings.map(building => mapDestination(model, {building: building.id})).filter(Boolean);
         assert.deepEqual(destinations.sort(), Object.values(pragueInteriorMaps).sort(), 'Each interior must have exactly one linked city volume');

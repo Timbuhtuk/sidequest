@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {modelPoint, mapDestination, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
+import {modelPoint, modelFloorElevation, mapDestination, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
 
 export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building'};
 export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean};
@@ -42,10 +42,8 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     const root = new THREE.Group();
     scene.add(root);
     const floorGroups = new Map<string, THREE.Group>();
-    const floorMaterials: THREE.MeshStandardMaterial[] = [];
-    const wallMaterials: THREE.MeshStandardMaterial[] = [];
     const wallGroups: THREE.Group[] = [];
-    const stairGroups: {group: THREE.Group; from: string; to: string; mesh: THREE.Mesh}[] = [];
+    const stairGroups: {group: THREE.Group; from: string; to: string; mesh: THREE.Mesh; rise: number}[] = [];
     const targets: THREE.Object3D[] = [];
     const markers = new Map<string, THREE.Mesh>();
     const buildingMeshes = new Map<string, THREE.Mesh>();
@@ -64,13 +62,12 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     for (const floor of model.floors)
     {
         const group = new THREE.Group();
-        group.position.y = floor.elevation;
+        group.position.y = modelFloorElevation(model, floor.id);
         root.add(group);
         floorGroups.set(floor.id, group);
         const material = new THREE.MeshStandardMaterial({color: '#665932', roughness: .92, metalness: .14, side: THREE.DoubleSide});
         const wallsMaterial = new THREE.MeshStandardMaterial({color: '#b8a267', roughness: .72, metalness: .23, side: THREE.DoubleSide});
-        floorMaterials.push(material);
-        wallMaterials.push(wallsMaterial);
+        const floorEdgeMaterial = edgeMaterial.clone();
         const floorGeometry: THREE.BufferGeometry[] = [];
         for (const polygon of floor.shapes)
         {
@@ -88,7 +85,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             floorGeometry.forEach(item => item.dispose());
             const mesh = new THREE.Mesh(geometry, material);
             mesh.userData = {floor: floor.id, kind: 'floor'};
-            group.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), edgeMaterial));
+            group.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), floorEdgeMaterial));
             targets.push(mesh);
         }
         const wallGroup = new THREE.Group();
@@ -110,13 +107,14 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             wallGeometry.forEach(item => item.dispose());
             const walls = new THREE.Mesh(geometry, wallsMaterial);
             walls.userData = {floor: floor.id, kind: 'wall'};
-            wallGroup.add(walls, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), edgeMaterial));
+            wallGroup.add(walls, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), floorEdgeMaterial));
             targets.push(walls);
         }
         for (const stair of floor.stairs)
         {
             const stairGroup = new THREE.Group();
-            stairGroup.position.set(stair.center[0]-model.center[0], floor.elevation, stair.center[1]-model.center[1]);
+            stairGroup.position.set(stair.center[0]-model.center[0], group.position.y, stair.center[1]-model.center[1]);
+            const rise = modelFloorElevation(model, stair.toFloor)-group.position.y;
             stairGroup.rotation.y = -stair.angle*Math.PI/180;
             root.add(stairGroup);
             const steps: THREE.BufferGeometry[] = [];
@@ -126,22 +124,22 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             {
                 for (let q = 0; q < count; q++)
                 {
-                    const height = (q+1)/count*stair.rise/2;
+                    const height = (q+1)/count*rise/2;
                     const step = new THREE.BoxGeometry(stair.width*.46, .15, run/count);
-                    step.translate((flight ? 1 : -1)*stair.width*.26, flight*stair.rise/2+height-.075,
+                    step.translate((flight ? 1 : -1)*stair.width*.26, flight*rise/2+height-.075,
                         (flight ? -1 : 1)*(q/count-.5)*run);
                     steps.push(step);
                 }
             }
             const landing = new THREE.BoxGeometry(stair.width, .25, stair.run*.2);
-            landing.translate(0, stair.rise/2-.125, run*.5);
+            landing.translate(0, rise/2-.125, run*.5);
             steps.push(landing);
             const geometry = mergeGeometries(steps, false)!;
             steps.forEach(step => step.dispose());
-            const mesh = new THREE.Mesh(geometry, wallsMaterial);
+            const mesh = new THREE.Mesh(geometry, wallsMaterial.clone());
             mesh.userData = {floor: floor.id, kind: 'floor'};
-            stairGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial));
-            stairGroups.push({group: stairGroup, from: floor.id, to: stair.toFloor, mesh});
+            stairGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial.clone()));
+            stairGroups.push({group: stairGroup, from: floor.id, to: stair.toFloor, mesh, rise});
             targets.push(mesh);
         }
     }
@@ -156,11 +154,10 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         const geometry = new THREE.ExtrudeGeometry(shape, {depth: building.height, bevelEnabled: false, steps: 1, curveSegments: 1});
         geometry.rotateX(-Math.PI/2);
         const material = new THREE.MeshStandardMaterial({color: '#aa9158', roughness: .85, metalness: .16});
-        wallMaterials.push(material);
         const mesh = new THREE.Mesh(geometry, material);
         mesh.userData = {floor: building.floor, building: building.id, kind: 'building'};
         const buildingGroup = new THREE.Group();
-        buildingGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), edgeMaterial));
+        buildingGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), edgeMaterial.clone()));
         group.add(buildingGroup);
         wallGroups.push(buildingGroup);
         buildingMeshes.set(building.id, mesh);
@@ -182,7 +179,9 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         targets.push(marker);
         markers.set(place.id, marker);
         const stem = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(point[0], .15, point[2]), marker.position]);
-        floorGroup.add(new THREE.Line(stem, stemMaterial));
+        const stemLine = new THREE.Line(stem, stemMaterial);
+        stemLine.userData = {floor: place.floor, kind: 'markerStem'};
+        floorGroup.add(stemLine);
         const label = document.createElement('button');
         label.type = 'button';
         const destination = mapDestination(model, {place: place.id});
@@ -207,6 +206,30 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         while (current) {if (!current.visible) return false; current = current.parent;}
         return true;
     }
+    function pickable(object: THREE.Object3D): boolean
+    {
+        return visible(object) && (options.floor === 'all' || object.userData.floor === options.floor);
+    }
+    function setOpacity(group: THREE.Group, opacity: number)
+    {
+        group.traverse(object => {
+            const mesh = object as THREE.Mesh;
+            if (object.userData.kind === 'place' || object.userData.kind === 'markerStem')
+            {
+                object.visible = options.floor === 'all' || object.userData.floor === options.floor;
+                return;
+            }
+            if (!mesh.material) return;
+            const line = object instanceof THREE.Line;
+            for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material])
+            {
+                const transparent = line || opacity < 1;
+                if (material.transparent !== transparent) {material.transparent = transparent; material.needsUpdate = true;}
+                material.opacity = opacity*(line ? .68 : 1);
+                material.depthWrite = !line && opacity === 1;
+            }
+        });
+    }
     function paint()
     {
         request = 0;
@@ -224,7 +247,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             const x = (point.x*.5+.5)*width, y = (-point.y*.5+.5)*height;
             const labelWidth = Math.min(170, label.element.offsetWidth || 150);
             const overlap = occupied.some(box => Math.abs(box.y-y) < 29 && Math.abs(box.x-x) < (labelWidth+box.width)/2+6);
-            const show = options.labels && group.visible && point.z < 1 && point.z > -1 && x > 12 && x < width-12 && y > 14 && y < height-35 && (!overlap || label.id === selectedId);
+            const show = options.labels && (options.floor === 'all' || options.floor === label.floor) && group.visible && point.z < 1 && point.z > -1 && x > 12 && x < width-12 && y > 14 && y < height-35 && (!overlap || label.id === selectedId);
             label.element.hidden = !show;
             label.element.classList.toggle('selected', label.id === selectedId);
             if (show)
@@ -269,7 +292,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         if (Math.hypot(event.clientX-pointerStart.x, event.clientY-pointerStart.y) > 5) dragging = true;
         const rect = renderer.domElement.getBoundingClientRect();
         raycaster.setFromCamera(new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1, -(event.clientY-rect.top)/rect.height*2+1), camera);
-        const hit = raycaster.intersectObjects(targets, false).find(item => visible(item.object));
+        const hit = raycaster.intersectObjects(targets, false).find(item => pickable(item.object));
         renderer.domElement.style.cursor = event.buttons ? 'grabbing' : hit && mapDestination(model, hit.object.userData) ? 'pointer' : 'grab';
     }
     function pointerUp(event: PointerEvent)
@@ -277,7 +300,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         if (dragging || event.button !== 0) return;
         const rect = renderer.domElement.getBoundingClientRect();
         raycaster.setFromCamera(new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1, -(event.clientY-rect.top)/rect.height*2+1), camera);
-        const hit = raycaster.intersectObjects(targets, false).find(item => visible(item.object));
+        const hit = raycaster.intersectObjects(targets, false).find(item => pickable(item.object));
         if (hit) onSelect(hit.object.userData as MapSelection);
     }
     function contextLost(event: Event) {event.preventDefault(); onError();}
@@ -297,21 +320,19 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             for (const floor of model.floors)
             {
                 const group = floorGroups.get(floor.id)!;
-                group.visible = next.floor === 'all' || next.floor === floor.id;
-                group.position.y = floor.elevation * (next.exploded && next.floor === 'all' ? 2.6 : 1);
+                group.visible = true;
+                group.position.y = modelFloorElevation(model, floor.id, next.exploded);
+                const active = next.floor === 'all' || next.floor === floor.id;
+                setOpacity(group, active ? (next.xray ? .3 : 1) : .1);
             }
             for (const stair of stairGroups)
             {
-                stair.group.visible = next.floor === 'all' || next.floor === stair.from || next.floor === stair.to;
+                const active = next.floor === 'all' || next.floor === stair.from || next.floor === stair.to;
+                stair.group.visible = true;
                 stair.group.position.y = floorGroups.get(stair.from)!.position.y;
-                stair.mesh.userData.floor = next.floor === 'all' ? stair.from : next.floor;
-            }
-            for (const material of [...floorMaterials, ...wallMaterials])
-            {
-                material.transparent = next.xray;
-                material.opacity = next.xray ? .3 : 1;
-                material.depthWrite = !next.xray;
-                material.needsUpdate = true;
+                stair.group.scale.y = (floorGroups.get(stair.to)!.position.y-stair.group.position.y)/stair.rise;
+                stair.mesh.userData.floor = active && next.floor !== 'all' ? next.floor : stair.from;
+                setOpacity(stair.group, active ? (next.xray ? .3 : 1) : .1);
             }
             wallGroups.forEach(group => {group.visible = next.walls;});
             markers.forEach((mesh, id) => {mesh.scale.setScalar(selected === id ? 1.6 : 1);});
@@ -366,6 +387,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             });
             geometries.forEach(geometry => geometry.dispose());
             materials.forEach(material => material.dispose());
+            edgeMaterial.dispose();
             renderer.dispose();
             renderer.domElement.remove();
             overlay.remove();

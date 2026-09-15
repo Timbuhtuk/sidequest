@@ -44,7 +44,7 @@ const labels = {
     draftShort: t('Черновая реконструкция', 'Чорнова реконструкція', 'Draft reconstruction'),
     model: t('Макет по схеме', 'Макет за схемою', 'Plan reconstruction'),
     focus: t('Показать крупнее', 'Показати ближче', 'Focus here'),
-    isolate: t('Оставить этот этаж', 'Залишити цей поверх', 'Isolate this floor'),
+    isolate: t('Выделить этот этаж', 'Виділити цей поверх', 'Highlight this floor'),
     wall: t('Перегородка', 'Перегородка', 'Wall segment'),
     space: t('Участок этажа', 'Ділянка поверху', 'Floor area'),
     spaceDetail: t('Рассмотри форму помещения, соседние перегородки и проёмы. Разнеси этажи или включи просвечивание, чтобы увидеть пространство внутри.', 'Розглянь форму приміщення, сусідні перегородки й отвори. Рознеси поверхи або ввімкни просвічування, щоб побачити простір усередині.', 'Inspect the floor outline, surrounding partitions and openings. Separate the floors or enable X-ray to reveal the space inside.'),
@@ -105,7 +105,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     {
         const next = {...options, floor};
         setOptions(next); setSelection(null);
-        controller.current?.update(next, null); controller.current?.reset();
+        controller.current?.update(next, null);
     }
     function choosePlace(place: ModelPlace)
     {
@@ -137,7 +137,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                 {model?.floors.map(floor => <Button key={floor.id} variant="ghost" aria-label={`${text('floor')} ${floor.id}`} aria-pressed={floor.id === options.floor} onClick={() => chooseFloor(floor.id)}>{floor.id.padStart(2, '0')}</Button>)}
             </div>}
             <div className="dx-model-toggles">
-                {!city && <Toggle pressed={options.exploded} onPressedChange={value => toggle('exploded', value)} disabled={options.floor !== 'all'} title={text('explode')}><Layers3/>{text('explode')}</Toggle>}
+                {!city && <Toggle pressed={options.exploded} onPressedChange={value => toggle('exploded', value)} title={text('explode')}><Layers3/>{text('explode')}</Toggle>}
                 <Toggle pressed={options.xray} onPressedChange={value => toggle('xray', value)} title={text('xray')}><Eye/>{text('xray')}</Toggle>
                 <Toggle pressed={options.walls} onPressedChange={value => toggle('walls', value)} title={text(city ? 'buildings' : 'walls')}><Box/>{text(city ? 'buildings' : 'walls')}</Toggle>
                 <Toggle pressed={options.labels} onPressedChange={value => toggle('labels', value)} title={text('names')}><Tags/>{text('names')}</Toggle>

@@ -106,3 +106,14 @@ source-coordinate transform and footprint containment, so regenerating block IDs
 does not break navigation. Labels and the place list offer the same navigation;
 the interior header provides a return to Prague. The geometry check requires one
 linked volume per interior and validates every destination against the registry.
+
+The renderer assembles floors with a pitch of wall height plus slab thickness
+(3.15 scene units for interiors), placing each upper slab against the lower walls.
+Source elevations retain floor ordering; rendered positions and stair rises use
+`modelFloorElevation`. Exploded mode expands that pitch and the connecting stairs.
+Selecting a level updates existing objects in place without resetting the camera:
+the selected floor stays opaque (unless X-ray is explicitly enabled), other floors
+use 10% opacity with faint edges and no depth writes. Context floors do not intercept
+selection; only active-floor labels and markers are shown. Stair connections remain
+visible and are emphasized when either endpoint is selected. No geometry reload is
+performed for a floor selection.

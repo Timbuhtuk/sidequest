@@ -119,7 +119,7 @@ export function modelPoint(model: MapModel, place: ModelPlace): [number, number,
     const [x, y] = place.pixel;
     const m = model.sourceTransform;
     const point = m ? [m[0]*x+m[1]*y+m[2], m[3]*x+m[4]*y+m[5]] : [x, y];
-    return [(point[0] + floor.sourceOffset[0]) * model.scale - model.center[0], floor.elevation,
+    return [(point[0] + floor.sourceOffset[0]) * model.scale - model.center[0], modelFloorElevation(model, floor.id),
         (point[1] + floor.sourceOffset[1]) * model.scale - model.center[1]];
 }
 
@@ -129,6 +129,14 @@ export const pragueInteriorMaps: Record<string, string> = {
     'city-koller': 'koller',
     'city-dovoz': 'tf29',
 };
+
+export function modelFloorElevation(model: MapModel, floorId: string, exploded = false): number
+{
+    const floors = [...model.floors].sort((a, b) => a.elevation-b.elevation);
+    const index = floors.findIndex(floor => floor.id === floorId);
+    // The upper slab's underside rests exactly on the lower walls.
+    return Math.max(0, index)*(model.wallHeight+model.slabDepth)*(exploded ? 2.6 : 1);
+}
 
 export function mapDestination(model: MapModel, selection: {place?: string; building?: string}): string | null
 {
