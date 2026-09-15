@@ -27,21 +27,21 @@ Render frames are requested only after interaction, resize, or display changes.
 
 ## Current coverage and fidelity
 
-- 10 models, 54 source levels. These are reconstructions, not extracted game meshes.
+- 10 interior models with 54 source levels, plus the Prague city overview (one ground layer, 29 exterior block volumes). These are reconstructions, not extracted game meshes.
 - TF29, Zelen Apartments and The Time Machine are aligned using repeated stair/lift
   locations. G.A.R.M. is aligned using repeated hangar corners.
 - Dubai, London, Palisade Bank, Ridit Station, RVAC Row and Štědrý use automatic
   translation matching. They open on a single level and visibly disclose that
   their inter-floor registration still needs manual verification.
-- 36 named locations use full-resolution source pixel coordinates transformed by
+- 45 named locations use full-resolution source pixel coordinates transformed by
   the same per-floor registration as the meshes. A geometry test checks that each
   marker lies on its declared floor. This verifies placement in the reconstruction,
   not the correctness of all underlying game information.
 - Heights, wall thickness and staircase rise are schematic. The plans do not contain
   reliable metric elevations. Some small door gaps, machinery and partial railings
   remain ambiguous; traced lines must not be treated as a surveyed collision map.
-- Prague's street overview and the Throat source sheet are retained as references,
-  but are not reconstructed in this model set. The viewer does not claim full game
+- The Throat source sheet is retained as a reference but is not reconstructed.
+  The viewer does not claim full game
   coverage or verified coordinates for achievements/collectibles.
 
 ## Verification
@@ -68,3 +68,34 @@ For further accuracy work, record explicit source landmarks and physical corresp
 before replacing an automatic registration. Inspect the full-resolution plans and
 manually classify doors, staircases, shafts and rails; do not promote an automatic
 reconstruction to a verified game map based only on successful rendering.
+
+## Prague line-art experiment
+
+At the user's request, an asset-only agent generated label-free black line art
+from the supplied infrastructure image. `public/maps/plans/prague-lines.png` is
+that 1536×1024 intermediate, not a hand-traced survey. `build-prague-model.py`
+floods its enclosed regions, rejects street/courtyard regions against the raw
+6000×4000 reference resized into the same frame, and vectorizes the survivors.
+Fifteen source groups retain generated contours; eleven use source-mask corrections
+because their intersection-over-union score is below 0.82. Tiny holes and shared
+boundaries are dissolved before extrusion. The final 29 polygons are city blocks,
+not a claim of 29 individually surveyed buildings.
+
+The eye estimate of a 20° clockwise rotation was refined to 20.225° from long
+edges. The source already represents a top-down orthographic plan, so no invented
+camera pitch or perspective stretching is applied. The rectifying rotation and
+uniform source resize are stored in `sourceTransform` and used for both meshes
+and original-resolution place coordinates. Before/after SVGs and the generated
+raster are retained; the side panel links to the rectified contours for inspection.
+
+Every block has a schematic height of 6 scene units, not a measured height or floor
+count. Courtyards are true holes through the building volumes. A morphological
+ground plinth is a display base, not an inferred walkable area. Interiors, roof
+forms, facades, street elevations and city stairways are not reconstructed here.
+The existing detailed interior models remain selectable separately.
+
+`check-prague-model.py` checks disjoint valid footprints, preserved courtyard,
+square and railway witnesses, named building coverage, and a distance/angle
+preserving source transform. The shared Three.js triangulation check also checks
+city footprint hole areas and all 45 marker positions. Detailed source comparison
+scores are recorded in `prague-line-map-report.json`.

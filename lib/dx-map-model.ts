@@ -15,6 +15,9 @@ export type ModelFloor = {
 };
 export type MapModel = {
     id: string;
+    kind?: 'city';
+    sourceTransform?: [number, number, number, number, number, number];
+    buildings?: {id: string; floor: string; height: number; shape: FloorShape}[];
     format: number;
     source: string;
     sourceImage: string;
@@ -47,6 +50,17 @@ const room = (id: string, floor: number, pixel: PlanPoint, name: MapText, detail
 // Coordinates refer to the ORIGINAL full-resolution sheet, never percentages
 // of a thumbnail. The same floor registration transforms geometry and places.
 export const modelLocations: ModelLocation[] = [
+    {id: 'prague', name: t('Прага · общий план', 'Прага · загальний план', 'Prague · city overview'), stageIds: ['prague1', 'prague2', 'prague3'], places: [
+        room('city-bank', 1, [730, 1080], t('Банк «Пэлисейд»', 'Банк «Палісейд»', 'Palisade Property Bank'), t('Банк в западной части Чиста-Чтврть. Внутренние этажи доступны отдельным макетом «Банк Пэлисейд» в выборе локации.', 'Банк у західній частині Чиста-Чтврть. Внутрішні поверхи доступні окремим макетом банку у виборі локації.', 'The bank in western Čistá Čtvrť. Its interior floors are available as a separate bank model in the location selector.'), 'landmark'),
+        room('city-zelen', 1, [1780, 2720], t('Апартаменты «Зелень»', 'Апартаменти «Зелень»', 'Zelen Apartments'), t('Дом Дженсена в Преказке. Для квартир и лестниц открой отдельный макет апартаментов «Зелень».', 'Будинок Дженсена в Преказці. Для квартир і сходів відкрий окремий макет апартаментів «Зелень».', 'Jensen’s apartment building in Překážka. Open the separate Zelen Apartments model for rooms and staircases.'), 'landmark'),
+        room('city-koller', 1, [2680, 3420], t('«Машина времени»', '«Машина часу»', 'The Time Machine'), t('Книжный магазин в Преказке. Под ним расположено убежище Коллера; внутренний макет доступен отдельно.', 'Книжкова крамниця у Преказці. Під нею розташоване сховище Коллера; внутрішній макет доступний окремо.', 'Bookshop in Překážka, above Koller’s workshop. The interior model is available separately.'), 'landmark'),
+        room('city-church', 1, [1700, 3510], t('Церковь Бога-машины', 'Церква Бога-машини', 'Church of the MachineGod'), t('Церковь в юго-западной части Преказки. На этом общем плане показан только внешний объём комплекса.', 'Церква у південно-західній частині Преказки. Цей загальний план показує лише зовнішній об’єм комплексу.', 'Church in southwestern Překážka. This overview shows only the exterior mass of the complex.'), 'landmark'),
+        room('city-hlavni', 1, [2070, 630], t('Апартаменты «Главни, 33»', 'Апартаменти «Главні, 33»', '33 Hlavní Apartments'), t('Жилой комплекс на северной стороне улицы Главни. Здесь показан его внешний контур.', 'Житловий комплекс на північному боці вулиці Главні. Тут показаний його зовнішній контур.', 'Residential complex on the north side of Hlavní Street. This model shows its exterior footprint.'), 'landmark'),
+        room('city-dovoz', 1, [2600, 670], t('Вход в ОГ-29', 'Вхід до ОГ-29', 'TF29 entrance'), t('Контора Praha Dovoz скрывает вход в подземный штаб. Сам штаб показан отдельным макетом ОГ-29.', 'Контора Praha Dovoz приховує вхід до підземного штабу. Сам штаб показаний окремим макетом ОГ-29.', 'The Praha Dovoz storefront conceals the underground headquarters entrance. Open the separate TF29 model to explore the headquarters.'), 'landmark'),
+        room('city-chikane', 1, [3990, 515], t('Площадка Чикане', 'Майданчик Чикане', 'Chikane’s Place'), t('Комплекс Чикане в северо-восточной части города. Открытый центральный двор сохранён в геометрии.', 'Комплекс Чикане у північно-східній частині міста. Відкрите центральне подвір’я збережене в геометрії.', 'Chikane’s compound in the northeast. Its open central courtyard is preserved in the geometry.'), 'landmark'),
+        room('city-libuse', 1, [4200, 1500], t('Апартаменты «Либуше»', 'Апартаменти «Лібуше»', 'Libuše Apartments'), t('Жилой комплекс рядом со станцией «Пилигрим». Общая схема показывает расположение здания, без внутренней планировки.', 'Житловий комплекс біля станції «Пілігрим». Загальна схема показує розташування будівлі, без внутрішнього планування.', 'Apartment building near Pilgrim Station. The overview shows its position without an interior floor plan.'), 'landmark'),
+        room('city-theater', 1, [5150, 2070], t('Театр Двали', 'Театр Двалі', 'Dvali Theater'), t('Театр в восточной части района красных фонарей. Высота и фасады этого объёма условные; этажи не восстановлены по общей схеме.', 'Театр у східній частині району червоних ліхтарів. Висота й фасади цього об’єму умовні; поверхи не відновлені за загальною схемою.', 'The theater in the eastern Red Light District. Height and facades are schematic; this overview does not reconstruct its interior floors.'), 'landmark'),
+    ]},
     {id: 'tf29', name: t('Штаб ОГ-29', 'Штаб ОГ-29', 'TF29 Headquarters'), stageIds: ['prague1', 'prague2', 'prague3'], places: [
         room('shooting', 1, [292, 1815], t('Стрелковый тир', 'Стрілецький тир', 'Shooting range')),
         room('briefing', 1, [465, 1670], t('Зал брифингов', 'Зала брифінгів', 'Briefing room')),
@@ -102,6 +116,9 @@ export const modelLocations: ModelLocation[] = [
 export function modelPoint(model: MapModel, place: ModelPlace): [number, number, number]
 {
     const floor = model.floors.find(item => item.id === place.floor)!;
-    return [(place.pixel[0] + floor.sourceOffset[0]) * model.scale - model.center[0], floor.elevation,
-        (place.pixel[1] + floor.sourceOffset[1]) * model.scale - model.center[1]];
+    const [x, y] = place.pixel;
+    const m = model.sourceTransform;
+    const point = m ? [m[0]*x+m[1]*y+m[2], m[3]*x+m[4]*y+m[5]] : [x, y];
+    return [(point[0] + floor.sourceOffset[0]) * model.scale - model.center[0], floor.elevation,
+        (point[1] + floor.sourceOffset[1]) * model.scale - model.center[1]];
 }

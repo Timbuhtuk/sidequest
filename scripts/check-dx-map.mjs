@@ -24,7 +24,7 @@ function inside(p, ring) {
 for (const location of modelLocations) {
     const model = JSON.parse(fs.readFileSync(`public/maps/models/${location.id}.json`, 'utf8'));
     assert.equal(model.id, location.id);
-    assert(model.floors.length > 1);
+    assert(model.kind === 'city' ? model.floors.length === 1 : model.floors.length > 1);
     assert(model.wallHeight > model.slabDepth * 3);
     assert.equal(new Set(model.floors.map(f=>f.id)).size, model.floors.length);
     assert.equal(new Set(model.floors.map(f=>f.elevation)).size, model.floors.length);
@@ -55,8 +55,8 @@ for (const location of modelLocations) {
             geometry.dispose();
         }
         assert(floor.walls.every(w=>w.length===4&&w.every(Number.isFinite)));
-        assert(floor.wallShapes.length, `${location.id}/${floor.id}: missing unified wall volumes`);
-        for(const polygon of floor.wallShapes) {
+        assert(floor.wallShapes.length || (model.kind === 'city' && model.buildings?.length), `${location.id}/${floor.id}: missing volumes`);
+        for(const polygon of [...floor.wallShapes, ...(model.buildings || []).filter(b=>b.floor===floor.id).map(b=>b.shape)]) {
             const outer=polygon.outer.map(p=>new THREE.Vector2(...p));
             const inner=polygon.holes.map(h=>h.map(p=>new THREE.Vector2(...p)));
             const triangles=THREE.ShapeUtils.triangulateShape(outer,inner);

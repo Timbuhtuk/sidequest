@@ -1,0 +1,145 @@
+{
+  "visualAngleEstimate": 20,
+  "measuredRotationDegrees": 20.225,
+  "perspectiveCorrection": "none: source is an orthographic plan",
+  "generatedSize": [
+    1536,
+    1024
+  ],
+  "acceptedClosedRegions": 62,
+  "buildings": 29,
+  "generatedFootprints": 15,
+  "sourceCorrectedFootprints": 11,
+  "review": [
+    {
+      "sourceRegion": 0,
+      "iou": 0.9151,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 1,
+      "iou": 0.9038,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 3,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 4,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 5,
+      "iou": 0.9269,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 6,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 7,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 8,
+      "iou": 0.8345,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 9,
+      "iou": 0.9154,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 10,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 11,
+      "iou": 0.947,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 12,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 13,
+      "iou": 0.2364,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 14,
+      "iou": 0.935,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 15,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 16,
+      "iou": 0.9336,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 17,
+      "iou": 0.9163,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 18,
+      "iou": 0.9226,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 19,
+      "iou": 0.8838,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 21,
+      "iou": 0.9317,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 22,
+      "iou": 0.8893,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 23,
+      "iou": 0.853,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 24,
+      "iou": 0.784,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 25,
+      "iou": 0.0,
+      "contour": "source-corrected"
+    },
+    {
+      "sourceRegion": 26,
+      "iou": 0.9323,
+      "contour": "generated"
+    },
+    {
+      "sourceRegion": 27,
+      "iou": 0.1159,
+      "contour": "source-corrected"
+    }
+  ]
+}

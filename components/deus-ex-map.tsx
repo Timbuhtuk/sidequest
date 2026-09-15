@@ -16,6 +16,13 @@ const labels = {
     explode: t('Разнести этажи', 'Рознести поверхи', 'Separate floors'),
     xray: t('Просвечивание', 'Просвічування', 'X-ray'),
     walls: t('Стены', 'Стіни', 'Walls'),
+    buildings: t('Здания', 'Будівлі', 'Buildings'),
+    city: t('Общий план', 'Загальний план', 'City overview'),
+    cityAccuracy: t('Экспериментальный макет по очищенным контурам с исправлениями по оригиналу. Показаны внешние объёмы кварталов; высота условная, внутренние этажи здесь не моделируются.', 'Експериментальний макет за очищеними контурами з виправленнями за оригіналом. Показані зовнішні об’єми кварталів; висота умовна, внутрішні поверхи тут не моделюються.', 'Experimental model from cleaned outlines, corrected against the original. It shows exterior block volumes with schematic heights; interior floors are not modelled here.'),
+    building: t('Квартал', 'Квартал', 'City block'),
+    buildingDetail: t('Объём построен по контуру на плане. Открытые дворы оставлены вырезами. Высота условная и не указывает число этажей; для названных мест выбери метку на карте.', 'Об’єм побудований за контуром на плані. Відкриті подвір’я залишені вирізами. Висота умовна й не вказує кількість поверхів; для названих місць вибери позначку на мапі.', 'This mass is built from its plan outline, with open courtyards cut out. Height is schematic and does not imply a floor count. Select a map label for named places.'),
+    lineSource: t('Очищенные линии', 'Очищені лінії', 'Cleaned line art'),
+    vectorSource: t('Выровненные контуры', 'Вирівняні контури', 'Rectified outlines'),
     names: t('Подписи', 'Підписи', 'Labels'),
     top: t('Вид сверху', 'Вигляд зверху', 'Top view'),
     reset: t('Весь макет', 'Увесь макет', 'Fit model'),
@@ -55,6 +62,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     pendingOptions.current = options;
     const location = modelLocations.find(item => item.id === locationId)!;
     const selectedPlace = location.places.find(item => item.id === selection?.place);
+    const city = model?.kind === 'city';
     const places = location.places.filter(item => options.floor === 'all' || item.floor === options.floor);
     const text = (key: keyof typeof labels) => labels[key][locale];
 
@@ -84,7 +92,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         void load();
         return () => {disposed = true; abort.abort(); instance?.dispose(); controller.current = null;};
     }, [locationId, locale, attempt, location.places]);
-    useEffect(() => {controller.current?.update(options, selection?.place || null);}, [options, selection]);
+    useEffect(() => {controller.current?.update(options, selection?.place || selection?.building || null);}, [options, selection]);
 
     function chooseFloor(floor: string)
     {
@@ -101,7 +109,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     function toggle(key: 'exploded' | 'xray' | 'walls' | 'labels', pressed: boolean)
     {
         const next = {...options, [key]: pressed};
-        setOptions(next); controller.current?.update(next, selection?.place || null);
+        setOptions(next); controller.current?.update(next, selection?.place || selection?.building || null);
         if (key === 'exploded') controller.current?.reset();
     }
     return <section className="dx-model" aria-labelledby="dx-model-title">
@@ -113,15 +121,16 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
             </Select>
         </header>
         {model?.registration === 'automatic' && <p className="dx-model-notice">{text('draftShort')} · {text('draft')}</p>}
+        {city && <p className="dx-model-notice">{text('cityAccuracy')}</p>}
         <div className="dx-model-toolbar">
-            <div className="dx-model-floors" aria-label={text('floor')}><Layers3 size={17}/>
+            {city ? <div className="dx-model-floors"><Box size={17}/><span>{text('city')}</span></div> : <div className="dx-model-floors" aria-label={text('floor')}><Layers3 size={17}/>
                 <Button variant="ghost" aria-pressed={options.floor === 'all'} onClick={() => chooseFloor('all')} disabled={!model}>{text('all')}</Button>
                 {model?.floors.map(floor => <Button key={floor.id} variant="ghost" aria-label={`${text('floor')} ${floor.id}`} aria-pressed={floor.id === options.floor} onClick={() => chooseFloor(floor.id)}>{floor.id.padStart(2, '0')}</Button>)}
-            </div>
+            </div>}
             <div className="dx-model-toggles">
-                <Toggle pressed={options.exploded} onPressedChange={value => toggle('exploded', value)} disabled={options.floor !== 'all'} title={text('explode')}><Layers3/>{text('explode')}</Toggle>
+                {!city && <Toggle pressed={options.exploded} onPressedChange={value => toggle('exploded', value)} disabled={options.floor !== 'all'} title={text('explode')}><Layers3/>{text('explode')}</Toggle>}
                 <Toggle pressed={options.xray} onPressedChange={value => toggle('xray', value)} title={text('xray')}><Eye/>{text('xray')}</Toggle>
-                <Toggle pressed={options.walls} onPressedChange={value => toggle('walls', value)} title={text('walls')}><Box/>{text('walls')}</Toggle>
+                <Toggle pressed={options.walls} onPressedChange={value => toggle('walls', value)} title={text(city ? 'buildings' : 'walls')}><Box/>{text(city ? 'buildings' : 'walls')}</Toggle>
                 <Toggle pressed={options.labels} onPressedChange={value => toggle('labels', value)} title={text('names')}><Tags/>{text('names')}</Toggle>
             </div>
         </div>
@@ -142,17 +151,17 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
             <aside className="dx-model-panel">
                 <span className="eyebrow">{text('objects')} <b>{places.length || model?.floors.length || '—'}</b></span>
                 {selection ? <article className="dx-model-detail">
-                    <span className="dx-model-level">{text('floor')} {selection.floor}</span>
-                    <h3>{selectedPlace ? selectedPlace.name[locale] : text(selection.kind === 'wall' ? 'wall' : 'space')}</h3>
+                    <span className="dx-model-level">{city ? text('city') : `${text('floor')} ${selection.floor}`}</span>
+                    <h3>{selectedPlace ? selectedPlace.name[locale] : selection.building ? `${text('building')} ${selection.building.replace('block-', '')}` : text(selection.kind === 'wall' ? 'wall' : city ? 'city' : 'space')}</h3>
                     {selectedPlace && locale !== 'en' && <p className="dx-model-en">({selectedPlace.name.en})</p>}
-                    <p>{selectedPlace ? selectedPlace.detail[locale] : text('spaceDetail')}</p>
-                    <Button variant="outline" onClick={() => chooseFloor(selection.floor)}><Layers3/>{text('isolate')}</Button>
+                    <p>{selectedPlace ? selectedPlace.detail[locale] : text(selection.building ? 'buildingDetail' : city ? 'cityAccuracy' : 'spaceDetail')}</p>
+                    {!city && <Button variant="outline" onClick={() => chooseFloor(selection.floor)}><Layers3/>{text('isolate')}</Button>}
                     {selectedPlace && <Button variant="ghost" onClick={() => choosePlace(selectedPlace)}><Crosshair/>{text('focus')}</Button>}
                 </article> : <div className="dx-model-pick"><Crosshair/><p>{text('pick')}</p></div>}
                 <div className="dx-model-place-list">
                     {places.length ? places.map(place => <Button variant="ghost" key={place.id} className={selectedPlace?.id === place.id ? 'selected' : ''} onClick={() => choosePlace(place)}><span className="dx-model-place-floor">{place.floor.padStart(2, '0')}</span><span>{place.name[locale]}</span><ChevronRight/></Button>) : model?.floors.map(floor => <Button variant="ghost" key={floor.id} onClick={() => chooseFloor(floor.id)}><Layers3/><span>{text('floor')} {floor.id}</span><ChevronRight/></Button>)}
                 </div>
-                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' ? text('draftShort') : text('model')}</span><p>{text('accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a><a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
+                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' || city ? text('draftShort') : text('model')}</span><p>{text(city ? 'cityAccuracy' : 'accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a>{city && <><a href="/maps/plans/prague-lines.png" target="_blank" rel="noreferrer">{text('lineSource')}<ExternalLink size={13}/></a><a href="/maps/plans/prague-top.svg" target="_blank" rel="noreferrer">{text('vectorSource')}<ExternalLink size={13}/></a></>}<a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
             </aside>
         </div>
         <p className="dx-model-help">{text('controls')}</p>

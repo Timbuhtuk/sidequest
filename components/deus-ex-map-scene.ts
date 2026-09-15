@@ -3,7 +3,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {modelPoint, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
 
-export type MapSelection = {floor: string; place?: string; kind: 'floor' | 'wall' | 'place'};
+export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building'};
 export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean};
 export type MapSceneController = {
     update: (options: SceneOptions, selected: string | null) => void;
@@ -48,6 +48,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     const stairGroups: {group: THREE.Group; from: string; to: string; mesh: THREE.Mesh}[] = [];
     const targets: THREE.Object3D[] = [];
     const markers = new Map<string, THREE.Mesh>();
+    const buildingMeshes = new Map<string, THREE.Mesh>();
     const labelNodes: {element: HTMLButtonElement; point: THREE.Vector3; floor: string; id: string}[] = [];
     const overlay = document.createElement('div');
     overlay.className = 'dx-model-labels';
@@ -143,6 +144,27 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             stairGroups.push({group: stairGroup, from: floor.id, to: stair.toFloor, mesh});
             targets.push(mesh);
         }
+    }
+
+    for (const building of model.buildings || [])
+    {
+        const group = floorGroups.get(building.floor);
+        if (!group) continue;
+        const vector = (p: [number, number]) => new THREE.Vector2(p[0]-model.center[0], -(p[1]-model.center[1]));
+        const shape = new THREE.Shape(building.shape.outer.map(vector));
+        shape.holes = building.shape.holes.map(hole => new THREE.Path(hole.map(vector)));
+        const geometry = new THREE.ExtrudeGeometry(shape, {depth: building.height, bevelEnabled: false, steps: 1, curveSegments: 1});
+        geometry.rotateX(-Math.PI/2);
+        const material = new THREE.MeshStandardMaterial({color: '#aa9158', roughness: .85, metalness: .16});
+        wallMaterials.push(material);
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.userData = {floor: building.floor, building: building.id, kind: 'building'};
+        const buildingGroup = new THREE.Group();
+        buildingGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), edgeMaterial));
+        group.add(buildingGroup);
+        wallGroups.push(buildingGroup);
+        buildingMeshes.set(building.id, mesh);
+        targets.push(mesh);
     }
 
     const markerGeometry = new THREE.OctahedronGeometry(.72);
@@ -288,6 +310,11 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             }
             wallGroups.forEach(group => {group.visible = next.walls;});
             markers.forEach((mesh, id) => {mesh.scale.setScalar(selected === id ? 1.6 : 1);});
+            buildingMeshes.forEach((mesh, id) => {
+                const material = mesh.material as THREE.MeshStandardMaterial;
+                material.emissive.set(selected === id ? '#987836' : '#000000');
+                material.emissiveIntensity = selected === id ? .45 : 0;
+            });
             render();
         },
         reset,
