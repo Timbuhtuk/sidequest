@@ -148,6 +148,8 @@ assert(beforeLeaving(otarRoute).some(text=>text.includes('Отара')));
 assert(!otarRoute.earned.includes('family'));
 const dxUI=fs.readFileSync('components/deus-ex-tracker.tsx','utf8');
 assert(!/completedTasks|Шаг выполнен/.test(dxUI),'Retired duplicate steps must not return to the interface or calculations');
+assert(/className="stage-warnings"/.test(dxUI),'Current achievement warnings must be shown above the current task list');
+assert(!/detail\.warnings\?\.map/.test(dxUI),'Achievement warnings must not be duplicated inside the details dialog');
 console.log('PASS: all retired step IDs round-trip as inactive history; simple instructions and factual cross-stage conditions remain independent.');
 
 const {createTranslator,localizedCatalog,parseLocale,languageKey}=require(path.join(out,'i18n.js'));
