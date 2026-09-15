@@ -1,0 +1,317 @@
+[
+  {
+    "model": "bank",
+    "floor": "9",
+    "point": [
+      827.35,
+      544.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "bank",
+    "floor": "1",
+    "point": [
+      610.41,
+      7273.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "garm",
+    "floor": "4",
+    "point": [
+      689.85,
+      604.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "garm",
+    "floor": "3",
+    "point": [
+      2298.53,
+      2031.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "garm",
+    "floor": "1",
+    "point": [
+      746.07,
+      6482.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "london",
+    "floor": "5",
+    "point": [
+      1174.25,
+      3767.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "london",
+    "floor": "5",
+    "point": [
+      747.44,
+      3789.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "london",
+    "floor": "4",
+    "point": [
+      908.87,
+      4963.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "ridit",
+    "floor": "2",
+    "point": [
+      251.54,
+      3795.01
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "ridit",
+    "floor": "1",
+    "point": [
+      1366.09,
+      4934.14
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "7",
+    "point": [
+      1263.37,
+      776.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "7",
+    "point": [
+      1045.72,
+      880.02
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "7",
+    "point": [
+      831.19,
+      630.46
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "6",
+    "point": [
+      1204.14,
+      1502.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "6",
+    "point": [
+      903.79,
+      1296.25
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "3",
+    "point": [
+      1365.57,
+      4116.42
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "3",
+    "point": [
+      1256.1,
+      4080.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "2",
+    "point": [
+      876.25,
+      5160.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "rvac",
+    "floor": "1",
+    "point": [
+      939.41,
+      6359.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "8",
+    "point": [
+      1632.65,
+      1053.43
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "8",
+    "point": [
+      1306.53,
+      933.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "8",
+    "point": [
+      1131.94,
+      873.18
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "8",
+    "point": [
+      996.77,
+      1108.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "6",
+    "point": [
+      1012.43,
+      2836.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "6",
+    "point": [
+      394.36,
+      3522.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "5",
+    "point": [
+      959.3,
+      4828.02
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "5",
+    "point": [
+      791.86,
+      3973.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "4",
+    "point": [
+      398.39,
+      6118.6
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "4",
+    "point": [
+      154.54,
+      6034.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "3",
+    "point": [
+      995.1,
+      6635.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "3",
+    "point": [
+      857.78,
+      6989.63
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "3",
+    "point": [
+      806.65,
+      6470.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "stedry",
+    "floor": "1",
+    "point": [
+      1132.28,
+      8766.0
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "zelen",
+    "floor": "4",
+    "point": [
+      710.91,
+      86.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  },
+  {
+    "model": "zelen",
+    "floor": "2",
+    "point": [
+      694.5,
+      1242.5
+    ],
+    "reason": "Wall-side shading inside the occupied floor outline on the original sheet"
+  }
+]

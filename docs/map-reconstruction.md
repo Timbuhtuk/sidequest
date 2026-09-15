@@ -149,3 +149,23 @@ the unchanged-floor comparison for TF29 level 2 in the earlier icon-free update.
 The cleanup check covers both room floors, the real atrium, three door gaps,
 the removed shadow wall, and the connected east corner. The source correspondence
 is guarded so a changed automatic trace requires review before rebuilding.
+
+## Cross-model source recovery
+
+`map_source_recovery.py` supplements all 54 interior floors from original sheets.
+Gold exclusion now isolates broad icon shapes rather than removing every golden
+pixel. Source-supported strokes down to 8 pixels can restore short jambs and wall
+sections. Candidates follow the plan axes and must lie at the existing floor;
+unsupported strokes from cleaned images are discarded. The manually reviewed
+TF29 east wing remains protected. Only perpendicular corner gaps within 5 source
+pixels are joined; collinear gaps are retained for doorways. Wall footprints are
+repaired at the output precision before triangulation.
+
+`reviewed-floor-shadows.json` records 35 visually reviewed source-space witnesses
+across seven locations. Their narrow wall-side shadows are filled; other voids,
+floor boundaries, registration and staircase connections are preserved. Rebuilds
+fail if a witness no longer matches exactly one hole, requiring fresh review.
+`check-map-source-recovery.py` covers icon/wall color ambiguity, short jambs,
+corner connections, open doors and each of those 35 occupied-floor points. These
+checks supplement the existing atrium, stair and triangulation regressions; they
+do not establish accuracy in areas hidden by annotations in the source sheets.

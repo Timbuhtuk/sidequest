@@ -10,10 +10,12 @@ sys.path.insert(0, str(Path.cwd().parent / '.map-tools'))
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, box as protected_box
+from shapely import set_precision
 from map_geometry_cleanup import remove_stair_hatching, principal_angle, clean_walls, regularize_ring, wall_footprints
 from map_stair_connections import connect_stairs
 from map_manual_refinements import refine_walls, refine_floor_voids
+from map_source_recovery import architectural_mask, recover_walls, connect_wall_corners, fill_reviewed_shadows
 
 ROOT = Path.cwd()
 OUT = ROOT / 'public/maps/models'
@@ -170,6 +172,7 @@ def register_layers(masks):
     return offsets, scores
 
 manifest = []
+recovery_report = []
 sources = {s['id']: s for s in json.loads((ROOT/'public/maps/plans/sources.json').read_text(encoding='utf-8-sig'))}
 for id, config in CONFIG.items():
     if len(sys.argv) > 1 and id not in sys.argv[1:]:
@@ -188,6 +191,7 @@ for id, config in CONFIG.items():
         else:
             wall_sources.append(part)
     original_wall_masks = [remove_stair_hatching(part, line_mask(part)) for part in slices]
+    recovery_masks = [architectural_mask(part) for part in slices]
     wall_masks = [remove_stair_hatching(part, line_mask(part, remove_icons=(id, config['levels'][q]) not in CLEANED_WALLS))
                   for q, part in enumerate(wall_sources)]
     for q, level_id in enumerate(config['levels']):
@@ -195,6 +199,7 @@ for id, config in CONFIG.items():
             box = cv2.boxPoints(((x, y-config['cuts'][q]), (width/.055+8, run/.055+8), angle)).astype(np.int32)
             cv2.fillPoly(wall_masks[q], [box], 0)
             cv2.fillPoly(original_wall_masks[q], [box], 0)
+            cv2.fillPoly(recovery_masks[q], [box], 0)
     if 'offsets' in config:
         offsets = [[x, y + config['cuts'][q]] for q, (x, y) in enumerate(config['offsets'])]
         scores = [1.0] * len(slices)
@@ -218,13 +223,27 @@ for id, config in CONFIG.items():
         shapes = polygons(mask, angle)
         wall_lines = clean_walls(raw_lines, angle)
         wall_lines = refine_walls(id, config['levels'][q], wall_lines, config['cuts'][q])
+        protected = None
+        if id == 'tf29' and config['levels'][q] == 2:
+            protected = protected_box(620,785-config['cuts'][q],935,1165-config['cuts'][q])
+        wall_lines, additions = recover_walls(recovery_masks[q], wall_lines, shapes, angle, protected)
+        wall_lines = connect_wall_corners(wall_lines)
+        recovery_report.append({'model':id,'floor':str(config['levels'][q]),'added':len(additions)})
         footprint = wall_footprints(wall_lines, .18/scale)
         level = {'id': str(config['levels'][q]), 'elevation': (config['levels'][q]-1)*5.0,
                  'sourceBounds': [0, config['cuts'][q], image.shape[1], config['cuts'][q+1]],
                  'sourceOffset': [dx, dz-config['cuts'][q]], 'registrationScore': scores[q],
                  'shapes': [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in shapes],
                  'walls': [[*point(w[:2]), *point(w[2:])] for w in wall_lines]}
-        level['wallShapes'] = [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in footprint]
+        level['wallShapes'] = []
+        for s in footprint:
+            solid = Polygon([point(p) for p in s['outer']], [[point(p) for p in h] for h in s['holes']]).buffer(0)
+            solid = set_precision(solid,.001)
+            pieces = [solid] if solid.geom_type == 'Polygon' else list(solid.geoms)
+            for piece in pieces:
+                if piece.is_empty or piece.area < .00001: continue
+                level['wallShapes'].append({'outer':list(piece.exterior.coords)[:-1],
+                                           'holes':[list(r.coords)[:-1] for r in piece.interiors]})
         if (id, config['levels'][q]) in CLEANED_WALLS:
             level['wallSource'] = '/maps/plans/cleaned/'+CLEANED_WALLS[(id, config['levels'][q])]
         stair_marks[level['id']] = [{'center': point([x, y-config['cuts'][q]]), 'width': width, 'run': run, 'angle': angle}
@@ -238,6 +257,7 @@ for id, config in CONFIG.items():
         pd.text((q*600+10, 10), f'{id} / level {level["id"]} / {scores[q]}', fill='white')
     connect_stairs(levels, stair_marks)
     refine_floor_voids(id, levels, scale)
+    filled_shadows = fill_reviewed_shadows(id, levels, scale)
     all_points = np.array([p for level in levels for shape in level['shapes'] for p in shape['outer']])
     center = ((all_points.min(axis=0)+all_points.max(axis=0))/2).tolist()
     model = {'id': id, 'format': 3, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
@@ -248,6 +268,18 @@ for id, config in CONFIG.items():
     preview.save(ROOT/f'outputs/{id}-vector-review.png')
     manifest.append({'id': id, 'floors': len(levels), 'polygons': sum(len(f['shapes']) for f in levels), 'walls': sum(len(f['walls']) for f in levels), 'scores': scores})
     print(manifest[-1])
+    print({'filledShadows':filled_shadows})
+    # Source-space overlay for reviewing recovered strokes against original maps.
+    for floor in levels:
+        left,top,right,bottom=floor['sourceBounds']
+        source=Image.fromarray(image[top:bottom]).convert('RGB')
+        draw=ImageDraw.Draw(source)
+        for a,b,c,d in floor['walls']:
+            draw.line([(a/scale-floor['sourceOffset'][0],b/scale-floor['sourceOffset'][1]-top),
+                       (c/scale-floor['sourceOffset'][0],d/scale-floor['sourceOffset'][1]-top)],fill='#52ffc1',width=2)
+        source.thumbnail((1200,1200))
+        source.save(ROOT/f'outputs/{id}-{floor["id"]}-wall-recovery.png')
 if len(sys.argv) == 1:
     (OUT/'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+(ROOT/'outputs/wall-recovery-report.json').write_text(json.dumps(recovery_report,indent=2))
 

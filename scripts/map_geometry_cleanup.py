@@ -39,7 +39,7 @@ def principal_angle(lines):
         y += math.sin(4*angle)*weight
     return math.atan2(y, x)/4
 
-def clean_walls(lines, angle):
+def clean_walls(lines, angle, min_length=25):
     """Cluster duplicate observations of the same wall, keeping door gaps."""
     basis = np.array([[math.cos(angle), -math.sin(angle)], [math.sin(angle), math.cos(angle)]])
     groups = []
@@ -49,7 +49,7 @@ def clean_walls(lines, angle):
         d = b-a
         axis = int(abs(d[1]) > abs(d[0]))
         length = abs(d[axis])
-        if length < 25:
+        if length < min_length:
             continue
         if abs(d[1-axis])/length > .12:
             diagonal.append(line)
