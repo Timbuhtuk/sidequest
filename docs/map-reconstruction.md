@@ -150,7 +150,7 @@ The cleanup check covers both room floors, the real atrium, three door gaps,
 the removed shadow wall, and the connected east corner. The source correspondence
 is guarded so a changed automatic trace requires review before rebuilding.
 
-## Cross-model source recovery
+## Cross-model source recovery (superseded for interiors)
 
 `map_source_recovery.py` supplements all 54 interior floors from original sheets.
 Gold exclusion now isolates broad icon shapes rather than removing every golden
@@ -169,3 +169,36 @@ fail if a witness no longer matches exactly one hole, requiring fresh review.
 corner connections, open doors and each of those 35 occupied-floor points. These
 checks supplement the existing atrium, stair and triangulation regressions; they
 do not establish accuracy in areas hidden by annotations in the source sheets.
+
+## Regenerated flat plans — current interior pipeline
+
+All 10 interiors now use 58 individually regenerated plans for 54 physical
+floors. Each crop was edited with the built-in image generation tool: gray
+horizontal floor, white wall tops, black exterior/real voids and cyan stair
+footprints. Icons, labels, grid, lighting and vertical shadow faces were removed.
+The selected assets, exact source crops, prompts and inspection notes are in
+`public/maps/plans/flat-v2/manifest.json`; original source sheets remain alongside.
+
+Run `python scripts/build-flat-map-models.py` from the Site directory to stage
+models in `outputs/flat-models`. This is the current rebuild entry point;
+`build-map-models.py` documents the former pipeline and supplies stair metadata.
+White connected ribbons are vectorized into wall solids directly, retaining
+short wall ends and junctions. No legacy line detection or source-wall recovery
+is added to these solids. Gray and cyan surfaces form floor polygons with black
+voids retained. Existing verified stair links cut their destination floor slabs.
+
+Bounded affine registration corrects small framing changes against the original
+wall-top coordinates. Separate buildings may be registered independently when a
+whole-sheet fit fails. Original pixels provide registration only, never extra
+wall or floor geometry. `generatedParts` stores the transform and fit metrics.
+Dubai now separates seven labelled subplans instead of mixing different levels
+within three image crops. RVAC level 1 includes its previously cropped top edge.
+
+Before copying staged models into `public/maps/models`, run
+`python scripts/check-flat-map-models.py --complete` and
+`node scripts/check-dx-map.mjs outputs/flat-models` (copy the unchanged Prague
+model into staging for the latter). Checks cover source completeness, polygon
+validity, overlapping solids, open stair arrivals and Three.js triangulation.
+They do not establish exact correspondence to the game. Generation can still
+interpret obscured details imperfectly, and multi-floor registration remains a
+draft reconstruction where the source lacks common landmarks.

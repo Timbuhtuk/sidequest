@@ -2,65 +2,80 @@
   {
     "id": "garm",
     "floors": 4,
-    "polygons": 23,
-    "walls": 418,
+    "polygons": 16,
+    "walls": 0,
     "scores": [
       1.0,
       1.0,
       1.0,
       1.0
-    ]
+    ],
+    "wallSolids": 247,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 4
   },
   {
     "id": "tf29",
     "floors": 3,
-    "polygons": 4,
-    "walls": 157,
+    "polygons": 3,
+    "walls": 0,
     "scores": [
       1.0,
       1.0,
       1.0
-    ]
+    ],
+    "wallSolids": 8,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 3
   },
   {
     "id": "zelen",
     "floors": 4,
     "polygons": 4,
-    "walls": 148,
+    "walls": 0,
     "scores": [
       1.0,
       1.0,
       1.0,
       1.0
-    ]
+    ],
+    "wallSolids": 25,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 4
   },
   {
     "id": "koller",
     "floors": 3,
-    "polygons": 4,
-    "walls": 75,
+    "polygons": 3,
+    "walls": 0,
     "scores": [
       1.0,
       1.0,
       1.0
-    ]
+    ],
+    "wallSolids": 12,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 3
   },
   {
     "id": "dubai",
     "floors": 3,
-    "polygons": 16,
-    "walls": 485,
+    "polygons": 12,
+    "walls": 0,
     "scores": [
       0.289,
       0.335,
       1.0
-    ]
+    ],
+    "wallSolids": 339,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 7
   },
   {
     "id": "london",
     "floors": 8,
-    "polygons": 17,
-    "walls": 759,
+    "polygons": 10,
+    "walls": 0,
     "scores": [
       0.277,
       0.368,
@@ -70,26 +85,32 @@
       0.32,
       0.372,
       0.244
-    ]
+    ],
+    "wallSolids": 598,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 8
   },
   {
     "id": "ridit",
     "floors": 5,
-    "polygons": 13,
-    "walls": 374,
+    "polygons": 8,
+    "walls": 0,
     "scores": [
       0.326,
       0.433,
       0.337,
       0.494,
       1.0
-    ]
+    ],
+    "wallSolids": 75,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 5
   },
   {
     "id": "bank",
     "floors": 9,
-    "polygons": 16,
-    "walls": 640,
+    "polygons": 21,
+    "walls": 0,
     "scores": [
       0.544,
       1.0,
@@ -100,13 +121,16 @@
       0.243,
       0.466,
       0.345
-    ]
+    ],
+    "wallSolids": 135,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 9
   },
   {
     "id": "rvac",
     "floors": 7,
-    "polygons": 15,
-    "walls": 496,
+    "polygons": 8,
+    "walls": 0,
     "scores": [
       0.457,
       0.447,
@@ -115,13 +139,16 @@
       0.559,
       1.0,
       0.36
-    ]
+    ],
+    "wallSolids": 56,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 7
   },
   {
     "id": "stedry",
     "floors": 8,
-    "polygons": 16,
-    "walls": 445,
+    "polygons": 15,
+    "walls": 0,
     "scores": [
       0.218,
       0.287,
@@ -131,6 +158,9 @@
       0.354,
       0.467,
       0.522
-    ]
+    ],
+    "wallSolids": 105,
+    "reconstruction": "generated-flat-plans-v2",
+    "sourcePlans": 8
   }
 ]

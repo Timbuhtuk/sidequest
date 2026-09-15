@@ -6,6 +6,7 @@ import {createRequire} from 'node:module';
 import * as THREE from 'three';
 
 const out = path.resolve('.checks');
+const modelDirectory = process.argv[2] || 'public/maps/models';
 fs.mkdirSync(out, {recursive: true});
 fs.writeFileSync(path.join(out, 'package.json'), '{"type":"commonjs"}');
 fs.writeFileSync(path.join(out, 'dx-map-model.js'), ts.transpileModule(fs.readFileSync('lib/dx-map-model.ts', 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}}).outputText);
@@ -22,7 +23,7 @@ function inside(p, ring) {
     return result;
 }
 for (const location of modelLocations) {
-    const model = JSON.parse(fs.readFileSync(`public/maps/models/${location.id}.json`, 'utf8'));
+    const model = JSON.parse(fs.readFileSync(path.join(modelDirectory, `${location.id}.json`), 'utf8'));
     assert.equal(model.id, location.id);
     const orderedFloors = [...model.floors].sort((a,b)=>a.elevation-b.elevation);
     for(let q=1;q<orderedFloors.length;q++) {

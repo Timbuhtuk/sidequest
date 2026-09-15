@@ -68,7 +68,7 @@ export const modelLocations: ModelLocation[] = [
         room('forensic', 1, [827, 1580], t('Криминалистика', 'Криміналістика', 'Forensic')),
         room('cafe', 1, [790, 1840], t('Кафе', 'Кафе', 'Café')),
         room('infirmary', 1, [612, 1970], t('Медпункт', 'Медпункт', 'Infirmary')),
-        room('cells', 1, [645, 2130], t('Камеры задержания', 'Камери затримання', 'Holding cells')),
+        room('cells', 1, [700, 2140], t('Камеры задержания', 'Камери затримання', 'Holding cells')),
         room('stairs-lower', 1, [617, 1510], t('Лестница на верхний уровень', 'Сходи на верхній рівень', 'Stairs to the upper level'), undefined, 'stairs'),
         room('lift-base', 1, [437, 1940], t('Лифт к выходу', 'Ліфт до виходу', 'Exit elevator'), t('Лифт соединяет подземный штаб с конторой Praha Dovoz на уровне 3.', 'Ліфт сполучає підземний штаб із конторою Praha Dovoz на рівні 3.', 'The elevator connects the underground headquarters to the Praha Dovoz storefront on level 3.'), 'lift'),
         room('director', 2, [774, 1088], t('Кабинет директора', 'Кабінет директора', 'Director’s office')),
