@@ -135,3 +135,17 @@ compares the update against the saved pre-update models and creates overlays on
 the original source for review. The cleanup, stair and Three.js geometry checks
 passed. These remain schematic reconstructions: generated details formerly hidden
 by icons should not be treated as independently verified game geometry.
+
+## TF29 level 2 source corrections
+
+The NSN/server east wing is manually reconciled with the original full-resolution
+sheet in `map_manual_refinements.py`. Short door jambs missing from automatic
+tracing are restored; adjoining segments meet in the unified wall solid. The
+oblique slab shadow is excluded from walls. Two shaded occupied rooms (east wing
+and cyber room) are filled instead of being treated as floor voids. The central
+atrium and stair openings remain intact. These explicit corrections supersede
+the unchanged-floor comparison for TF29 level 2 in the earlier icon-free update.
+
+The cleanup check covers both room floors, the real atrium, three door gaps,
+the removed shadow wall, and the connected east corner. The source correspondence
+is guarded so a changed automatic trace requires review before rebuilding.

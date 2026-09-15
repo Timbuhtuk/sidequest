@@ -36,3 +36,19 @@ lobby_surface = unary_union([Polygon(s['outer'], s['holes']) for s in lobby['sha
 assert lobby_surface.contains(source_point(lobby, [1430, 1850])), 'Dark red floor was cut out again'
 assert not lobby_surface.contains(source_point(lobby, [710, 1700])), 'The actual lobby opening was filled in'
 print('PASS: door gaps, rectangular/L-shaped openings, non-overlapping wall solids, bank stair hatching and red-floor regression checks.')
+
+tf29 = next(model for model in models if model['id'] == 'tf29')
+east = next(f for f in tf29['floors'] if f['id'] == '2')
+def tf_point(x, y):
+    return Point((x+east['sourceOffset'][0])*tf29['scale'], (y+east['sourceOffset'][1])*tf29['scale'])
+surface = unary_union([Polygon(s['outer'], s['holes']) for s in east['shapes']])
+east_solids = [Polygon(s['outer'], s['holes']) for s in east['wallShapes']]
+east_walls = unary_union(east_solids)
+assert surface.contains(tf_point(870, 850)), 'East room shadow became a hole'
+assert surface.contains(tf_point(520, 720)), 'Cyber Crimes room shadow became a hole'
+assert not surface.contains(tf_point(640, 980)), 'Central atrium was filled'
+for x,y in [(786,898.5), (860,923), (777.5,1010)]:
+    assert not east_walls.intersects(tf_point(x,y).buffer(.04)), 'NSN doorway was sealed'
+assert not east_walls.intersects(tf_point(815,891).buffer(.06)), 'Slab shadow became a protruding wall'
+assert any(p.contains(tf_point(820,850.38)) and p.contains(tf_point(840,888.37)) for p in east_solids), 'East room corner is disconnected'
+print('PASS: reported TF29 room floors, connected east corner, three open doorways and no shadow wall.')

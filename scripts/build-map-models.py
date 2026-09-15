@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw
 from shapely.geometry import Polygon
 from map_geometry_cleanup import remove_stair_hatching, principal_angle, clean_walls, regularize_ring, wall_footprints
 from map_stair_connections import connect_stairs
+from map_manual_refinements import refine_walls, refine_floor_voids
 
 ROOT = Path.cwd()
 OUT = ROOT / 'public/maps/models'
@@ -216,6 +217,7 @@ for id, config in CONFIG.items():
         angle = principal_angle(walls_from_mask(original_wall_masks[q]))
         shapes = polygons(mask, angle)
         wall_lines = clean_walls(raw_lines, angle)
+        wall_lines = refine_walls(id, config['levels'][q], wall_lines, config['cuts'][q])
         footprint = wall_footprints(wall_lines, .18/scale)
         level = {'id': str(config['levels'][q]), 'elevation': (config['levels'][q]-1)*5.0,
                  'sourceBounds': [0, config['cuts'][q], image.shape[1], config['cuts'][q+1]],
@@ -235,6 +237,7 @@ for id, config in CONFIG.items():
         p.thumbnail((590, 660)); preview.paste(p, (q*600, 40))
         pd.text((q*600+10, 10), f'{id} / level {level["id"]} / {scores[q]}', fill='white')
     connect_stairs(levels, stair_marks)
+    refine_floor_voids(id, levels, scale)
     all_points = np.array([p for level in levels for shape in level['shapes'] for p in shape['outer']])
     center = ((all_points.min(axis=0)+all_points.max(axis=0))/2).tolist()
     model = {'id': id, 'format': 3, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
