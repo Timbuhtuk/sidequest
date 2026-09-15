@@ -117,3 +117,21 @@ use 10% opacity with faint edges and no depth writes. Context floors do not inte
 selection; only active-floor labels and markers are shown. Stair connections remain
 visible and are emphasized when either endpoint is selected. No geometry reload is
 performed for a floor selection.
+
+## Icon-free interior wall references
+
+TF29 levels 1 and 2 and Palisade Bank level 8 now trace walls from the reviewed
+generated crops in `public/maps/plans/cleaned/`. The crops are normalized back to
+their exact source-sheet bounds. Their color shading is not used to regenerate
+floors: all original floor shapes, holes, stair connections and registration
+coordinates remain identical. Stair hatching is still suppressed before tracing.
+The yellow-icon filter is disabled for these icon-free inputs because it would
+otherwise erase genuine golden wall outlines in the generated palette.
+
+Each affected floor records `wallSource`; the app requests the updated asset
+revision. Unified wall footprints are regenerated, preserving the existing
+assembled-floor and translucent-context behavior. `review-cleaned-wall-models.py`
+compares the update against the saved pre-update models and creates overlays on
+the original source for review. The cleanup, stair and Three.js geometry checks
+passed. These remain schematic reconstructions: generated details formerly hidden
+by icons should not be treated as independently verified game geometry.

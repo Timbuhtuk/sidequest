@@ -77,7 +77,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         {
             try
             {
-                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=3`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
+                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=3-cleaned-walls-1`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
                 if (!response.ok) throw new Error('Map model unavailable');
                 const next = await response.json() as MapModel;
                 if (disposed || !host.current) return;

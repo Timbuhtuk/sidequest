@@ -11,6 +11,7 @@ export type ModelFloor = {
     shapes: FloorShape[];
     walls: [number, number, number, number][];
     wallShapes: FloorShape[];
+    wallSource?: string;
     stairs: {center: PlanPoint; width: number; run: number; angle: number; rise: number; toFloor: string}[];
 };
 export type MapModel = {

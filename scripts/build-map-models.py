@@ -41,6 +41,12 @@ STAIRS = {
     'koller': {2: [[832, 1085, 4.0, 5.0, 30]], 3: [[832, 253, 4.0, 5.0, 30]]},
 }
 
+# Reviewed icon-free floor crops. Floor surfaces and registration still use
+# original full sheets; generated shading must not create or fill floor voids.
+CLEANED_WALLS = {('tf29', 1): 'tf29-level-1-cleaned.png',
+                 ('tf29', 2): 'tf29-level-2-cleaned.png',
+                 ('bank', 8): 'bank-level-8-cleaned.png'}
+
 def trace_mask(image):
     r, g, b = [image[:, :, q].astype(float) for q in range(3)]
     colored = (r > 36) & (g > 27) & (r > b * 1.35) & (g > b * 1.18)
@@ -70,12 +76,14 @@ def trace_mask(image):
             child = hierarchy[0][child][0]
     return clean
 
-def line_mask(image):
+def line_mask(image, remove_icons=True):
     r, g, b = [image[:, :, q].astype(float) for q in range(3)]
     mask = ((r > 125) & (g > 105) & (r > b * .92)).astype('uint8') * 255
     # Exclude grey legends and background district outlines.
     gold = ((r > g * 1.04) & (g > b * 1.12) & (r > 85)).astype('uint8') * 255
     nearby = cv2.dilate(gold, np.ones((35, 35), np.uint8))
+    if not remove_icons:
+        return cv2.bitwise_and(mask, nearby)
     icons = ((r > 180) & (g > 130) & (b < g * .58)).astype('uint8') * 255
     icons = cv2.dilate(icons, np.ones((9, 9), np.uint8))
     return cv2.bitwise_and(cv2.bitwise_and(mask, nearby), cv2.bitwise_not(icons))
@@ -168,11 +176,24 @@ for id, config in CONFIG.items():
     image = np.asarray(Image.open(ROOT/f'public/maps/plans/{id}-raw.png').convert('RGB'))
     slices = [image[a:b] for a, b in zip(config['cuts'], config['cuts'][1:])]
     masks = [trace_mask(part) for part in slices]
-    wall_masks = [remove_stair_hatching(part, line_mask(part)) for part in slices]
+    wall_sources = []
+    for q, part in enumerate(slices):
+        name = CLEANED_WALLS.get((id, config['levels'][q]))
+        if name:
+            cleaned = Image.open(ROOT/'public/maps/plans/cleaned'/name).convert('RGB')
+            if abs(cleaned.width/cleaned.height-part.shape[1]/part.shape[0]) > .003:
+                raise ValueError(f'Cleaned map aspect ratio changed: {name}')
+            wall_sources.append(np.array(cleaned.resize((part.shape[1], part.shape[0]), Image.Resampling.LANCZOS)))
+        else:
+            wall_sources.append(part)
+    original_wall_masks = [remove_stair_hatching(part, line_mask(part)) for part in slices]
+    wall_masks = [remove_stair_hatching(part, line_mask(part, remove_icons=(id, config['levels'][q]) not in CLEANED_WALLS))
+                  for q, part in enumerate(wall_sources)]
     for q, level_id in enumerate(config['levels']):
         for x, y, width, run, angle in STAIRS.get(id, {}).get(level_id, []):
             box = cv2.boxPoints(((x, y-config['cuts'][q]), (width/.055+8, run/.055+8), angle)).astype(np.int32)
             cv2.fillPoly(wall_masks[q], [box], 0)
+            cv2.fillPoly(original_wall_masks[q], [box], 0)
     if 'offsets' in config:
         offsets = [[x, y + config['cuts'][q]] for q, (x, y) in enumerate(config['offsets'])]
         scores = [1.0] * len(slices)
@@ -192,7 +213,7 @@ for id, config in CONFIG.items():
         def point(p):
             return [round((p[0]+dx)*scale, 3), round((p[1]+dz)*scale, 3)]
         raw_lines = walls_from_mask(wall_masks[q])
-        angle = principal_angle(raw_lines)
+        angle = principal_angle(walls_from_mask(original_wall_masks[q]))
         shapes = polygons(mask, angle)
         wall_lines = clean_walls(raw_lines, angle)
         footprint = wall_footprints(wall_lines, .18/scale)
@@ -202,6 +223,8 @@ for id, config in CONFIG.items():
                  'shapes': [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in shapes],
                  'walls': [[*point(w[:2]), *point(w[2:])] for w in wall_lines]}
         level['wallShapes'] = [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in footprint]
+        if (id, config['levels'][q]) in CLEANED_WALLS:
+            level['wallSource'] = '/maps/plans/cleaned/'+CLEANED_WALLS[(id, config['levels'][q])]
         stair_marks[level['id']] = [{'center': point([x, y-config['cuts'][q]]), 'width': width, 'run': run, 'angle': angle}
                                    for x, y, width, run, angle in STAIRS.get(id, {}).get(config['levels'][q], [])]
         levels.append(level)
