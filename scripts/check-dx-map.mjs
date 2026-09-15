@@ -10,7 +10,7 @@ fs.mkdirSync(out, {recursive: true});
 fs.writeFileSync(path.join(out, 'package.json'), '{"type":"commonjs"}');
 fs.writeFileSync(path.join(out, 'dx-map-model.js'), ts.transpileModule(fs.readFileSync('lib/dx-map-model.ts', 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}}).outputText);
 const require = createRequire(import.meta.url);
-const {modelLocations, modelPoint} = require(path.join(out, 'dx-map-model.js'));
+const {modelLocations, modelPoint, mapDestination, pragueInteriorMaps} = require(path.join(out, 'dx-map-model.js'));
 let floors = 0, solids = 0, holes = 0, points = 0;
 const area = ring => Math.abs(ring.reduce((sum, p, i) => {const next = ring[(i+1)%ring.length]; return sum+p[0]*next[1]-next[0]*p[1];}, 0)/2);
 function inside(p, ring) {
@@ -24,6 +24,16 @@ function inside(p, ring) {
 for (const location of modelLocations) {
     const model = JSON.parse(fs.readFileSync(`public/maps/models/${location.id}.json`, 'utf8'));
     assert.equal(model.id, location.id);
+    if (model.id === 'prague') {
+        const destinations = model.buildings.map(building => mapDestination(model, {building: building.id})).filter(Boolean);
+        assert.deepEqual(destinations.sort(), Object.values(pragueInteriorMaps).sort(), 'Each interior must have exactly one linked city volume');
+        for (const [place, destination] of Object.entries(pragueInteriorMaps)) {
+            assert.equal(mapDestination(model, {place}), destination);
+            assert(modelLocations.some(item => item.id === destination), 'Broken interior map link');
+        }
+        assert.equal(mapDestination(model, {place: 'city-theater'}), null);
+        assert.equal(mapDestination(model, {building: 'missing'}), null);
+    } else assert.equal(mapDestination(model, {place: 'city-bank'}), null);
     assert(model.kind === 'city' ? model.floors.length === 1 : model.floors.length > 1);
     assert(model.wallHeight > model.slabDepth * 3);
     assert.equal(new Set(model.floors.map(f=>f.id)).size, model.floors.length);

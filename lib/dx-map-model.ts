@@ -122,3 +122,38 @@ export function modelPoint(model: MapModel, place: ModelPlace): [number, number,
     return [(point[0] + floor.sourceOffset[0]) * model.scale - model.center[0], floor.elevation,
         (point[1] + floor.sourceOffset[1]) * model.scale - model.center[1]];
 }
+
+export const pragueInteriorMaps: Record<string, string> = {
+    'city-bank': 'bank',
+    'city-zelen': 'zelen',
+    'city-koller': 'koller',
+    'city-dovoz': 'tf29',
+};
+
+export function mapDestination(model: MapModel, selection: {place?: string; building?: string}): string | null
+{
+    if (model.id !== 'prague') return null;
+    if (selection.place) return pragueInteriorMaps[selection.place] || null;
+    const building = model.buildings?.find(item => item.id === selection.building);
+    if (!building) return null;
+    const inside = (point: PlanPoint, ring: PlanPoint[]) => {
+        let result = false;
+        for (let q = 0, e = ring.length-1; q < ring.length; e = q++)
+        {
+            const a = ring[q], b = ring[e];
+            if ((a[1] > point[1]) !== (b[1] > point[1]) && point[0] < (b[0]-a[0])*(point[1]-a[1])/(b[1]-a[1])+a[0]) result = !result;
+        }
+        return result;
+    };
+    // Resolve the volume from source landmarks, not unstable generated block IDs.
+    const city = modelLocations.find(item => item.id === 'prague')!;
+    for (const place of city.places)
+    {
+        if (!pragueInteriorMaps[place.id] || place.floor !== building.floor) continue;
+        const p = modelPoint(model, place);
+        const point: PlanPoint = [p[0]+model.center[0], p[2]+model.center[1]];
+        if (inside(point, building.shape.outer) && !building.shape.holes.some(hole => inside(point, hole)))
+            return pragueInteriorMaps[place.id];
+    }
+    return null;
+}

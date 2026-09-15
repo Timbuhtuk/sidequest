@@ -99,3 +99,10 @@ square and railway witnesses, named building coverage, and a distance/angle
 preserving source transform. The shared Three.js triangulation check also checks
 city footprint hole areas and all 45 marker positions. Detailed source comparison
 scores are recorded in `prague-line-map-report.json`.
+
+Prague volumes containing the bank, Zelen, Time Machine and Praha Dovoz landmarks
+open their existing interior models on click. The link is resolved from the shared
+source-coordinate transform and footprint containment, so regenerating block IDs
+does not break navigation. Labels and the place list offer the same navigation;
+the interior header provides a return to Prague. The geometry check requires one
+linked volume per interior and validates every destination against the registry.

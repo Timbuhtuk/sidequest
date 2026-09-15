@@ -1,16 +1,18 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
-import {ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Tags} from 'lucide-react';
+import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Tags} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import {Toggle} from '@/components/ui/toggle';
-import {mapText as t, modelLocations, type MapLocale, type MapModel, type ModelPlace} from '@/lib/dx-map-model';
+import {mapText as t, modelLocations, mapDestination, pragueInteriorMaps, type MapLocale, type MapModel, type ModelPlace} from '@/lib/dx-map-model';
 import type {MapSceneController, MapSelection, SceneOptions} from './deus-ex-map-scene';
 import './deus-ex-map.css';
 
 const labels = {
     title: t('Объёмная карта', 'Об’ємна мапа', 'Spatial map'),
     location: t('Локация', 'Локація', 'Location'),
+    backCity: t('К карте Праги', 'До мапи Праги', 'Back to Prague'),
+    cityPick: t('Нажми на здание с подробной картой, чтобы войти внутрь.', 'Натисни на будівлю з докладною мапою, щоб увійти всередину.', 'Select a building with an interior map to open it.'),
     floor: t('Уровень', 'Рівень', 'Level'),
     all: t('Все этажи', 'Усі поверхи', 'All floors'),
     explode: t('Разнести этажи', 'Рознести поверхи', 'Separate floors'),
@@ -82,7 +84,12 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                 if (next.format !== 3 || !next.floors.length) throw new Error('Unsupported map model');
                 const initial = {...pendingOptions.current, floor: next.registration === 'automatic' ? next.floors[next.floors.length-1].id : 'all'};
                 setOptions(initial);
-                instance = engine.createMapScene(host.current, next, location.places, locale, setSelection, () => {if (!disposed) setStatus('error');});
+                instance = engine.createMapScene(host.current, next, location.places, locale, hit => {
+                    if (disposed) return;
+                    const destination = mapDestination(next, hit);
+                    if (destination) setLocationId(destination);
+                    else setSelection(hit);
+                }, () => {if (!disposed) setStatus('error');});
                 controller.current = instance;
                 instance.update(initial, null); instance.reset();
                 setModel(next); setStatus('ready');
@@ -102,6 +109,8 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     }
     function choosePlace(place: ModelPlace)
     {
+        const destination = model && mapDestination(model, {place: place.id});
+        if (destination) {setLocationId(destination); return;}
         const next = {...options, floor: place.floor};
         setOptions(next); setSelection({floor: place.floor, place: place.id, kind: 'place'});
         controller.current?.update(next, place.id); controller.current?.focus(place.id);
@@ -114,7 +123,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     }
     return <section className="dx-model" aria-labelledby="dx-model-title">
         <header className="dx-model-heading">
-            <div><span className="eyebrow"><Box size={14}/>{text('title')}</span><h2 id="dx-model-title">{location.name[locale]}</h2></div>
+            <div>{Object.values(pragueInteriorMaps).includes(locationId) && <Button variant="ghost" onClick={() => setLocationId('prague')}><ArrowLeft/>{text('backCity')}</Button>}<span className="eyebrow"><Box size={14}/>{text('title')}</span><h2 id="dx-model-title">{location.name[locale]}</h2></div>
             <Select value={locationId} onValueChange={value => {if (value) setLocationId(value);}}>
                 <SelectTrigger className="dx-model-select" aria-label={text('location')}><SelectValue>{location.name[locale]}</SelectValue></SelectTrigger>
                 <SelectContent>{modelLocations.map(item => <SelectItem value={item.id} key={item.id}>{item.name[locale]}</SelectItem>)}</SelectContent>
@@ -157,7 +166,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                     <p>{selectedPlace ? selectedPlace.detail[locale] : text(selection.building ? 'buildingDetail' : city ? 'cityAccuracy' : 'spaceDetail')}</p>
                     {!city && <Button variant="outline" onClick={() => chooseFloor(selection.floor)}><Layers3/>{text('isolate')}</Button>}
                     {selectedPlace && <Button variant="ghost" onClick={() => choosePlace(selectedPlace)}><Crosshair/>{text('focus')}</Button>}
-                </article> : <div className="dx-model-pick"><Crosshair/><p>{text('pick')}</p></div>}
+                </article> : <div className="dx-model-pick"><Crosshair/><p>{text(city ? 'cityPick' : 'pick')}</p></div>}
                 <div className="dx-model-place-list">
                     {places.length ? places.map(place => <Button variant="ghost" key={place.id} className={selectedPlace?.id === place.id ? 'selected' : ''} onClick={() => choosePlace(place)}><span className="dx-model-place-floor">{place.floor.padStart(2, '0')}</span><span>{place.name[locale]}</span><ChevronRight/></Button>) : model?.floors.map(floor => <Button variant="ghost" key={floor.id} onClick={() => chooseFloor(floor.id)}><Layers3/><span>{text('floor')} {floor.id}</span><ChevronRight/></Button>)}
                 </div>

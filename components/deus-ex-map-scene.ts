@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {modelPoint, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
+import {modelPoint, mapDestination, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
 
 export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building'};
 export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean};
@@ -185,8 +185,9 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         floorGroup.add(new THREE.Line(stem, stemMaterial));
         const label = document.createElement('button');
         label.type = 'button';
-        label.textContent = place.name[locale];
-        label.title = place.name[locale];
+        const destination = mapDestination(model, {place: place.id});
+        label.textContent = place.name[locale] + (destination ? ' ↗' : '');
+        label.title = destination ? `${place.name[locale]} — ${locale === 'ru' ? 'Открыть карту' : locale === 'uk' ? 'Відкрити мапу' : 'Open map'}` : place.name[locale];
         label.addEventListener('click', () => onSelect({floor: place.floor, place: place.id, kind: 'place'}));
         overlay.appendChild(label);
         labelNodes.push({element: label, point: marker.position.clone(), floor: place.floor, id: place.id});
@@ -266,6 +267,10 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     function pointerMove(event: PointerEvent)
     {
         if (Math.hypot(event.clientX-pointerStart.x, event.clientY-pointerStart.y) > 5) dragging = true;
+        const rect = renderer.domElement.getBoundingClientRect();
+        raycaster.setFromCamera(new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1, -(event.clientY-rect.top)/rect.height*2+1), camera);
+        const hit = raycaster.intersectObjects(targets, false).find(item => visible(item.object));
+        renderer.domElement.style.cursor = event.buttons ? 'grabbing' : hit && mapDestination(model, hit.object.userData) ? 'pointer' : 'grab';
     }
     function pointerUp(event: PointerEvent)
     {
