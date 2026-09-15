@@ -45,6 +45,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     const floorMaterials: THREE.MeshStandardMaterial[] = [];
     const wallMaterials: THREE.MeshStandardMaterial[] = [];
     const wallGroups: THREE.Group[] = [];
+    const stairGroups: {group: THREE.Group; from: string; to: string; mesh: THREE.Mesh}[] = [];
     const targets: THREE.Object3D[] = [];
     const markers = new Map<string, THREE.Mesh>();
     const labelNodes: {element: HTMLButtonElement; point: THREE.Vector3; floor: string; id: string}[] = [];
@@ -114,9 +115,9 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         for (const stair of floor.stairs)
         {
             const stairGroup = new THREE.Group();
-            stairGroup.position.set(stair.center[0]-model.center[0], 0, stair.center[1]-model.center[1]);
+            stairGroup.position.set(stair.center[0]-model.center[0], floor.elevation, stair.center[1]-model.center[1]);
             stairGroup.rotation.y = -stair.angle*Math.PI/180;
-            group.add(stairGroup);
+            root.add(stairGroup);
             const steps: THREE.BufferGeometry[] = [];
             const count = 10;
             const run = stair.run*.8;
@@ -139,6 +140,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             const mesh = new THREE.Mesh(geometry, wallsMaterial);
             mesh.userData = {floor: floor.id, kind: 'floor'};
             stairGroup.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial));
+            stairGroups.push({group: stairGroup, from: floor.id, to: stair.toFloor, mesh});
             targets.push(mesh);
         }
     }
@@ -214,6 +216,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     {
         const box = new THREE.Box3();
         for (const group of floorGroups.values()) if (group.visible) box.union(new THREE.Box3().setFromObject(group));
+        for (const stair of stairGroups) if (stair.group.visible) box.union(new THREE.Box3().setFromObject(stair.group));
         const center = box.getCenter(new THREE.Vector3());
         const extent = box.getSize(new THREE.Vector3());
         const distance = Math.max(extent.x, extent.z, extent.y, 15) * (camera.aspect < 1 ? 2.6/camera.aspect : 2.05);
@@ -269,6 +272,12 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
                 const group = floorGroups.get(floor.id)!;
                 group.visible = next.floor === 'all' || next.floor === floor.id;
                 group.position.y = floor.elevation * (next.exploded && next.floor === 'all' ? 2.6 : 1);
+            }
+            for (const stair of stairGroups)
+            {
+                stair.group.visible = next.floor === 'all' || next.floor === stair.from || next.floor === stair.to;
+                stair.group.position.y = floorGroups.get(stair.from)!.position.y;
+                stair.mesh.userData.floor = next.floor === 'all' ? stair.from : next.floor;
             }
             for (const material of [...floorMaterials, ...wallMaterials])
             {

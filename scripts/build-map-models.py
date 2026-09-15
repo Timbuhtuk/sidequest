@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 from shapely.geometry import Polygon
 from map_geometry_cleanup import remove_stair_hatching, principal_angle, clean_walls, regularize_ring, wall_footprints
+from map_stair_connections import connect_stairs
 
 ROOT = Path.cwd()
 OUT = ROOT / 'public/maps/models'
@@ -183,6 +184,7 @@ for id, config in CONFIG.items():
         offsets, scores = register_layers(wall_masks)
     scale = .055
     levels = []
+    stair_marks = {}
     preview = Image.new('RGB', (600 * len(slices), 720), '#111611')
     pd = ImageDraw.Draw(preview)
     for q, mask in enumerate(masks):
@@ -200,9 +202,8 @@ for id, config in CONFIG.items():
                  'shapes': [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in shapes],
                  'walls': [[*point(w[:2]), *point(w[2:])] for w in wall_lines]}
         level['wallShapes'] = [{'outer': [point(p) for p in s['outer']], 'holes': [[point(p) for p in h] for h in s['holes']]} for s in footprint]
-        level['stairs'] = [{'center': point([x, y-config['cuts'][q]]), 'width': width, 'run': run, 'angle': angle, 'rise': 5.0}
-                           for x, y, width, run, angle in STAIRS.get(id, {}).get(config['levels'][q], [])
-                           if config['levels'][q]+1 in config['levels']]
+        stair_marks[level['id']] = [{'center': point([x, y-config['cuts'][q]]), 'width': width, 'run': run, 'angle': angle}
+                                   for x, y, width, run, angle in STAIRS.get(id, {}).get(config['levels'][q], [])]
         levels.append(level)
         p = Image.fromarray(mask).convert('RGB')
         draw = ImageDraw.Draw(p)
@@ -210,9 +211,10 @@ for id, config in CONFIG.items():
             draw.line(wall, fill='#ffcb6f', width=5)
         p.thumbnail((590, 660)); preview.paste(p, (q*600, 40))
         pd.text((q*600+10, 10), f'{id} / level {level["id"]} / {scores[q]}', fill='white')
+    connect_stairs(levels, stair_marks)
     all_points = np.array([p for level in levels for shape in level['shapes'] for p in shape['outer']])
     center = ((all_points.min(axis=0)+all_points.max(axis=0))/2).tolist()
-    model = {'id': id, 'format': 2, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
+    model = {'id': id, 'format': 3, 'source': sources[id+'-raw']['page'], 'sourceImage': sources[id+'-raw']['url'],
              'sourceSize': [image.shape[1], image.shape[0]], 'scale': scale, 'center': center,
              'registration': 'landmarks' if 'offsets' in config else 'automatic',
              'slabDepth': .35, 'wallHeight': 2.8, 'wallWidth': .18, 'floors': levels}

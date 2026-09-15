@@ -52,9 +52,17 @@ triangle area against polygon area minus holes, localization, marker-to-floor va
 and source-sheet bounds. `scripts/check-tracker.mjs` covers preservation of the
 independent achievement and campaign states. `scripts/check-map-cleanup.py` checks
 door gaps, rectangular/L-shaped holes, non-overlapping wall footprints, and the
-bank's reported stair-hatching and dark-red-floor defects. Model format 2 and a
+bank's reported stair-hatching and dark-red-floor defects. Model format 3 and a
 versioned asset URL prevent loading cached box-wall data into the new renderer.
 Browser interaction testing was not run.
+
+Stair symbols are resolved into shared connections between adjacent floors,
+with explicit destination floors and a rise derived from both elevations. A pair
+of symbols generates one flight; a lone highest-floor symbol describes a descent.
+TF29 has only the 1–2 connection: its level 3 storefront does not create a second
+stair flight. Connections render independently of floor groups so isolating the
+upper floor retains its descending stairs. Upper slabs have landing openings.
+`scripts/check-map-stairs.py` covers these cases and all generated connections.
 
 For further accuracy work, record explicit source landmarks and physical correspondences
 before replacing an automatic registration. Inspect the full-resolution plans and

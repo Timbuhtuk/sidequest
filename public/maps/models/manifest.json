@@ -14,7 +14,7 @@
   {
     "id": "tf29",
     "floors": 3,
-    "polygons": 3,
+    "polygons": 4,
     "walls": 106,
     "scores": [
       1.0,
@@ -37,7 +37,7 @@
   {
     "id": "koller",
     "floors": 3,
-    "polygons": 3,
+    "polygons": 4,
     "walls": 52,
     "scores": [
       1.0,

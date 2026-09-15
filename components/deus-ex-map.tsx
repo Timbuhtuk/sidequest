@@ -67,11 +67,11 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         {
             try
             {
-                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=2`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
+                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=3`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
                 if (!response.ok) throw new Error('Map model unavailable');
                 const next = await response.json() as MapModel;
                 if (disposed || !host.current) return;
-                if (next.format !== 2 || !next.floors.length) throw new Error('Unsupported map model');
+                if (next.format !== 3 || !next.floors.length) throw new Error('Unsupported map model');
                 const initial = {...pendingOptions.current, floor: next.registration === 'automatic' ? next.floors[next.floors.length-1].id : 'all'};
                 setOptions(initial);
                 instance = engine.createMapScene(host.current, next, location.places, locale, setSelection, () => {if (!disposed) setStatus('error');});

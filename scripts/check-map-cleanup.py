@@ -17,7 +17,7 @@ assert abs(Polygon(regularize_ring(elbow, 0, hole=True)).area-Polygon(elbow).are
 
 models = [json.loads(file.read_text()) for file in Path('public/maps/models').glob('*.json') if file.stem != 'manifest']
 for model in models:
-    assert model['format'] == 2
+    assert model['format'] == 3
     for floor in model['floors']:
         shapes = [Polygon(s['outer'], s['holes']) for s in floor['wallShapes']]
         assert all(p.is_valid and p.area > 0 for p in shapes), f"Invalid wall solid: {model['id']}/{floor['id']}"
