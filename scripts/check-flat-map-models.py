@@ -21,7 +21,7 @@ for model in models:
         walls=[Polygon(s['outer'],s['holes']) for s in floor['wallShapes']]
         assert walls and all(w.is_valid and w.area>0 for w in walls), f'{model["id"]}/{floor["id"]}: wall topology'
         for q,wall in enumerate(walls):
-            assert all(wall.intersection(other).area<.002 for other in walls[q+1:]), 'Doubled overlapping wall solids'
+            assert all(wall.intersection(other).area<.002 for other in walls[q+1:]), f'{model["id"]}/{floor["id"]}: doubled overlapping wall solids'
         for stair in floor['stairs']:
             target=next(f for f in model['floors'] if f['id']==stair['toFloor'])
             top=unary_union([Polygon(s['outer'],s['holes']) for s in target['shapes']])

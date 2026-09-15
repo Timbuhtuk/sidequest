@@ -202,3 +202,15 @@ validity, overlapping solids, open stair arrivals and Three.js triangulation.
 They do not establish exact correspondence to the game. Generation can still
 interpret obscured details imperfectly, and multi-floor registration remains a
 draft reconstruction where the source lacks common landmarks.
+
+### Straight wall profiles
+
+`map_contour_smoothing.py` removes bitmap waviness before extrusion. It protects
+sharp corners and end caps, simplifies runs with a 2.5 raster-pixel tolerance,
+then fits straight lines to uniformly sampled edges. Directions within 2 degrees
+of the local architectural axes are aligned; other oblique edges retain their
+direction. Adjacent fitted lines meet at sharp intersections, not rounded corners.
+Validity, void count, area, displacement and gaps between independent components
+guard the result. The same bounded correction cleans floor boundaries. The
+original generated images are unchanged. `check-map-contour-smoothing.py` covers
+noisy straight/oblique walls, narrow walls, a T junction, a courtyard and a door.

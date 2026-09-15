@@ -13,6 +13,7 @@ from shapely.geometry import Polygon
 from shapely import set_precision
 from map_stair_connections import connect_stairs
 from map_flat_registration import register_plan
+from map_contour_smoothing import smooth_shapes
 
 ROOT=Path.cwd()
 SOURCE=ROOT.parent/'map-cleanup'/'flat-v2'
@@ -114,8 +115,9 @@ for model_id in sorted(selected):
             component_fits=[]
             for m,w,fit,metrics in groups:
                 world_alignment=fit.copy(); world_alignment[:,2]*=scale
-                floor['shapes'].extend(vectorize(m,pixel_scale,offset,40,1.1,world_alignment,frame_offset))
-                floor['wallShapes'].extend(vectorize(w,pixel_scale,offset,5,.65,world_alignment,frame_offset))
+                tolerance=min(pixel_scale)*2.5
+                floor['shapes'].extend(smooth_shapes(vectorize(m,pixel_scale,offset,40,1.1,world_alignment,frame_offset),tolerance))
+                floor['wallShapes'].extend(smooth_shapes(vectorize(w,pixel_scale,offset,5,.65,world_alignment,frame_offset),tolerance))
                 component_fits.append({'pixelTransform':fit.tolist(),'alignment':metrics})
             source=f'/maps/plans/flat-v2/{file.name}'
             floor['generatedParts'].append({'source':source,'sourceBounds':record['bounds'],
@@ -143,6 +145,7 @@ for model_id in sorted(selected):
     connect_stairs(floors,marks)
     model['floors']=floors
     model['reconstruction']='generated-flat-plans-v2'
+    model['contourSmoothing']='fitted-lines-2.5px'
     points=np.array([p for f in floors for s in f['shapes'] for p in s['outer']])
     model['center']=((points.min(axis=0)+points.max(axis=0))/2).tolist()
     # Stage for source comparison and topology checks before replacing live data.
