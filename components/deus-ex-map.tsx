@@ -1,10 +1,11 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
-import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Tags} from 'lucide-react';
+import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, KeyRound, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Search, Tags} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import {Toggle} from '@/components/ui/toggle';
 import {mapText as t, modelLocations, mapDestination, pragueInteriorMaps, type MapLocale, type MapModel, type ModelPlace} from '@/lib/dx-map-model';
+import {accessForLocation, mapAccessSources, type MapAccessEntry} from '@/lib/dx-map-access';
 import type {MapSceneController, MapSelection, SceneOptions} from './deus-ex-map-scene';
 import './deus-ex-map.css';
 
@@ -48,6 +49,20 @@ const labels = {
     wall: t('Перегородка', 'Перегородка', 'Wall segment'),
     space: t('Участок этажа', 'Ділянка поверху', 'Floor area'),
     spaceDetail: t('Рассмотри форму помещения, соседние перегородки и проёмы. Разнеси этажи или включи просвечивание, чтобы увидеть пространство внутри.', 'Розглянь форму приміщення, сусідні перегородки й отвори. Рознеси поверхи або ввімкни просвічування, щоб побачити простір усередині.', 'Inspect the floor outline, surrounding partitions and openings. Separate the floors or enable X-ray to reveal the space inside.'),
+    access: t('Коды и пароли', 'Коди й паролі', 'Codes and passwords'),
+    accessSearch: t('Поиск по месту или коду', 'Пошук за місцем або кодом', 'Search place or code'),
+    accessAll: t('Все', 'Усі', 'All'),
+    keycodes: t('Коды', 'Коди', 'Codes'),
+    passwords: t('Пароли', 'Паролі', 'Passwords'),
+    keycode: t('Код', 'Код', 'Keycode'),
+    password: t('Пароль', 'Пароль', 'Password'),
+    accessFloor: t('Коды этажа', 'Коди поверху', 'Floor access'),
+    accessFloorHint: t('Сводка по этажу. Точные точки замков на схеме не подтверждены.', 'Перелік для поверху. Точні точки замків на схемі не підтверджені.', 'Level summary. Exact lock positions are not confirmed on the plan.'),
+    accessUnknown: t('Этаж не указан', 'Поверх не вказано', 'Floor unspecified'),
+    accessPlace: t('Место по источнику', 'Місце за джерелом', 'Source location'),
+    accessApprox: t('Точная точка не отмечена на плане.', 'Точну точку не позначено на плані.', 'Exact position is not marked on the plan.'),
+    accessEmpty: t('Для этого фильтра записей нет.', 'Для цього фільтра записів немає.', 'No records match this filter.'),
+    accessSource: t('Источник кодов', 'Джерело кодів', 'Code source'),
 };
 
 export default function DeusExMap({locale, currentStage}: {locale: MapLocale; currentStage: string})
@@ -56,6 +71,9 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     const [model, setModel] = useState<MapModel | null>(null);
     const [options, setOptions] = useState<SceneOptions>({floor: 'all', exploded: false, xray: false, labels: true, walls: true});
     const [selection, setSelection] = useState<MapSelection | null>(null);
+    const [accessQuery, setAccessQuery] = useState('');
+    const [accessKind, setAccessKind] = useState<'all' | 'keycode' | 'password'>('all');
+    const [selectedAccessId, setSelectedAccessId] = useState<string | null>(null);
     const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
     const [attempt, setAttempt] = useState(0);
     const host = useRef<HTMLDivElement>(null);
@@ -64,6 +82,13 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     pendingOptions.current = options;
     const location = modelLocations.find(item => item.id === locationId)!;
     const selectedPlace = location.places.find(item => item.id === selection?.place);
+    const access = accessForLocation(locationId);
+    const selectedAccess = access.find(item => item.id === selectedAccessId);
+    const selectedPlaceAccess = selectedPlace ? access.filter(item => item.place === selectedPlace.id) : [];
+    const query = accessQuery.trim().toLocaleLowerCase();
+    const visibleAccess = access.filter(item => (accessKind === 'all' || item.kind === accessKind) &&
+        (options.floor === 'all' || item.floor === options.floor) &&
+        (!query || `${item.label} ${item.secret} ${item.region || ''}`.toLocaleLowerCase().includes(query)));
     const city = model?.kind === 'city';
     const places = location.places.filter(item => options.floor === 'all' || item.floor === options.floor);
     const text = (key: keyof typeof labels) => labels[key][locale];
@@ -72,23 +97,23 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         const abort = new AbortController();
         let disposed = false;
         let instance: MapSceneController | null = null;
-        setStatus('loading'); setModel(null); setSelection(null);
+        setStatus('loading'); setModel(null); setSelection(null); setSelectedAccessId(null);
         async function load()
         {
             try
             {
-                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=5-straight-walls`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
+                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=6-icon-free-walls`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
                 if (!response.ok) throw new Error('Map model unavailable');
                 const next = await response.json() as MapModel;
                 if (disposed || !host.current) return;
                 if (next.format !== 3 || !next.floors.length) throw new Error('Unsupported map model');
                 const initial = {...pendingOptions.current, floor: next.registration === 'automatic' ? next.floors[next.floors.length-1].id : 'all'};
                 setOptions(initial);
-                instance = engine.createMapScene(host.current, next, location.places, locale, hit => {
+                instance = engine.createMapScene(host.current, next, location.places, accessForLocation(locationId), locale, hit => {
                     if (disposed) return;
                     const destination = mapDestination(next, hit);
                     if (destination) setLocationId(destination);
-                    else setSelection(hit);
+                    else {setSelectedAccessId(null); setSelection(hit); if (hit.kind === 'access') setOptions(value => ({...value, floor: hit.floor}));}
                 }, () => {if (!disposed) setStatus('error');});
                 controller.current = instance;
                 instance.update(initial, null); instance.reset();
@@ -99,26 +124,38 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         void load();
         return () => {disposed = true; abort.abort(); instance?.dispose(); controller.current = null;};
     }, [locationId, locale, attempt, location.places]);
-    useEffect(() => {controller.current?.update(options, selection?.place || selection?.building || null);}, [options, selection]);
+    useEffect(() => {controller.current?.update(options, selectedAccess?.place || selection?.place || selection?.building || (selection?.kind === 'access' ? `access-floor-${selection.floor}` : null));}, [options, selection, selectedAccess?.place]);
 
     function chooseFloor(floor: string)
     {
         const next = {...options, floor};
-        setOptions(next); setSelection(null);
+        setOptions(next); setSelection(null); setSelectedAccessId(null);
         controller.current?.update(next, null);
     }
     function choosePlace(place: ModelPlace)
     {
+        setSelectedAccessId(null);
         const destination = model && mapDestination(model, {place: place.id});
         if (destination) {setLocationId(destination); return;}
         const next = {...options, floor: place.floor};
         setOptions(next); setSelection({floor: place.floor, place: place.id, kind: 'place'});
         controller.current?.update(next, place.id); controller.current?.focus(place.id);
     }
+    function chooseAccess(entry: MapAccessEntry)
+    {
+        setSelectedAccessId(entry.id);
+        const place = location.places.find(item => item.id === entry.place);
+        const floor = entry.floor && model?.floors.some(item => item.id === entry.floor) ? entry.floor : 'all';
+        const next = {...options, floor};
+        setOptions(next);
+        setSelection(place ? {floor: place.floor, place: place.id, kind: 'place'} : null);
+        controller.current?.update(next, place?.id || null);
+        if (place) controller.current?.focus(place.id);
+    }
     function toggle(key: 'exploded' | 'xray' | 'walls' | 'labels', pressed: boolean)
     {
         const next = {...options, [key]: pressed};
-        setOptions(next); controller.current?.update(next, selection?.place || selection?.building || null);
+        setOptions(next); controller.current?.update(next, selectedAccess?.place || selection?.place || selection?.building || null);
         if (key === 'exploded') controller.current?.reset();
     }
     return <section className="dx-model" aria-labelledby="dx-model-title">
@@ -159,18 +196,36 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
             </div>
             <aside className="dx-model-panel">
                 <span className="eyebrow">{text('objects')} <b>{places.length || model?.floors.length || '—'}</b></span>
-                {selection ? <article className="dx-model-detail">
+                {selectedAccess ? <article className="dx-model-detail dx-model-access-detail">
+                    <span className="dx-model-level">{text(selectedAccess.kind)} · {selectedAccess.floor ? `${text('floor')} ${selectedAccess.floor}` : text('accessUnknown')}</span>
+                    <h3>{selectedAccess.label}</h3>
+                    <strong className="dx-model-secret">{selectedAccess.secret}</strong>
+                    <p>{selectedAccess.place ? (location.places.find(item => item.id === selectedAccess.place)?.name[locale] || selectedAccess.label) : `${text('accessPlace')}: ${selectedAccess.region || selectedAccess.label}`}</p>
+                    {!selectedAccess.place && <p>{text('accessApprox')}</p>}
+                    {selectedAccess.note && <p>{selectedAccess.note}</p>}
+                    <a href={mapAccessSources[selectedAccess.kind]} target="_blank" rel="noreferrer">{text('accessSource')} <ExternalLink size={13}/></a>
+                </article> : selection ? <article className="dx-model-detail">
                     <span className="dx-model-level">{city ? text('city') : `${text('floor')} ${selection.floor}`}</span>
-                    <h3>{selectedPlace ? selectedPlace.name[locale] : selection.building ? `${text('building')} ${selection.building.replace('block-', '')}` : text(selection.kind === 'wall' ? 'wall' : city ? 'city' : 'space')}</h3>
+                    <h3>{selectedPlace ? selectedPlace.name[locale] : selection.kind === 'access' ? text('accessFloor') : selection.building ? `${text('building')} ${selection.building.replace('block-', '')}` : text(selection.kind === 'wall' ? 'wall' : city ? 'city' : 'space')}</h3>
                     {selectedPlace && locale !== 'en' && <p className="dx-model-en">({selectedPlace.name.en})</p>}
-                    <p>{selectedPlace ? selectedPlace.detail[locale] : text(selection.building ? 'buildingDetail' : city ? 'cityAccuracy' : 'spaceDetail')}</p>
+                    <p>{selectedPlace ? selectedPlace.detail[locale] : text(selection.kind === 'access' ? 'accessFloorHint' : selection.building ? 'buildingDetail' : city ? 'cityAccuracy' : 'spaceDetail')}</p>
+                    {selectedPlaceAccess.length > 0 && <div className="dx-model-place-secrets">{selectedPlaceAccess.map(item => <button type="button" key={item.id} onClick={() => chooseAccess(item)}><span>{text(item.kind)}</span><strong>{item.secret}</strong><small>{item.label}</small></button>)}</div>}
                     {!city && <Button variant="outline" onClick={() => chooseFloor(selection.floor)}><Layers3/>{text('isolate')}</Button>}
                     {selectedPlace && <Button variant="ghost" onClick={() => choosePlace(selectedPlace)}><Crosshair/>{text('focus')}</Button>}
                 </article> : <div className="dx-model-pick"><Crosshair/><p>{text(city ? 'cityPick' : 'pick')}</p></div>}
                 <div className="dx-model-place-list">
                     {places.length ? places.map(place => <Button variant="ghost" key={place.id} className={selectedPlace?.id === place.id ? 'selected' : ''} onClick={() => choosePlace(place)}><span className="dx-model-place-floor">{place.floor.padStart(2, '0')}</span><span>{place.name[locale]}</span><ChevronRight/></Button>) : model?.floors.map(floor => <Button variant="ghost" key={floor.id} onClick={() => chooseFloor(floor.id)}><Layers3/><span>{text('floor')} {floor.id}</span><ChevronRight/></Button>)}
                 </div>
-                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' || city ? text('draftShort') : text('model')}</span><p>{text(city ? 'cityAccuracy' : 'accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a>{city && <><a href="/maps/plans/prague-lines.png" target="_blank" rel="noreferrer">{text('lineSource')}<ExternalLink size={13}/></a><a href="/maps/plans/prague-top.svg" target="_blank" rel="noreferrer">{text('vectorSource')}<ExternalLink size={13}/></a></>}<a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
+                <section className="dx-model-access" aria-label={text('access')}>
+                    <div className="dx-model-access-heading"><span className="eyebrow"><KeyRound size={14}/>{text('access')}</span><b>{visibleAccess.length} / {access.length}</b></div>
+                    <label className="dx-model-access-search"><Search size={15}/><input type="search" value={accessQuery} onChange={event => setAccessQuery(event.target.value)} placeholder={text('accessSearch')} aria-label={text('accessSearch')}/></label>
+                    <div className="dx-model-access-tabs" role="group" aria-label={text('access')}>
+                        {(['all', 'keycode', 'password'] as const).map(kind => <button type="button" key={kind} aria-pressed={accessKind === kind} onClick={() => setAccessKind(kind)}>{text(kind === 'all' ? 'accessAll' : kind === 'keycode' ? 'keycodes' : 'passwords')}</button>)}
+                    </div>
+                    <div className="dx-model-access-list">{visibleAccess.length ? visibleAccess.map(item => <button type="button" key={item.id} className={selectedAccessId === item.id ? 'selected' : ''} onClick={() => chooseAccess(item)}><span className="dx-model-access-code">{item.secret}</span><span className="dx-model-access-name">{item.label}<small>{item.floor ? `${text('floor')} ${item.floor}` : text('accessUnknown')}</small></span><ChevronRight size={13}/></button>) : <p>{text('accessEmpty')}</p>}</div>
+                    <div className="dx-model-access-sources"><a href={mapAccessSources.keycode} target="_blank" rel="noreferrer">{text('keycodes')} <ExternalLink size={12}/></a><a href={mapAccessSources.password} target="_blank" rel="noreferrer">{text('passwords')} <ExternalLink size={12}/></a></div>
+                </section>
+                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' || city ? text('draftShort') : text('model')}</span><p>{text(city ? 'cityAccuracy' : 'accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a><a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
             </aside>
         </div>
         <p className="dx-model-help">{text('controls')}</p>

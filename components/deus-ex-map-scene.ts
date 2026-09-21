@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {modelPoint, modelFloorElevation, mapDestination, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
+import type {MapAccessEntry} from '@/lib/dx-map-access';
 
-export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building'};
+export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building' | 'access'};
 export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean};
 export type MapSceneController = {
     update: (options: SceneOptions, selected: string | null) => void;
@@ -14,7 +15,7 @@ export type MapSceneController = {
     dispose: () => void;
 };
 
-export function createMapScene(host: HTMLDivElement, model: MapModel, places: ModelPlace[], locale: MapLocale,
+export function createMapScene(host: HTMLDivElement, model: MapModel, places: ModelPlace[], access: MapAccessEntry[], locale: MapLocale,
     onSelect: (selection: MapSelection) => void, onError: () => void): MapSceneController
 {
     const scene = new THREE.Scene();
@@ -118,21 +119,17 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             stairGroup.rotation.y = -stair.angle*Math.PI/180;
             root.add(stairGroup);
             const steps: THREE.BufferGeometry[] = [];
-            const count = 10;
+            const count = 12;
             const run = stair.run*.8;
-            for (let flight = 0; flight < 2; flight++)
+            for (let q = 0; q < count; q++)
             {
-                for (let q = 0; q < count; q++)
-                {
-                    const height = (q+1)/count*rise/2;
-                    const step = new THREE.BoxGeometry(stair.width*.46, .15, run/count);
-                    step.translate((flight ? 1 : -1)*stair.width*.26, flight*rise/2+height-.075,
-                        (flight ? -1 : 1)*(q/count-.5)*run);
-                    steps.push(step);
-                }
+                const height = (q+1)/count*rise;
+                const step = new THREE.BoxGeometry(stair.width*.8, .15, run/count);
+                step.translate(0, height-.075, (q/count-.5)*run);
+                steps.push(step);
             }
-            const landing = new THREE.BoxGeometry(stair.width, .25, stair.run*.2);
-            landing.translate(0, rise/2-.125, run*.5);
+            const landing = new THREE.BoxGeometry(stair.width*.8, .25, stair.run*.16);
+            landing.translate(0, rise-.125, run*.48);
             steps.push(landing);
             const geometry = mergeGeometries(steps, false)!;
             steps.forEach(step => step.dispose());
@@ -185,11 +182,40 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         const label = document.createElement('button');
         label.type = 'button';
         const destination = mapDestination(model, {place: place.id});
-        label.textContent = place.name[locale] + (destination ? ' ↗' : '');
+        const accessCount = access.filter(item => item.place === place.id).length;
+        label.textContent = place.name[locale] + (accessCount ? ` · ${accessCount}` : '') + (destination ? ' ↗' : '');
+        label.classList.toggle('has-access', accessCount > 0);
         label.title = destination ? `${place.name[locale]} — ${locale === 'ru' ? 'Открыть карту' : locale === 'uk' ? 'Відкрити мапу' : 'Open map'}` : place.name[locale];
         label.addEventListener('click', () => onSelect({floor: place.floor, place: place.id, kind: 'place'}));
         overlay.appendChild(label);
         labelNodes.push({element: label, point: marker.position.clone(), floor: place.floor, id: place.id});
+    }
+    for (const floor of model.floors)
+    {
+        const count = access.filter(item => item.floor === floor.id && !item.place).length;
+        if (!count || model.kind === 'city' || !floor.shapes.length) continue;
+        const polygon = [...floor.shapes].sort((a, b) => Math.abs(THREE.ShapeUtils.area(b.outer.map(p => new THREE.Vector2(...p)))) - Math.abs(THREE.ShapeUtils.area(a.outer.map(p => new THREE.Vector2(...p)))))[0];
+        const ring = polygon.outer;
+        let area = 0, x = 0, z = 0;
+        for (let q = 0; q < ring.length; q++)
+        {
+            const a = ring[q], b = ring[(q+1)%ring.length];
+            const cross = a[0]*b[1]-b[0]*a[1];
+            area += cross; x += (a[0]+b[0])*cross; z += (a[1]+b[1])*cross;
+        }
+        const center = Math.abs(area) > .001 ? [x/(3*area), z/(3*area)] : ring[0];
+        const group = floorGroups.get(floor.id)!;
+        const marker = new THREE.Mesh(new THREE.OctahedronGeometry(.62), new THREE.MeshStandardMaterial({color: '#d4e6cf', emissive: '#426f66', emissiveIntensity: .55}));
+        marker.position.set(center[0]-model.center[0], model.wallHeight+2.1, center[1]-model.center[1]);
+        marker.userData = {floor: floor.id, kind: 'access'};
+        group.add(marker); targets.push(marker);
+        const label = document.createElement('button');
+        label.type = 'button'; label.className = 'dx-model-access-label';
+        label.textContent = `${locale === 'ru' ? 'Коды этажа' : locale === 'uk' ? 'Коди поверху' : 'Floor access'} · ${count}`;
+        label.title = locale === 'ru' ? 'Сводка кодов на этом уровне; точки замков уточняются' : locale === 'uk' ? 'Перелік кодів цього рівня; точки замків уточнюються' : 'Codes on this level; precise lock positions are not confirmed';
+        label.addEventListener('click', () => onSelect({floor: floor.id, kind: 'access'}));
+        overlay.appendChild(label);
+        labelNodes.push({element: label, point: marker.position.clone(), floor: floor.id, id: `access-floor-${floor.id}`});
     }
     const bounds = new THREE.Box3().setFromObject(root);
     const size = bounds.getSize(new THREE.Vector3());
@@ -214,7 +240,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     {
         group.traverse(object => {
             const mesh = object as THREE.Mesh;
-            if (object.userData.kind === 'place' || object.userData.kind === 'markerStem')
+            if (object.userData.kind === 'place' || object.userData.kind === 'markerStem' || object.userData.kind === 'access')
             {
                 object.visible = options.floor === 'all' || object.userData.floor === options.floor;
                 return;
