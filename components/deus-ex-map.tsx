@@ -1,4 +1,5 @@
 'use client';
+import {sitePath} from '@/lib/site-path';
 import {useEffect, useRef, useState} from 'react';
 import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, KeyRound, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Search, Tags} from 'lucide-react';
 import {Button} from '@/components/ui/button';
@@ -102,7 +103,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         {
             try
             {
-                const [response, engine] = await Promise.all([fetch(`/maps/models/${locationId}.json?geometry=6-icon-free-walls`, {signal: abort.signal}), import('./deus-ex-map-scene')]);
+                const [response, engine] = await Promise.all([fetch(sitePath(`/maps/models/${locationId}.json?geometry=6-icon-free-walls`), {signal: abort.signal}), import('./deus-ex-map-scene')]);
                 if (!response.ok) throw new Error('Map model unavailable');
                 const next = await response.json() as MapModel;
                 if (disposed || !host.current) return;
@@ -184,7 +185,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
             <div className="dx-model-stage">
                 <div ref={host} className="dx-model-canvas"/>
                 <div className="dx-model-stamp" aria-hidden="true">DX / SPATIAL ARCHIVE <span>{locationId.toUpperCase()} · {options.floor === 'all' ? 'ALL' : `L${options.floor}`}</span></div>
-                {status !== 'ready' && <div className="dx-model-state" role="status"><Box size={32}/><p>{text(status === 'error' ? 'error' : 'loading')}</p>{status === 'error' && <><Button variant="outline" onClick={() => setAttempt(value => value+1)}>{text('retry')}</Button><a href={`/maps/plans/${locationId}-raw.png`} target="_blank" rel="noreferrer">{text('source')}</a></>}</div>}
+                {status !== 'ready' && <div className="dx-model-state" role="status"><Box size={32}/><p>{text(status === 'error' ? 'error' : 'loading')}</p>{status === 'error' && <><Button variant="outline" onClick={() => setAttempt(value => value+1)}>{text('retry')}</Button><a href={sitePath(`/maps/plans/${locationId}-raw.png`)} target="_blank" rel="noreferrer">{text('source')}</a></>}</div>}
                 <div className="dx-model-camera">
                     <Button variant="ghost" size="icon" title={text('left')} aria-label={text('left')} onClick={() => controller.current?.rotate(-1)}><RotateCcw/></Button>
                     <Button variant="ghost" size="icon" title={text('right')} aria-label={text('right')} onClick={() => controller.current?.rotate(1)}><RotateCw/></Button><i/>
@@ -225,7 +226,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                     <div className="dx-model-access-list">{visibleAccess.length ? visibleAccess.map(item => <button type="button" key={item.id} className={selectedAccessId === item.id ? 'selected' : ''} onClick={() => chooseAccess(item)}><span className="dx-model-access-code">{item.secret}</span><span className="dx-model-access-name">{item.label}<small>{item.floor ? `${text('floor')} ${item.floor}` : text('accessUnknown')}</small></span><ChevronRight size={13}/></button>) : <p>{text('accessEmpty')}</p>}</div>
                     <div className="dx-model-access-sources"><a href={mapAccessSources.keycode} target="_blank" rel="noreferrer">{text('keycodes')} <ExternalLink size={12}/></a><a href={mapAccessSources.password} target="_blank" rel="noreferrer">{text('passwords')} <ExternalLink size={12}/></a></div>
                 </section>
-                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' || city ? text('draftShort') : text('model')}</span><p>{text(city ? 'cityAccuracy' : 'accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={model.sourceImage} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a><a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
+                {model && <div className="dx-model-sources"><span>{model.registration === 'automatic' || city ? text('draftShort') : text('model')}</span><p>{text(city ? 'cityAccuracy' : 'accuracy')}</p>{model.registration === 'automatic' && <p>{text('draft')}</p>}<a href={sitePath(model.sourceImage)} target="_blank" rel="noreferrer">{text('source')}<ExternalLink size={13}/></a><a href={model.source} target="_blank" rel="noreferrer">Deus Ex Wiki<ExternalLink size={13}/></a></div>}
             </aside>
         </div>
         <p className="dx-model-help">{text('controls')}</p>
