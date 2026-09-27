@@ -6,6 +6,7 @@ export const sources = {
   steam:'https://steamcommunity.com/stats/337000/achievements/?l=russian',
   books:'https://www.youtube.com/watch?v=kZZZs8BtB3U',
   booksGuide:'https://steamcommunity.com/sharedfiles/filedetails/?id=2270958276',
+  booksWiki:'https://deusex.fandom.com/wiki/Tablet_Collector',
   walkthrough:'https://www.gamerguides.com/deus-ex-mankind-divided/guide/walkthrough/southern-prague/sm02-cult-of-personality',
 };
 export const stages = [
