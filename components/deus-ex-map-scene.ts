@@ -3,9 +3,10 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {modelPoint, modelFloorElevation, mapDestination, type MapModel, type ModelPlace, type MapLocale} from '@/lib/dx-map-model';
 import type {MapAccessEntry} from '@/lib/dx-map-access';
+import {mapIntelColors, type MapIntelKind, type MapIntelPoint} from '@/lib/dx-map-intel';
 
-export type MapSelection = {floor: string; place?: string; building?: string; kind: 'floor' | 'wall' | 'place' | 'building' | 'access'};
-export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean};
+export type MapSelection = {floor: string; place?: string; building?: string; intel?: string; kind: 'floor' | 'wall' | 'place' | 'building' | 'access' | 'intel'};
+export type SceneOptions = {floor: string; exploded: boolean; xray: boolean; labels: boolean; walls: boolean; intelKind: 'all' | MapIntelKind; intelQuery: string};
 export type MapSceneController = {
     update: (options: SceneOptions, selected: string | null) => void;
     reset: (top?: boolean) => void;
@@ -15,7 +16,7 @@ export type MapSceneController = {
     dispose: () => void;
 };
 
-export function createMapScene(host: HTMLDivElement, model: MapModel, places: ModelPlace[], access: MapAccessEntry[], locale: MapLocale,
+export function createMapScene(host: HTMLDivElement, model: MapModel, places: ModelPlace[], access: MapAccessEntry[], intel: MapIntelPoint[], locale: MapLocale,
     onSelect: (selection: MapSelection) => void, onError: () => void): MapSceneController
 {
     const scene = new THREE.Scene();
@@ -52,7 +53,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     const overlay = document.createElement('div');
     overlay.className = 'dx-model-labels';
     host.appendChild(overlay);
-    let options: SceneOptions = {floor: 'all', exploded: false, xray: false, labels: true, walls: true};
+    let options: SceneOptions = {floor: 'all', exploded: false, xray: false, labels: true, walls: true, intelKind: 'all', intelQuery: ''};
     let dead = false;
     let request = 0;
     let dragging = false;
@@ -190,6 +191,20 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         overlay.appendChild(label);
         labelNodes.push({element: label, point: marker.position.clone(), floor: place.floor, id: place.id});
     }
+    const intelById = new Map(intel.map(item => [item.id, item]));
+    const intelGeometry = new THREE.CylinderGeometry(.34, .34, .18, 6);
+    for (const item of intel)
+    {
+        const floorGroup = floorGroups.get(item.floor);
+        if (!floorGroup) continue;
+        const material = new THREE.MeshStandardMaterial({color: mapIntelColors[item.kind], emissive: mapIntelColors[item.kind], emissiveIntensity: .3, roughness: .4});
+        const marker = new THREE.Mesh(intelGeometry, material);
+        marker.position.set(item.position[0]-model.center[0], model.wallHeight+1.05, item.position[1]-model.center[1]);
+        marker.userData = {floor: item.floor, intel: item.id, kind: 'intel'};
+        floorGroup.add(marker);
+        targets.push(marker);
+        markers.set(item.id, marker);
+    }
     for (const floor of model.floors)
     {
         const count = access.filter(item => item.floor === floor.id && !item.place).length;
@@ -240,9 +255,13 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
     {
         group.traverse(object => {
             const mesh = object as THREE.Mesh;
-            if (object.userData.kind === 'place' || object.userData.kind === 'markerStem' || object.userData.kind === 'access')
+            if (object.userData.kind === 'place' || object.userData.kind === 'markerStem' || object.userData.kind === 'access' || object.userData.kind === 'intel')
             {
-                object.visible = options.floor === 'all' || object.userData.floor === options.floor;
+                const item = object.userData.kind === 'intel' ? intelById.get(object.userData.intel) : null;
+                const query = options.intelQuery.trim().toLocaleLowerCase();
+                const matchesIntel = !item || ((options.intelKind === 'all' || item.kind === options.intelKind) &&
+                    (!query || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap} ${item.sourcePoint}`.toLocaleLowerCase().includes(query)));
+                object.visible = (options.floor === 'all' || object.userData.floor === options.floor) && matchesIntel;
                 return;
             }
             if (!mesh.material) return;
@@ -319,7 +338,7 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         const rect = renderer.domElement.getBoundingClientRect();
         raycaster.setFromCamera(new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1, -(event.clientY-rect.top)/rect.height*2+1), camera);
         const hit = raycaster.intersectObjects(targets, false).find(item => pickable(item.object));
-        renderer.domElement.style.cursor = event.buttons ? 'grabbing' : hit && mapDestination(model, hit.object.userData) ? 'pointer' : 'grab';
+        renderer.domElement.style.cursor = event.buttons ? 'grabbing' : hit ? 'pointer' : 'grab';
     }
     function pointerUp(event: PointerEvent)
     {
@@ -385,10 +404,10 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         },
         focus(id)
         {
-            const place = places.find(item => item.id === id);
-            if (!place) return;
-            const p = modelPoint(model, place);
-            const target = new THREE.Vector3(p[0], floorGroups.get(place.floor)!.position.y+1, p[2]);
+            const marker = markers.get(id);
+            if (!marker) return;
+            root.updateMatrixWorld(true);
+            const target = marker.getWorldPosition(new THREE.Vector3());
             const offset = camera.position.clone().sub(controls.target).setLength(Math.min(70, span));
             controls.target.copy(target);
             camera.position.copy(target).add(offset);

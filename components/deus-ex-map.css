@@ -45,6 +45,22 @@
 .dx-model-place-list [data-slot=button]>svg:last-child{margin-left:auto;width:13px;opacity:.5}
 .dx-model-place-list .selected{background:#2f3521;color:#ebd598}
 .dx-model-place-floor{font-family:monospace;font-size:11px;color:#8c976e;min-width:22px}
+.dx-model-intel{border-top:1px solid var(--model-border);padding:17px 0 20px}
+.dx-model-intel-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin:10px 0 12px}
+.dx-model-intel-tabs button{min-height:31px;padding:4px 6px;border:1px solid #3e4833;background:#20281b;color:#b6bea5;font-size:10px;cursor:pointer}
+.dx-model-intel-tabs button:hover,.dx-model-intel-tabs button[aria-pressed=true]{border-color:#a9935b;color:#f1deab;background:#353923}
+.dx-model-intel-list{display:flex;flex-direction:column;max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#53583b transparent}
+.dx-model-intel-list>p{font-size:11px;color:#9da88b;line-height:1.6}
+.dx-model-intel-list>button{display:flex;align-items:flex-start;gap:8px;width:100%;padding:10px 4px;border:0;border-bottom:1px solid #343c2b;background:transparent;color:#d1d8bf;text-align:left;cursor:pointer}
+.dx-model-intel-list>button:hover,.dx-model-intel-list>button.selected{background:#293322;color:#f0dfaf}
+.dx-model-intel-list>button>i{width:8px;height:8px;flex:none;margin-top:4px;transform:rotate(45deg);box-shadow:0 0 0 1px #111}
+.dx-model-intel-list>button>span{flex:1;min-width:0;font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+.dx-model-intel-list strong{font-weight:500;color:inherit}
+.dx-model-intel-list small{display:block;color:#91a18c;font-size:10px;margin-top:4px;font-family:monospace}
+.dx-model-intel-list svg{flex:none;color:#8d997f;margin-top:3px}
+.dx-model-intel-detail>a{display:inline-flex;gap:5px;align-items:center;color:#a9c9bb;font-size:11px;text-decoration:none;margin-top:10px}
+.dx-model-intel-detail>a:hover{text-decoration:underline}
+.dx-model-detail p.dx-model-intel-precision{padding:8px 10px;border-left:2px solid #9d8150;background:#292719;color:#c3b58a;font-size:11px}
 .dx-model-access{border-top:1px solid var(--model-border);padding:17px 0 20px}
 .dx-model-access-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
 .dx-model-access-heading .eyebrow{display:flex;align-items:center;gap:8px;color:#d7be75;font-size:11px;letter-spacing:1px}

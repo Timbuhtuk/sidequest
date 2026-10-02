@@ -1,12 +1,13 @@
 'use client';
 import {sitePath} from '@/lib/site-path';
 import {useEffect, useRef, useState} from 'react';
-import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, KeyRound, Layers3, Minus, Plus, RotateCcw, RotateCw, ScanLine, Search, Tags} from 'lucide-react';
+import {ArrowLeft, ArrowDownToLine, Box, ChevronRight, Crosshair, ExternalLink, Eye, KeyRound, Layers3, MapPin, Minus, Plus, RotateCcw, RotateCw, ScanLine, Search, Tags} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import {Toggle} from '@/components/ui/toggle';
 import {mapText as t, modelLocations, mapDestination, pragueInteriorMaps, type MapLocale, type MapModel, type ModelPlace} from '@/lib/dx-map-model';
 import {accessForLocation, mapAccessSources, type MapAccessEntry} from '@/lib/dx-map-access';
+import {intelForLocation, mapIntelColors, mapIntelSources, type MapIntelKind, type MapIntelPoint} from '@/lib/dx-map-intel';
 import type {MapSceneController, MapSelection, SceneOptions} from './deus-ex-map-scene';
 import './deus-ex-map.css';
 
@@ -64,17 +65,35 @@ const labels = {
     accessApprox: t('Точная точка не отмечена на плане.', 'Точну точку не позначено на плані.', 'Exact position is not marked on the plan.'),
     accessEmpty: t('Для этого фильтра записей нет.', 'Для цього фільтра записів немає.', 'No records match this filter.'),
     accessSource: t('Источник кодов', 'Джерело кодів', 'Code source'),
+    intel: t('Данные Gamepressure', 'Дані Gamepressure', 'Gamepressure map data'),
+    intelSearch: t('Поиск по точкам карты', 'Пошук за точками мапи', 'Search map points'),
+    intelAll: t('Все', 'Усі', 'All'),
+    intelMission: t('Задания', 'Завдання', 'Missions'),
+    intelCollectible: t('Коллекции', 'Колекції', 'Collectibles'),
+    intelAccess: t('Доступ', 'Доступ', 'Access'),
+    intelRoute: t('Проходы', 'Проходи', 'Routes'),
+    intelLoot: t('Снаряжение', 'Спорядження', 'Equipment'),
+    intelPerson: t('Персонажи', 'Персонажі', 'Characters'),
+    intelLocation: t('Места', 'Місця', 'Places'),
+    intelSource: t('Открыть исходную карту', 'Відкрити вихідну мапу', 'Open source map'),
+    intelApproximate: t('Эта точка привязана к ближайшему контуру этажа; её положение приблизительное.', 'Ця точка прив’язана до найближчого контуру поверху; її положення приблизне.', 'This point is aligned to the nearest floor outline; its position is approximate.'),
+};
+
+const intelLabelKeys: Record<MapIntelKind, keyof typeof labels> = {
+    mission: 'intelMission', collectible: 'intelCollectible', access: 'intelAccess', route: 'intelRoute',
+    loot: 'intelLoot', person: 'intelPerson', location: 'intelLocation',
 };
 
 export default function DeusExMap({locale, currentStage}: {locale: MapLocale; currentStage: string})
 {
     const [locationId, setLocationId] = useState(() => (modelLocations.find(item => item.stageIds.includes(currentStage)) || modelLocations[0]).id);
     const [model, setModel] = useState<MapModel | null>(null);
-    const [options, setOptions] = useState<SceneOptions>({floor: 'all', exploded: false, xray: false, labels: true, walls: true});
+    const [options, setOptions] = useState<SceneOptions>({floor: 'all', exploded: false, xray: false, labels: true, walls: true, intelKind: 'all', intelQuery: ''});
     const [selection, setSelection] = useState<MapSelection | null>(null);
     const [accessQuery, setAccessQuery] = useState('');
     const [accessKind, setAccessKind] = useState<'all' | 'keycode' | 'password'>('all');
     const [selectedAccessId, setSelectedAccessId] = useState<string | null>(null);
+    const [selectedIntelId, setSelectedIntelId] = useState<string | null>(null);
     const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
     const [attempt, setAttempt] = useState(0);
     const host = useRef<HTMLDivElement>(null);
@@ -84,12 +103,18 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     const location = modelLocations.find(item => item.id === locationId)!;
     const selectedPlace = location.places.find(item => item.id === selection?.place);
     const access = accessForLocation(locationId);
+    const intel = intelForLocation(locationId);
     const selectedAccess = access.find(item => item.id === selectedAccessId);
+    const selectedIntel = intel.find(item => item.id === selectedIntelId);
     const selectedPlaceAccess = selectedPlace ? access.filter(item => item.place === selectedPlace.id) : [];
     const query = accessQuery.trim().toLocaleLowerCase();
     const visibleAccess = access.filter(item => (accessKind === 'all' || item.kind === accessKind) &&
         (options.floor === 'all' || item.floor === options.floor) &&
         (!query || `${item.label} ${item.secret} ${item.region || ''}`.toLocaleLowerCase().includes(query)));
+    const intelQuery = options.intelQuery.trim().toLocaleLowerCase();
+    const visibleIntel = intel.filter(item => (options.intelKind === 'all' || item.kind === options.intelKind) &&
+        (options.floor === 'all' || item.floor === options.floor) &&
+        (!intelQuery || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap} ${item.sourcePoint}`.toLocaleLowerCase().includes(intelQuery)));
     const city = model?.kind === 'city';
     const places = location.places.filter(item => options.floor === 'all' || item.floor === options.floor);
     const text = (key: keyof typeof labels) => labels[key][locale];
@@ -98,7 +123,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         const abort = new AbortController();
         let disposed = false;
         let instance: MapSceneController | null = null;
-        setStatus('loading'); setModel(null); setSelection(null); setSelectedAccessId(null);
+        setStatus('loading'); setModel(null); setSelection(null); setSelectedAccessId(null); setSelectedIntelId(null);
         async function load()
         {
             try
@@ -110,11 +135,17 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                 if (next.format !== 3 || !next.floors.length) throw new Error('Unsupported map model');
                 const initial = {...pendingOptions.current, floor: next.registration === 'automatic' ? next.floors[next.floors.length-1].id : 'all'};
                 setOptions(initial);
-                instance = engine.createMapScene(host.current, next, location.places, accessForLocation(locationId), locale, hit => {
+                instance = engine.createMapScene(host.current, next, location.places, accessForLocation(locationId), intelForLocation(locationId), locale, hit => {
                     if (disposed) return;
                     const destination = mapDestination(next, hit);
                     if (destination) setLocationId(destination);
-                    else {setSelectedAccessId(null); setSelection(hit); if (hit.kind === 'access') setOptions(value => ({...value, floor: hit.floor}));}
+                    else
+                    {
+                        setSelectedAccessId(null);
+                        setSelectedIntelId(hit.intel || null);
+                        setSelection(hit);
+                        if (hit.kind === 'access' || hit.kind === 'intel') setOptions(value => ({...value, floor: hit.floor}));
+                    }
                 }, () => {if (!disposed) setStatus('error');});
                 controller.current = instance;
                 instance.update(initial, null); instance.reset();
@@ -125,17 +156,17 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         void load();
         return () => {disposed = true; abort.abort(); instance?.dispose(); controller.current = null;};
     }, [locationId, locale, attempt, location.places]);
-    useEffect(() => {controller.current?.update(options, selectedAccess?.place || selection?.place || selection?.building || (selection?.kind === 'access' ? `access-floor-${selection.floor}` : null));}, [options, selection, selectedAccess?.place]);
+    useEffect(() => {controller.current?.update(options, selectedIntel?.id || selectedAccess?.place || selection?.place || selection?.building || (selection?.kind === 'access' ? `access-floor-${selection.floor}` : null));}, [options, selection, selectedAccess?.place, selectedIntel?.id]);
 
     function chooseFloor(floor: string)
     {
         const next = {...options, floor};
-        setOptions(next); setSelection(null); setSelectedAccessId(null);
+        setOptions(next); setSelection(null); setSelectedAccessId(null); setSelectedIntelId(null);
         controller.current?.update(next, null);
     }
     function choosePlace(place: ModelPlace)
     {
-        setSelectedAccessId(null);
+        setSelectedAccessId(null); setSelectedIntelId(null);
         const destination = model && mapDestination(model, {place: place.id});
         if (destination) {setLocationId(destination); return;}
         const next = {...options, floor: place.floor};
@@ -144,7 +175,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     }
     function chooseAccess(entry: MapAccessEntry)
     {
-        setSelectedAccessId(entry.id);
+        setSelectedAccessId(entry.id); setSelectedIntelId(null);
         const place = location.places.find(item => item.id === entry.place);
         const floor = entry.floor && model?.floors.some(item => item.id === entry.floor) ? entry.floor : 'all';
         const next = {...options, floor};
@@ -153,10 +184,17 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
         controller.current?.update(next, place?.id || null);
         if (place) controller.current?.focus(place.id);
     }
+    function chooseIntel(entry: MapIntelPoint)
+    {
+        setSelectedAccessId(null); setSelectedIntelId(entry.id);
+        const next = {...options, floor: entry.floor};
+        setOptions(next); setSelection({floor: entry.floor, intel: entry.id, kind: 'intel'});
+        controller.current?.update(next, entry.id); controller.current?.focus(entry.id);
+    }
     function toggle(key: 'exploded' | 'xray' | 'walls' | 'labels', pressed: boolean)
     {
         const next = {...options, [key]: pressed};
-        setOptions(next); controller.current?.update(next, selectedAccess?.place || selection?.place || selection?.building || null);
+        setOptions(next); controller.current?.update(next, selectedIntel?.id || selectedAccess?.place || selection?.place || selection?.building || null);
         if (key === 'exploded') controller.current?.reset();
     }
     return <section className="dx-model" aria-labelledby="dx-model-title">
@@ -205,6 +243,14 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                     {!selectedAccess.place && <p>{text('accessApprox')}</p>}
                     {selectedAccess.note && <p>{selectedAccess.note}</p>}
                     <a href={mapAccessSources[selectedAccess.kind]} target="_blank" rel="noreferrer">{text('accessSource')} <ExternalLink size={13}/></a>
+                </article> : selectedIntel ? <article className="dx-model-detail dx-model-intel-detail">
+                    <span className="dx-model-level">{text(intelLabelKeys[selectedIntel.kind])} · {selectedIntel.sourceMap.toUpperCase()} / {selectedIntel.sourcePoint} · {text('floor')} {selectedIntel.floor}</span>
+                    <h3>{selectedIntel.title[locale]}</h3>
+                    {locale !== 'en' && selectedIntel.title.en !== selectedIntel.title[locale] && <p className="dx-model-en">({selectedIntel.title.en})</p>}
+                    <p>{selectedIntel.detail[locale]}</p>
+                    {selectedIntel.precision === 'approximate' && <p className="dx-model-intel-precision">{text('intelApproximate')}</p>}
+                    <Button variant="ghost" onClick={() => chooseIntel(selectedIntel)}><Crosshair/>{text('focus')}</Button>
+                    <a href={mapIntelSources[selectedIntel.sourceMap].url} target="_blank" rel="noreferrer">{text('intelSource')} <ExternalLink size={13}/></a>
                 </article> : selection ? <article className="dx-model-detail">
                     <span className="dx-model-level">{city ? text('city') : `${text('floor')} ${selection.floor}`}</span>
                     <h3>{selectedPlace ? selectedPlace.name[locale] : selection.kind === 'access' ? text('accessFloor') : selection.building ? `${text('building')} ${selection.building.replace('block-', '')}` : text(selection.kind === 'wall' ? 'wall' : city ? 'city' : 'space')}</h3>
@@ -217,6 +263,15 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                 <div className="dx-model-place-list">
                     {places.length ? places.map(place => <Button variant="ghost" key={place.id} className={selectedPlace?.id === place.id ? 'selected' : ''} onClick={() => choosePlace(place)}><span className="dx-model-place-floor">{place.floor.padStart(2, '0')}</span><span>{place.name[locale]}</span><ChevronRight/></Button>) : model?.floors.map(floor => <Button variant="ghost" key={floor.id} onClick={() => chooseFloor(floor.id)}><Layers3/><span>{text('floor')} {floor.id}</span><ChevronRight/></Button>)}
                 </div>
+                <section className="dx-model-intel" aria-label={text('intel')}>
+                    <div className="dx-model-access-heading"><span className="eyebrow"><MapPin size={14}/>{text('intel')}</span><b>{visibleIntel.length} / {intel.length}</b></div>
+                    <label className="dx-model-access-search"><Search size={15}/><input type="search" value={options.intelQuery} onChange={event => setOptions(value => ({...value, intelQuery: event.target.value}))} placeholder={text('intelSearch')} aria-label={text('intelSearch')}/></label>
+                    <div className="dx-model-intel-tabs" role="group" aria-label={text('intel')}>
+                        <button type="button" aria-pressed={options.intelKind === 'all'} onClick={() => setOptions(value => ({...value, intelKind: 'all'}))}>{text('intelAll')}</button>
+                        {(['mission', 'collectible', 'access', 'route', 'loot', 'person', 'location'] as const).filter(kind => intel.some(item => item.kind === kind)).map(kind => <button type="button" key={kind} aria-pressed={options.intelKind === kind} onClick={() => setOptions(value => ({...value, intelKind: kind}))}>{text(intelLabelKeys[kind])}</button>)}
+                    </div>
+                    <div className="dx-model-intel-list">{visibleIntel.length ? visibleIntel.map(item => <button type="button" key={item.id} className={selectedIntelId === item.id ? 'selected' : ''} onClick={() => chooseIntel(item)}><i style={{backgroundColor: mapIntelColors[item.kind]}}/><span><strong>{item.title[locale]}</strong><small>{item.sourceMap.toUpperCase()} / {item.sourcePoint} · {text('floor')} {item.floor}</small></span><ChevronRight size={13}/></button>) : <p>{text('accessEmpty')}</p>}</div>
+                </section>
                 <section className="dx-model-access" aria-label={text('access')}>
                     <div className="dx-model-access-heading"><span className="eyebrow"><KeyRound size={14}/>{text('access')}</span><b>{visibleAccess.length} / {access.length}</b></div>
                     <label className="dx-model-access-search"><Search size={15}/><input type="search" value={accessQuery} onChange={event => setAccessQuery(event.target.value)} placeholder={text('accessSearch')} aria-label={text('accessSearch')}/></label>
