@@ -8,6 +8,7 @@ export const sources = {
   booksGuide:'https://steamcommunity.com/sharedfiles/filedetails/?id=2270958276',
   booksWiki:'https://deusex.fandom.com/wiki/Tablet_Collector',
   walkthrough:'https://www.gamerguides.com/deus-ex-mankind-divided/guide/walkthrough/southern-prague/sm02-cult-of-personality',
+  gamepressure:'https://www.gamepressure.com/deusexmankinddivided/',
 };
 export const stages = [
   {id:'dubai',name:'Дубай. Чёрный рынок',short:'Дубай',mission:'M01',group:'campaign',subtitle:'Пролог · Первое задание Дженсена',before:'Дубай нельзя посетить повторно. Пройди обучение, спаси Сингха и проверь книги до завершения задания.'},
