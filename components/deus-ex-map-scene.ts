@@ -204,6 +204,14 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
         floorGroup.add(marker);
         targets.push(marker);
         markers.set(item.id, marker);
+        const anchor = new THREE.Mesh(new THREE.RingGeometry(.16, .3, 16), new THREE.MeshBasicMaterial({color: mapIntelColors[item.kind], side: THREE.DoubleSide}));
+        anchor.rotation.x = -Math.PI/2;
+        anchor.position.set(marker.position.x, .08, marker.position.z);
+        anchor.userData = {floor: item.floor, intel: item.id, kind: 'markerStem'};
+        const stem = new THREE.BufferGeometry().setFromPoints([anchor.position, marker.position]);
+        const line = new THREE.Line(stem, new THREE.LineBasicMaterial({color: mapIntelColors[item.kind], transparent: true, opacity: .6}));
+        line.userData = {floor: item.floor, intel: item.id, kind: 'markerStem'};
+        floorGroup.add(anchor, line);
     }
     for (const floor of model.floors)
     {
@@ -257,10 +265,10 @@ export function createMapScene(host: HTMLDivElement, model: MapModel, places: Mo
             const mesh = object as THREE.Mesh;
             if (object.userData.kind === 'place' || object.userData.kind === 'markerStem' || object.userData.kind === 'access' || object.userData.kind === 'intel')
             {
-                const item = object.userData.kind === 'intel' ? intelById.get(object.userData.intel) : null;
+                const item = object.userData.intel ? intelById.get(object.userData.intel) : null;
                 const query = options.intelQuery.trim().toLocaleLowerCase();
                 const matchesIntel = !item || ((options.intelKind === 'all' || item.kind === options.intelKind) &&
-                    (!query || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap} ${item.sourcePoint}`.toLocaleLowerCase().includes(query)));
+                    (!query || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap}`.toLocaleLowerCase().includes(query)));
                 object.visible = (options.floor === 'all' || object.userData.floor === options.floor) && matchesIntel;
                 return;
             }

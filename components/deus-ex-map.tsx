@@ -114,7 +114,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
     const intelQuery = options.intelQuery.trim().toLocaleLowerCase();
     const visibleIntel = intel.filter(item => (options.intelKind === 'all' || item.kind === options.intelKind) &&
         (options.floor === 'all' || item.floor === options.floor) &&
-        (!intelQuery || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap} ${item.sourcePoint}`.toLocaleLowerCase().includes(intelQuery)));
+        (!intelQuery || `${item.title.ru} ${item.title.uk} ${item.title.en} ${item.sourceMap}`.toLocaleLowerCase().includes(intelQuery)));
     const city = model?.kind === 'city';
     const places = location.places.filter(item => options.floor === 'all' || item.floor === options.floor);
     const text = (key: keyof typeof labels) => labels[key][locale];
@@ -244,7 +244,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                     {selectedAccess.note && <p>{selectedAccess.note}</p>}
                     <a href={mapAccessSources[selectedAccess.kind]} target="_blank" rel="noreferrer">{text('accessSource')} <ExternalLink size={13}/></a>
                 </article> : selectedIntel ? <article className="dx-model-detail dx-model-intel-detail">
-                    <span className="dx-model-level">{text(intelLabelKeys[selectedIntel.kind])} · {selectedIntel.sourceMap.toUpperCase()} / {selectedIntel.sourcePoint} · {text('floor')} {selectedIntel.floor}</span>
+                    <span className="dx-model-level">{text(intelLabelKeys[selectedIntel.kind])} · {selectedIntel.sourceMap.toUpperCase()} · {text('floor')} {selectedIntel.floor}</span>
                     <h3>{selectedIntel.title[locale]}</h3>
                     {locale !== 'en' && selectedIntel.title.en !== selectedIntel.title[locale] && <p className="dx-model-en">({selectedIntel.title.en})</p>}
                     <p>{selectedIntel.detail[locale]}</p>
@@ -270,7 +270,7 @@ export default function DeusExMap({locale, currentStage}: {locale: MapLocale; cu
                         <button type="button" aria-pressed={options.intelKind === 'all'} onClick={() => setOptions(value => ({...value, intelKind: 'all'}))}>{text('intelAll')}</button>
                         {(['mission', 'collectible', 'access', 'route', 'loot', 'person', 'location'] as const).filter(kind => intel.some(item => item.kind === kind)).map(kind => <button type="button" key={kind} aria-pressed={options.intelKind === kind} onClick={() => setOptions(value => ({...value, intelKind: kind}))}>{text(intelLabelKeys[kind])}</button>)}
                     </div>
-                    <div className="dx-model-intel-list">{visibleIntel.length ? visibleIntel.map(item => <button type="button" key={item.id} className={selectedIntelId === item.id ? 'selected' : ''} onClick={() => chooseIntel(item)}><i style={{backgroundColor: mapIntelColors[item.kind]}}/><span><strong>{item.title[locale]}</strong><small>{item.sourceMap.toUpperCase()} / {item.sourcePoint} · {text('floor')} {item.floor}</small></span><ChevronRight size={13}/></button>) : <p>{text('accessEmpty')}</p>}</div>
+                    <div className="dx-model-intel-list">{visibleIntel.length ? visibleIntel.map(item => <button type="button" key={item.id} className={selectedIntelId === item.id ? 'selected' : ''} onClick={() => chooseIntel(item)}><i style={{backgroundColor: mapIntelColors[item.kind]}}/><span><strong>{item.title[locale]}</strong><small>{item.sourceMap.toUpperCase()} · {text('floor')} {item.floor}</small></span><ChevronRight size={13}/></button>) : <p>{text('accessEmpty')}</p>}</div>
                 </section>
                 <section className="dx-model-access" aria-label={text('access')}>
                     <div className="dx-model-access-heading"><span className="eyebrow"><KeyRound size={14}/>{text('access')}</span><b>{visibleAccess.length} / {access.length}</b></div>

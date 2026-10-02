@@ -11,8 +11,11 @@ export type MapIntelPoint = {
     title: MapText;
     detail: MapText;
     sourceMap: string;
+    // Stable HTML annotation index, not the colored number printed on the map.
     sourcePoint: number;
     precision: 'aligned' | 'approximate';
+    sourcePixel: PlanPoint;
+    registration: string;
 };
 export type MapIntelSource = {url: string; title: string; points: number};
 
