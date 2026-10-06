@@ -41,7 +41,7 @@ export default function Home(){
     <main className="home-main">
       <section ref={heroRef} className="home-hero" aria-labelledby="hero-title">
         <img className="home-landscape" src={sitePath('/pixel-world.png')} alt="" width="1672" height="941" fetchPriority="high" draggable={false}/>
-        <div className="home-hero-copy"><div className="home-kicker"><span className="home-square"/>{c.eyebrow}</div><h1 id="hero-title">{c.headline[0]}<br/>{c.headline[1]}<br/><span>{c.headline[2]}</span></h1><p>{c.intro}</p><a className="home-cta" href="#library">{c.choose}<ArrowUpRight size={22}/></a></div>
+        <div className="home-hero-copy"><div className="home-hero-panel-head" aria-hidden="true"><span>01 / SIDEQUEST</span><span>▢ ─ ×</span></div><div className="home-kicker"><span className="home-square"/>{c.eyebrow}</div><h1 id="hero-title">{c.headline[0]}<br/>{c.headline[1]}<br/><span>{c.headline[2]}</span></h1><p>{c.intro}</p><div className="home-hero-actions"><a className="home-cta" href="#library">{c.choose}<ArrowUpRight size={18}/></a><a className="home-cta-secondary" href="#how">{c.how}<ArrowDown size={16}/></a></div></div>
         <div className="home-world" aria-hidden="true"><div className="home-window-bar"><span>UNEXPLORED_WORLD.EXE</span><span>— □ ×</span></div><span className="home-world-coordinate">X: 0001 / Y: ∞</span></div>
         <div className="home-hero-bottom"><span>{c.yourPace}</span><a href="#library">{c.scroll}<ArrowDown size={14}/></a><span>01 — ∞</span></div>
       </section>
