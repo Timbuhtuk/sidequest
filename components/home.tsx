@@ -6,6 +6,7 @@ import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from '@/compo
 import {Progress} from '@/components/ui/progress';
 import {languageKey,languageOptions,localizedCatalog,parseLocale,type Locale} from '@/lib/i18n';
 import {homeCopy} from '@/lib/home-copy';
+import HomeHowDialog from '@/components/home-how-dialog';
 import FrostpunkLibraryCard from '@/components/frostpunk-library-card';
 import ValhallaLibraryCard from '@/components/valhalla-library-card';
 import WitcherLibraryCard from '@/components/witcher-library-card';
@@ -41,7 +42,7 @@ export default function Home(){
   function changeLanguage(value:string|null){const next=parseLocale(value);if(next){setLocale(next);try{localStorage.setItem(languageKey,next)}catch{}}}
   return <div className="home-shell">
     <a className="home-skip" href="#library">{c.library}</a>
-    <header className="home-header"><a href={sitePath('/')} className="home-brand" aria-label="SIDEQUEST"><span aria-hidden="true">▗▚</span>SIDEQUEST<span className="home-brand-dot">®</span></a><nav aria-label={c.navigation}><a href="#library">{c.library}</a><a href="#how">{c.how}</a></nav><Select value={locale} onValueChange={changeLanguage}><SelectTrigger className="home-language" aria-label={c.language}><SelectValue>{locale==='uk'?'UA':locale.toUpperCase()}</SelectValue></SelectTrigger><SelectContent className="home-popup">{languageOptions.map(l=><SelectItem key={l.value} value={l.value}>{l.label}</SelectItem>)}</SelectContent></Select></header>
+    <header className="home-header"><a href={sitePath('/')} className="home-brand" aria-label="SIDEQUEST"><span aria-hidden="true">▗▚</span>SIDEQUEST<span className="home-brand-dot">®</span></a><nav aria-label={c.navigation}><a href="#library">{c.library}</a><HomeHowDialog locale={locale} variant="nav"/></nav><Select value={locale} onValueChange={changeLanguage}><SelectTrigger className="home-language" aria-label={c.language}><SelectValue>{locale==='uk'?'UA':locale.toUpperCase()}</SelectValue></SelectTrigger><SelectContent className="home-popup">{languageOptions.map(l=><SelectItem key={l.value} value={l.value}>{l.label}</SelectItem>)}</SelectContent></Select></header>
     <main className="home-main">
       <section ref={heroRef} className="home-hero" aria-labelledby="hero-title">
         <img className="home-landscape" src={sitePath('/pixel-world.png')} alt="" width="1672" height="941" fetchPriority="high" draggable={false}/>
@@ -49,7 +50,7 @@ export default function Home(){
           <div className="home-kicker"><span className="home-square"/>{c.eyebrow}</div>
           <h1 id="hero-title">{c.headline[0]}<br/><span>{c.headline[1]}</span></h1>
           <p>{c.intro}</p>
-          <div className="home-hero-actions"><a className="home-cta" href="#library">{c.choose}<ArrowDown size={18}/></a><a className="home-cta-secondary" href="#how">{c.how}<ArrowDown size={16}/></a></div>
+          <div className="home-hero-actions"><a className="home-cta" href="#library">{c.choose}<ArrowDown size={18}/></a><HomeHowDialog locale={locale} variant="hero"/></div>
           <p className="home-storage-note">{c.storage}</p>
         </div>
         <aside className="home-preview" aria-label={c.preview}>
@@ -70,7 +71,6 @@ export default function Home(){
           <WitcherLibraryCard locale={locale}/><ValhallaLibraryCard locale={locale}/><FrostpunkLibraryCard locale={locale}/>
         </div>
       </section>
-      <section className="home-how" id="how" aria-labelledby="how-title"><div className="home-section-heading"><h2 id="how-title">{c.howTitle}</h2></div><div className="home-principles">{c.steps.map((s,i)=><article key={i}><span className="home-step-number">0{i+1}</span><div><h3>{s.title}</h3><p>{s.description}</p></div></article>)}</div></section>
     </main><footer className="home-footer"><span>{c.footer}</span></footer>
   </div>;
 }

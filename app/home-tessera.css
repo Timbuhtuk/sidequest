@@ -2,7 +2,8 @@
    https://timbuhtuk.github.io/tessera-storybook/?path=/docs/01-foundations-tokens--docs
    Keep this scope local: the game trackers have their own visual themes. */
 .home-shell,
-.home-popup {
+.home-popup,
+.home-how-dialog {
     --background: #101010;
     --foreground: #eeeeee;
     --card: #191919;
@@ -45,8 +46,8 @@
 }
 .home-brand { font: 700 23px var(--home-display); letter-spacing: -.035em; }
 .home-header nav { gap: 28px; font: 13px var(--home-ui); }
-.home-header nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--home-text-secondary); }
-.home-header nav a:hover { color: var(--foreground); border-color: var(--foreground); }
+.home-header nav :is(a,.home-how-nav-trigger) { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid transparent; background: none; color: var(--home-text-secondary); font: inherit; cursor: pointer; }
+.home-header nav :is(a,.home-how-nav-trigger):hover { color: var(--foreground); border-color: var(--foreground); }
 .home-language[data-slot=select-trigger] {
     min-height: 44px;
     width: 82px;
@@ -125,8 +126,7 @@
 .home-preview a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 13px; }
 .home-preview a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-.home-library,
-.home-how { width: min(1180px, calc(100% - 48px)); max-width: none; margin: 0 auto; padding: 36px 0 0; scroll-margin-top: 20px; }
+.home-library { width: min(1180px, calc(100% - 48px)); max-width: none; margin: 0 auto; padding: 36px 0 0; scroll-margin-top: 20px; }
 .home-section-heading { min-height: 0; margin-bottom: 20px; padding: 0; align-items: center; border: 0; background: none; }
 .home-section-heading .home-kicker { color: var(--muted-foreground); font-size: 12px; }
 .home-section-heading h2 { margin-top: 7px; font: 700 clamp(25px, 2.6vw, 32px)/1.25 var(--home-display); font-stretch: 90%; letter-spacing: -.035em; }
@@ -152,14 +152,16 @@
 .home-game-open { min-height: 48px; margin-top: 0; padding: 12px 0; border-color: var(--border); color: var(--foreground); font: 13px/1.5 var(--home-ui); }
 .home-game:hover .home-game-open svg { transform: translateX(3px); }
 
-.home-how { padding: 44px 0 48px; }
-.home-how .home-section-heading h2 { margin: 0; }
-.home-principles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border: 0; }
-.home-principles article,
-.home-principles article + article { display: flex; align-items: start; gap: 14px; min-width: 0; padding: 0; border: 0; background: none; }
-.home-step-number { flex: none; padding-top: 2px; color: var(--muted-foreground); font: 13px/1.5 var(--home-ui); }
-.home-principles h3 { max-width: none; margin: 0 0 9px; font: 600 18px/1.4 var(--home-display); letter-spacing: -.02em; }
-.home-principles p { max-width: none; color: var(--home-text-secondary); font-size: 15px; line-height: 1.55; }
+.home-how-dialog[data-slot=dialog-content] { width: 680px; max-width: calc(100vw - 32px); max-height: 85dvh; overflow-y: auto; overscroll-behavior: contain; gap: 0; padding: 30px 34px; border: 1px solid var(--input); border-radius: 0; background: var(--card); color: var(--foreground); box-shadow: 8px 8px 0 #080808, 0 24px 80px #000a; font: 14px/1.55 var(--home-ui); }
+.home-how-dialog [data-slot=dialog-title] { max-width: calc(100% - 36px); font: 700 clamp(24px, 4vw, 31px)/1.25 var(--home-display); letter-spacing: -.035em; outline: none; }
+.home-how-dialog [data-slot=dialog-close] { top: 17px; right: 17px; width: 40px; height: 40px; color: var(--foreground); }
+.home-how-dialog [data-slot=dialog-close]:hover { background: var(--accent); }
+.home-how-dialog [data-slot=dialog-close]:focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
+.home-how-steps { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--border); }
+.home-how-steps li { display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 12px; padding: 19px 0; border-bottom: 1px solid var(--border); }
+.home-how-step-number { padding-top: 3px; color: var(--muted-foreground); font: 13px/1.5 var(--home-ui); }
+.home-how-steps h3 { margin: 0 0 6px; font: 600 18px/1.35 var(--home-display); }
+.home-how-steps p { margin: 0; color: var(--home-text-secondary); font: 14px/1.6 var(--home-ui); }
 .home-footer { max-width: 1180px; margin: 0 auto; padding: 24px 0; border-color: var(--border); color: var(--muted-foreground); font: 12px/1.5 var(--home-ui); }
 
 @media (max-width: 1000px) {
@@ -183,15 +185,14 @@
     .home-preview { display: none; }
     .home-landscape { opacity: .75; object-position: 72% bottom; }
     .home-hero:after { background: linear-gradient(90deg, #101010f2, #101010bb), linear-gradient(0deg, #101010bb, transparent); }
-    .home-library, .home-how { width: calc(100% - 36px); padding-top: 28px; }
+    .home-library { width: calc(100% - 36px); padding-top: 28px; }
     .home-games { grid-template-columns: 1fr; gap: 14px; }
     .home-section-heading { gap: 16px; margin-bottom: 16px; }
     .home-section-heading h2 { font-size: 25px; }
     .home-game { grid-template-rows: 116px 1fr; }
     .home-game-copy { padding: 16px 18px 0; }
     .home-game h3 { font-size: 21px; }
-    .home-principles { grid-template-columns: 1fr; gap: 20px; }
-    .home-how { padding-bottom: 32px; }
+    .home-how-dialog[data-slot=dialog-content] { max-width: calc(100vw - 24px); max-height: 88dvh; padding: 24px 20px; }
     .home-footer { margin: 0 18px; }
     .home-footer > span { font-size: 12px; }
 }

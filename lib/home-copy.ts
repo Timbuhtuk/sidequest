@@ -2,7 +2,7 @@ import type {Locale} from './i18n';
 
 type Copy = {
     progress:string; continue:string; navigation:string; language:string;
-    library:string; how:string; eyebrow:string; headline:string[]; intro:string;
+    library:string; how:string; close:string; eyebrow:string; headline:string[]; intro:string;
     choose:string; yourPace:string; collection:string; achievements:string;
     dlc:string; gameDescription:string; open:string; howTitle:string;
     preview:string; currentStage:string; available:string; storage:string;
@@ -12,7 +12,7 @@ type Copy = {
 export const homeCopy:Record<Locale,Copy> = {
     ru: {
         progress:'Достижения получены', continue:'Продолжить прохождение',
-        navigation:'Навигация', language:'Язык', library:'Библиотека игр', how:'Как это работает',
+        navigation:'Навигация', language:'Язык', library:'Библиотека игр', how:'Как это работает', close:'Закрыть',
         eyebrow:'ТРЕКЕРЫ ДОСТИЖЕНИЙ И ПРОХОЖДЕНИЙ',
         headline:['Не упускай важное.', 'Играй в своём темпе.'],
         intro:'Выбери этап игры, проверь доступные достижения и важные решения. Отмечай выполненное вручную — свой маршрут всегда под рукой.',
@@ -31,7 +31,7 @@ export const homeCopy:Record<Locale,Copy> = {
     },
     uk: {
         progress:'Досягнення отримано', continue:'Продовжити проходження',
-        navigation:'Навігація', language:'Мова', library:'Бібліотека ігор', how:'Як це працює',
+        navigation:'Навігація', language:'Мова', library:'Бібліотека ігор', how:'Як це працює', close:'Закрити',
         eyebrow:'ТРЕКЕРИ ДОСЯГНЕНЬ І ПРОХОДЖЕНЬ',
         headline:['Не пропускай важливе.', 'Грай у своєму темпі.'],
         intro:'Обери етап гри, перевір доступні досягнення та важливі рішення. Відмічай виконане вручну — твій маршрут завжди під рукою.',
@@ -50,7 +50,7 @@ export const homeCopy:Record<Locale,Copy> = {
     },
     en: {
         progress:'Achievements earned', continue:'Continue playthrough',
-        navigation:'Navigation', language:'Language', library:'Game library', how:'How it works',
+        navigation:'Navigation', language:'Language', library:'Game library', how:'How it works', close:'Close',
         eyebrow:'ACHIEVEMENT & PLAYTHROUGH TRACKERS',
         headline:["Don't miss a thing.", 'Play at your pace.'],
         intro:'Choose your current stage, check available achievements and important choices. Mark your progress manually and keep your next steps close.',
