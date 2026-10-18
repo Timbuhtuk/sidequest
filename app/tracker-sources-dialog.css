@@ -18,3 +18,4 @@
 .tracker-sources-meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;color:var(--sources-muted);font-size:.8125rem;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:640px){.tracker-sources-dialog[data-slot=dialog-content]{max-width:calc(100vw - 24px);padding:24px 18px;max-height:85dvh}.tracker-sources-dialog [data-slot=dialog-title]{font-size:1.375rem}}
 @media(prefers-reduced-motion:reduce){.tracker-sources-dialog[data-slot=dialog-content],.tracker-sources-trigger{animation:none!important;transition:none!important}}
+.tracker-sources-frostpunk{--sources-bg:#152731;--sources-text:#e3edf2;--sources-muted:#a9bdc9;--sources-accent:#f0bd80;--sources-border:#557685}

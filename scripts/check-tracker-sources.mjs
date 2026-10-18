@@ -12,7 +12,7 @@ assert.deepEqual(uniqueTrackerSources(references), [first, references[2]]);
 assert.deepEqual(uniqueTrackerSources([]), []);
 assert.deepEqual(uniqueTrackerSources([{url:'javascript:alert(1)', title:'Unsafe'}, {url:'/internal', title:'Internal'}, {url:'not a URL', title:'Broken'}]), []);
 
-for (const game of ['deus-ex', 'witcher', 'valhalla']) {
+for (const game of ['deus-ex', 'witcher', 'valhalla', 'frostpunk']) {
   const file = `components/${game}-tracker.tsx`;
   const source = ts.createSourceFile(file, fs.readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   let triggers = 0;
@@ -23,7 +23,11 @@ for (const game of ['deus-ex', 'witcher', 'valhalla']) {
       assert(footer, `${game}: sources trigger must be inside the footer`);
     }
     if (ts.isJsxAttribute(node) && node.name.getText(source) === 'href') {
-      assert(node.initializer && ts.isStringLiteral(node.initializer) && /^(?:\/(?!\/)|#)/.test(node.initializer.text), `${game}: external references belong only in the shared sources dialog`);
+      let value = node.initializer;
+      // GitHub Pages routes use sitePath('/route'); only literal internal paths are allowed.
+      if (value && ts.isJsxExpression(value) && value.expression && ts.isCallExpression(value.expression) && value.expression.expression.getText(source) === 'sitePath' && value.expression.arguments.length === 1)
+        value = value.expression.arguments[0];
+      assert(value && ts.isStringLiteral(value) && /^(?:\/(?!\/)|#)/.test(value.text), `${game}: external references belong only in the shared sources dialog`);
     }
     if (ts.isJsxText(node)) assert(!/https?:\/\//i.test(node.text), `${game}: no visible raw source URLs`);
     ts.forEachChild(node, child => visit(child, footer));
@@ -31,4 +35,4 @@ for (const game of ['deus-ex', 'witcher', 'valhalla']) {
   visit(source);
   assert.equal(triggers, 1, `${game}: exactly one footer sources dialog`);
 }
-console.log('Sources: unique safe links and a single footer entry point for all three games passed.');
+console.log('Sources: unique safe links and a single footer entry point for all four games passed.');

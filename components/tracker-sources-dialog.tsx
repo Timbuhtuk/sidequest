@@ -16,7 +16,7 @@ const copy = {
 
 type Props = {
   locale: 'ru' | 'uk' | 'en';
-  theme?: 'deus-ex' | 'witcher' | 'valhalla';
+  theme?: 'deus-ex' | 'witcher' | 'valhalla' | 'frostpunk';
   sources: readonly TrackerSource[];
 };
 

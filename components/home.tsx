@@ -6,6 +6,7 @@ import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from '@/compo
 import {Progress} from '@/components/ui/progress';
 import {languageKey,languageOptions,localizedCatalog,parseLocale,type Locale} from '@/lib/i18n';
 import {homeCopy} from '@/lib/home-copy';
+import FrostpunkLibraryCard from '@/components/frostpunk-library-card';
 import ValhallaLibraryCard from '@/components/valhalla-library-card';
 import WitcherLibraryCard from '@/components/witcher-library-card';
 import {parseState,storageKey,type TrackerState} from '@/lib/tracker-state';
@@ -63,10 +64,10 @@ export default function Home(){
         </aside>
       </section>
       <section className="home-library" id="library" aria-labelledby="library-title">
-        <div className="home-section-heading"><div><span className="home-kicker">{c.collection}</span><h2 id="library-title">{c.library}</h2></div><span className="home-counter">[ 03 ]</span></div>
+        <div className="home-section-heading"><div><span className="home-kicker">{c.collection}</span><h2 id="library-title">{c.library}</h2></div><span className="home-counter">[ 04 ]</span></div>
         <div className="home-games">
           <a className="home-game" href={sitePath('/deus-ex')} draggable={false}><div className="home-game-art"><img draggable={false} src={sitePath('/deus-ex-og.png')} alt="" width="1536" height="1024" loading="lazy"/></div><div className="home-game-copy"><div className="home-kicker">ACTION RPG · 2016</div><h3>Deus Ex: Mankind Divided</h3><p>{c.gameDescription}</p><div className="home-game-tags"><span>81 {c.achievements}</span><span>{c.dlc}</span></div><div className="home-game-progress"><div><span>{c.progress}</span><span>{saved?saved.earned.length:0} / 81</span></div><Progress value={(saved?.earned.length??0)/81*100} aria-label={c.progress}/></div><span className="home-game-open">{saved?c.continue:c.open}<ArrowRight size={20}/></span></div></a>
-          <WitcherLibraryCard locale={locale}/><ValhallaLibraryCard locale={locale}/>
+          <WitcherLibraryCard locale={locale}/><ValhallaLibraryCard locale={locale}/><FrostpunkLibraryCard locale={locale}/>
         </div>
       </section>
       <section className="home-how" id="how" aria-labelledby="how-title"><div className="home-section-heading"><h2 id="how-title">{c.howTitle}</h2></div><div className="home-principles">{c.steps.map((s,i)=><article key={i}><span className="home-step-number">0{i+1}</span><div><h3>{s.title}</h3><p>{s.description}</p></div></article>)}</div></section>

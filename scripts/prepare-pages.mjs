@@ -14,7 +14,7 @@ if (!fs.existsSync(prefixedAssets) || fs.existsSync(assets))
 fs.renameSync(prefixedAssets, assets);
 fs.rmdirSync(path.dirname(prefixedAssets));
 
-for (const route of ['index', 'deus-ex', 'witcher-3', 'ac-valhalla'])
+for (const route of ['index', 'deus-ex', 'witcher-3', 'ac-valhalla', 'frostpunk'])
 {
     const html = path.join(output, `${route}.html`);
     if (!fs.existsSync(html))

@@ -14,3 +14,4 @@
 @keyframes tracker-summary-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:640px){.progress-summary{gap:10px;margin:10px 0 20px}}
 @media(prefers-reduced-motion:reduce){.progress-summary,.progress-summary *,.progress-summary-tooltip{animation:none!important;transition:none!important}}
+.progress-summary-frostpunk{--summary-track:#324e5e;--summary-track-hover:#466779;--summary-accent:#e4a660;--summary-tooltip-border:#6c8795;--summary-tooltip-bg:#172631;--summary-tooltip-text:#c0d3de;--summary-tooltip-value:#f0bd80}

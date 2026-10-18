@@ -1,0 +1,1727 @@
+[
+  {
+    "id": "lost-souls",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2c2a6957872d47eaf0f1137f0b67b01c79f3258f.jpg",
+    "description": {
+      "ru": "В сценарии \"Новый дом\" спасите всех заблудившихся в Морозных землях",
+      "uk": "In the New Home scenario, save every person in Frostland",
+      "en": "In the New Home scenario, save every person in Frostland"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Заблудшие души",
+      "uk": "Lost Souls",
+      "en": "Lost Souls"
+    }
+  },
+  {
+    "id": "built-to-serve",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/dbff26c3069e2b3af4d416e54d5a0fd945036dbb.jpg",
+    "description": {
+      "ru": "Постройте автоматон",
+      "uk": "Build an automaton",
+      "en": "Build an automaton"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Построенный служить",
+      "uk": "Built to Serve",
+      "en": "Built to Serve"
+    }
+  },
+  {
+    "id": "banksy",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/b22c64bc08d7330dcd4f4dbe44455bcf32c3e2a2.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Бэнкси",
+      "uk": "Banksy",
+      "en": "Banksy"
+    }
+  },
+  {
+    "id": "once-more-unto-the-breach",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0d0e7e02a6893ad88235a6fd1b854ac518156db3.jpg",
+    "description": {
+      "ru": "Обеспечьте калеку протезом",
+      "uk": "Provide an amputee with a prosthesis",
+      "en": "Provide an amputee with a prosthesis"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Покой нам только снится",
+      "uk": "Once More unto the Breach",
+      "en": "Once More unto the Breach"
+    }
+  },
+  {
+    "id": "bread-and-games",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/b055a76c0c0df267da1efe308f3b42ff6f5fa279.jpg",
+    "description": {
+      "ru": "В городе с минимум 200 жителями обеспечьте всем доступ в паб и на бойцовскую арену",
+      "uk": "In a city of at least 200 people, ensure everyone has access to the Public House and a Fighting Arena",
+      "en": "In a city of at least 200 people, ensure everyone has access to the Public House and a Fighting Arena"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Хлеба и зрелищ",
+      "uk": "Bread and Games",
+      "en": "Bread and Games"
+    }
+  },
+  {
+    "id": "politician",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/415d6f521cb0e3a4da4f29e95bb8a2e69aec73b5.jpg",
+    "description": {
+      "ru": "Удержите власть после угрозы свержения",
+      "uk": "Stay in power after your people threatened to overthrow you",
+      "en": "Stay in power after your people threatened to overthrow you"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Политик",
+      "uk": "Politician",
+      "en": "Politician"
+    }
+  },
+  {
+    "id": "the-scientific-method-vol-2",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/03da289b9334f5b6f8e972d6bc8d71ed69e0bad3.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Научный метод, том 2",
+      "uk": "The Scientific Method, vol. 2",
+      "en": "The Scientific Method, vol. 2"
+    }
+  },
+  {
+    "id": "leader",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/3cb44e8e6d09cad871305acdd54e4fdd2ee7db05.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Новый дом\"",
+      "uk": "Finish the New Home scenario",
+      "en": "Finish the New Home scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Лидер",
+      "uk": "Leader",
+      "en": "Leader"
+    }
+  },
+  {
+    "id": "the-scientific-method-vol-1",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/06e3dc332be6a3acdd12415fb19c75ded70e3b06.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Научный метод, том 1",
+      "uk": "The Scientific Method, vol. 1",
+      "en": "The Scientific Method, vol. 1"
+    }
+  },
+  {
+    "id": "power-overwhelming",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/6dbd78e52328da42167d8d742d4c3803a116db21.jpg",
+    "description": {
+      "ru": "Максимально улучшите генератор (мощность, радиус действия и форсаж)",
+      "uk": "Have a fully upgraded Generator (power, range and overdrive)",
+      "en": "Have a fully upgraded Generator (power, range and overdrive)"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Переполняющая мощь",
+      "uk": "Power Overwhelming",
+      "en": "Power Overwhelming"
+    }
+  },
+  {
+    "id": "promised-land",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/a06d9b1c5d802aedc9e3a929f635256746ef6da4.jpg",
+    "description": {
+      "ru": "Достигните максимально высокой надежды и отсутствия недовольства",
+      "uk": "Have maximum hope and no discontent",
+      "en": "Have maximum hope and no discontent"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Земля обетованная",
+      "uk": "Promised Land",
+      "en": "Promised Land"
+    }
+  },
+  {
+    "id": "please-sir-i-want-some-more",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/7d975f9983dee94a3a48c06739dc1106f7e36969.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Можно мне добавки?",
+      "uk": "Please, Sir, I Want Some More",
+      "en": "Please, Sir, I Want Some More"
+    }
+  },
+  {
+    "id": "expats",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/8aef77ef7da1a921aa8999bcfaf851d7aced3551.jpg",
+    "description": {
+      "ru": "Организуйте два аванпоста за одно прохождение",
+      "uk": "Set up 2 Outposts in one playthrough",
+      "en": "Set up 2 Outposts in one playthrough"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Экспатрианты",
+      "uk": "Expats",
+      "en": "Expats"
+    }
+  },
+  {
+    "id": "oxbridge",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/96da5898e5d31e38cad9324b39be91a1fbb22b28.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы у вас одновременно проводились исследования в 4 мастерских",
+      "uk": "Have 4 Workshops doing research at the same time",
+      "en": "Have 4 Workshops doing research at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Оксбридж",
+      "uk": "Oxbridge",
+      "en": "Oxbridge"
+    }
+  },
+  {
+    "id": "compassionate",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/93968dee456f00f5dee86ca7c650f5ca75b4faf3.jpg",
+    "description": {
+      "ru": "В сценарии \"Новый дом\" принимайте всех беженцев",
+      "uk": "In the New Home scenario, accept all groups of refugees",
+      "en": "In the New Home scenario, accept all groups of refugees"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Доброе сердце",
+      "uk": "Compassionate",
+      "en": "Compassionate"
+    }
+  },
+  {
+    "id": "united",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/67910ce89ee82fe68c49373cab703a46e02f62dd.jpg",
+    "description": {
+      "ru": "В сценарии \"Новый дом\" не допустите, чтобы кто-нибудь ушел в Лондон",
+      "uk": "In the New Home scenario, don't let anyone leave for London",
+      "en": "In the New Home scenario, don't let anyone leave for London"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Единство",
+      "uk": "United",
+      "en": "United"
+    }
+  },
+  {
+    "id": "shai-hulud-summoner",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/1e6bf96a45070ec2eaa12d156651edb91e17f637.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы одновременно работали 4 угледобытчика",
+      "uk": "Have 4 Coal Thumpers working at the same time",
+      "en": "Have 4 Coal Thumpers working at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Заклинатель Шаи-Хулуда",
+      "uk": "Shai Hulud Summoner",
+      "en": "Shai Hulud Summoner"
+    }
+  },
+  {
+    "id": "bad-at-politics",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/bdd278b2ce7486e2834142e0555e1f564820b1fd.jpg",
+    "description": {
+      "ru": "Сдержите все обещания, данные во время прохождения",
+      "uk": "Keep every promise made during a playthrough",
+      "en": "Keep every promise made during a playthrough"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Плохой политик",
+      "uk": "Bad at Politics",
+      "en": "Bad at Politics"
+    }
+  },
+  {
+    "id": "notting-hollow",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/5a1d9894b86e7f8e68c56d1af10505658016707f.jpg",
+    "description": {
+      "ru": "Заселите минимум 600 жителей в дома",
+      "uk": "Have over 600 population living in Houses only",
+      "en": "Have over 600 population living in Houses only"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Огни большого города",
+      "uk": "Notting Hollow",
+      "en": "Notting Hollow"
+    }
+  },
+  {
+    "id": "technocrat",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/09363c48e495b184d57cefaf88778f21d34625f0.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Ковчеги\"",
+      "uk": "Finish The Arks scenario",
+      "en": "Finish The Arks scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Технократ",
+      "uk": "Technocrat",
+      "en": "Technocrat"
+    }
+  },
+  {
+    "id": "conservationist",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/fbf20558bf159c913d008a7de496f9412824c209.jpg",
+    "description": {
+      "ru": "Спасите все Ковчеги Флоры в сценарии \"Ковчеги\"",
+      "uk": "Save all the Seedling Arks in The Arks scenario",
+      "en": "Save all the Seedling Arks in The Arks scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Защитник природы",
+      "uk": "Conservationist",
+      "en": "Conservationist"
+    }
+  },
+  {
+    "id": "tis-but-a-scratch",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/19bfdba1365665d54647dfb2ea2874c75258b7b3.jpg",
+    "description": {
+      "ru": "Закончите прохождение, не построив ни единого лазарета или дома исцеления",
+      "uk": "Finish a playthrough without an Infirmary or House of Healing",
+      "en": "Finish a playthrough without an Infirmary or House of Healing"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Подумаешь, царапина!",
+      "uk": "Tis but a Scratch",
+      "en": "Tis but a Scratch"
+    }
+  },
+  {
+    "id": "carnivore",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/beacaa9c662409a16320fc349912ce47a66a2787.jpg",
+    "description": {
+      "ru": "Имея выбор, закончите сценарий, используя исключительно охотников",
+      "uk": "Having a choice, finish a scenario using only Hunters",
+      "en": "Having a choice, finish a scenario using only Hunters"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Мясоед",
+      "uk": "Carnivore",
+      "en": "Carnivore"
+    }
+  },
+  {
+    "id": "city-of-man",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/5b620b03a21e3b240aeb2082436887b55bc1d985.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы в городе одновременно жили 650 и больше жителей.",
+      "uk": "Have more than 650 people in the city at the same time",
+      "en": "Have more than 650 people in the city at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Город для людей",
+      "uk": "City of Man",
+      "en": "City of Man"
+    }
+  },
+  {
+    "id": "advanced-designs",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/59b7bc6afefba129b9d390e4dabf6dd7b4fadfb7.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы у вас одновременно работали улучшенная угольная шахта, улучшенная стенодрель и улучшенный сталелитейный завод",
+      "uk": "Have an Advanced Coal Mine, Advanced Wall Drill and Advanced Steelworks at the same time",
+      "en": "Have an Advanced Coal Mine, Advanced Wall Drill and Advanced Steelworks at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Высокие технологии",
+      "uk": "Advanced Designs",
+      "en": "Advanced Designs"
+    }
+  },
+  {
+    "id": "a-tomb-for-memories",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e4fb52898075ba2ddd3404a313f00f32187199c6.jpg",
+    "description": {
+      "ru": "Постройте Архив",
+      "uk": "Build the Archives",
+      "en": "Build the Archives"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Могильник памяти",
+      "uk": "A Tomb for Memories",
+      "en": "A Tomb for Memories"
+    }
+  },
+  {
+    "id": "search-and-rescue",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2848ba1552b7a3201718f2dd4ed92d2738f892ef.jpg",
+    "description": {
+      "ru": "Спасите всех своих соотечественников, прибывающих в город",
+      "uk": "Rescue all of your people coming to the City",
+      "en": "Rescue all of your people coming to the City"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Найти и спасти",
+      "uk": "Search and Rescue",
+      "en": "Search and Rescue"
+    }
+  },
+  {
+    "id": "city-of-steam",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/80ae5279b16a0baa7e3ab22a2fab9c9d3665d2e0.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы у вас одновременно работали 15 автоматонов",
+      "uk": "Have 15 automatons at the same time",
+      "en": "Have 15 automatons at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Дым Отечества",
+      "uk": "City of Steam",
+      "en": "City of Steam"
+    }
+  },
+  {
+    "id": "hyperefficient",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/1421aac72dfef9de49ec1cac963e3730cc71eee3.jpg",
+    "description": {
+      "ru": "Устройте рабочее место с эффективностью выше ... [200%]",
+      "uk": "Have a workplace with efficiency greater than ... [200%]",
+      "en": "Have a workplace with efficiency greater than ... [200%]"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Сверхэффективность",
+      "uk": "Hyperefficient",
+      "en": "Hyperefficient"
+    }
+  },
+  {
+    "id": "refugee",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0935b6c1e72b24698ee55eb3295cdcab2892e6f8.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Беженцы\"",
+      "uk": "Finish the Refugees scenario",
+      "en": "Finish the Refugees scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Беженец",
+      "uk": "Refugee",
+      "en": "Refugee"
+    }
+  },
+  {
+    "id": "unknown-ship",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/5fbee8d87ea3dd70c976b577f531f87665d86a10.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Неизвестный корабль",
+      "uk": "Unknown Ship",
+      "en": "Unknown Ship"
+    }
+  },
+  {
+    "id": "satellites",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e5dec096dcc4b7dc6bec622c0f7da8683d512663.jpg",
+    "description": {
+      "ru": "Закончите сценарий, ни разу не расширив радиус действия генератора",
+      "uk": "Finish a scenario never expanding the range of the Generator",
+      "en": "Finish a scenario never expanding the range of the Generator"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Спутники",
+      "uk": "Satellites",
+      "en": "Satellites"
+    }
+  },
+  {
+    "id": "everybody-lived-for-once",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/a67ed94bb5686f624b3d17f341bc8cbabb646cd0.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Все живут один раз",
+      "uk": "Everybody Lived for Once",
+      "en": "Everybody Lived for Once"
+    }
+  },
+  {
+    "id": "the-union",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e3339dc07fe081a344893d9429c01c2c4623c275.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Союз",
+      "uk": "The Union",
+      "en": "The Union"
+    }
+  },
+  {
+    "id": "this-is-new-london-over",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/9ab3aec4e3330ee495f03d72397fb968e77775d8.jpg",
+    "description": {
+      "ru": "Свяжитесь с Нью-Лондоном",
+      "uk": "Contact New London",
+      "en": "Contact New London"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Говорит Нью-Лондон, прием",
+      "uk": "This is New London, Over",
+      "en": "This is New London, Over"
+    }
+  },
+  {
+    "id": "it-was-me-all-along",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/fafc47e9f67612449f9c4c3ca4566542dacf8ba2.jpg",
+    "description": {
+      "ru": "Найдите и оставьте себе детали для «Винтерхоума»",
+      "uk": "Find generator parts meant for Winterhome and keep them",
+      "en": "Find generator parts meant for Winterhome and keep them"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Никто не знал, а я…",
+      "uk": "It Was Me All Along",
+      "en": "It Was Me All Along"
+    }
+  },
+  {
+    "id": "winterhome",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0e5b6aa820ae4156903986634ccde4498e0042a2.jpg",
+    "description": {
+      "ru": "Пройдите сценарий \"Падение Винтерхоума\".",
+      "uk": "Finish the Fall of Winterhome scenario.",
+      "en": "Finish the Fall of Winterhome scenario."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Винтерхоум",
+      "uk": "Winterhome",
+      "en": "Winterhome"
+    }
+  },
+  {
+    "id": "the-saviour",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2ef4a818485d6f5423fb12a8330cec6ded5446d7.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Новый дом\" без смертей от холода, голода, болезней или переутомления",
+      "uk": "Finish the New Home scenario with no deaths from cold, hunger, sickness or overwork",
+      "en": "Finish the New Home scenario with no deaths from cold, hunger, sickness or overwork"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Спаситель",
+      "uk": "The Saviour",
+      "en": "The Saviour"
+    }
+  },
+  {
+    "id": "builder",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/d5e7f44433c5ace8b5a5d79344e73b82ffcfb858.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень»",
+      "uk": "Build the Generator in The Last Autumn scenario",
+      "en": "Build the Generator in The Last Autumn scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Строитель",
+      "uk": "Builder",
+      "en": "Builder"
+    }
+  },
+  {
+    "id": "let-there-be-light",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/b64af062d6be05ddc4f0df56c52680f0dade8084.jpg",
+    "description": {
+      "ru": "Установите 10 фонарей",
+      "uk": "Build 10 Street Lamps",
+      "en": "Build 10 Street Lamps"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Да будет свет!",
+      "uk": "Let There Be Light",
+      "en": "Let There Be Light"
+    }
+  },
+  {
+    "id": "first-steps",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/d2a935a01fa9347d56f4dda232d59ab66b084738.jpg",
+    "description": {
+      "ru": "Постройте безопасный маршрут",
+      "uk": "Build a safe route",
+      "en": "Build a safe route"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Первые шаги",
+      "uk": "First Steps",
+      "en": "First Steps"
+    }
+  },
+  {
+    "id": "rise-of-the-machines",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/9066ab8da3ac94ca49bd6081c31704274791b14b.jpg",
+    "description": {
+      "ru": "Используйте 20 рабочих автоматонов",
+      "uk": "Have 20 working automatons",
+      "en": "Have 20 working automatons"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Восстание машин",
+      "uk": "Rise of the Machines",
+      "en": "Rise of the Machines"
+    }
+  },
+  {
+    "id": "bald-mountain",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/3019726544861c089ea0fda6030ce945fa60a18c.jpg",
+    "description": {
+      "ru": "Срубите все деревья на Аванпосте 11",
+      "uk": "Cut down all the trees in Outpost 11",
+      "en": "Cut down all the trees in Outpost 11"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Лысая гора",
+      "uk": "Bald Mountain",
+      "en": "Bald Mountain"
+    }
+  },
+  {
+    "id": "autonomous-city",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/c94df87e4ca0c44ab6c515996e0fce05f16393ff.jpg",
+    "description": {
+      "ru": "Сделайте так, чтобы в городе с минимум 200 жителями более половины рабочих мест занимали автоматоны",
+      "uk": "In a city of at least 200, have automatons working in more than half of workplaces",
+      "en": "In a city of at least 200, have automatons working in more than half of workplaces"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Автономный город",
+      "uk": "Autonomous City",
+      "en": "Autonomous City"
+    }
+  },
+  {
+    "id": "hi-marek",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/acfebeab60e128dc22705ea671c4d63d9d4975fa.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "О, привет, Марк!",
+      "uk": "Hi Marek!",
+      "en": "Hi Marek!"
+    }
+  },
+  {
+    "id": "there-was-no-waldo",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/629a1bce19091c21e6b25651fe68067ffe141d13.jpg",
+    "description": {
+      "ru": "Изучите все места на карте Морозных земель в промежутке между бурями",
+      "uk": "Explore all Frostland sites between the storms",
+      "en": "Explore all Frostland sites between the storms"
+    },
+    "secret": false,
+    "name": {
+      "ru": "В снегу нет белых пятен!",
+      "uk": "There was no Waldo",
+      "en": "There was no Waldo"
+    }
+  },
+  {
+    "id": "we-are-in-this-together",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/dba667c9da8f6227a151afb05d714c9dca8456cd.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Единство важнее",
+      "uk": "We Are In This Together",
+      "en": "We Are In This Together"
+    }
+  },
+  {
+    "id": "backup-plan",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/346d8e8acddb95b195f8315bf6627cb23ec0f0c8.jpg",
+    "description": {
+      "ru": "Запасите 35 000 ед. угля и 10 000 пищевых пайков",
+      "uk": "Stockpile 35 000 Coal and 10 000 Food Rations",
+      "en": "Stockpile 35 000 Coal and 10 000 Food Rations"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Запасной план",
+      "uk": "Backup Plan",
+      "en": "Backup Plan"
+    }
+  },
+  {
+    "id": "i-feel-lucky",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/6f1dded6c0f83fce914c26a6ef5d2b81c0a9ad91.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Мне повезет",
+      "uk": "I Feel Lucky",
+      "en": "I Feel Lucky"
+    }
+  },
+  {
+    "id": "green-thumb",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/143c954e3b79b971969f851feb0bb900931db5df.jpg",
+    "description": {
+      "ru": "Завершите все улучшения в Горячих Ключах",
+      "uk": "Complete all improvements in Hot Springs",
+      "en": "Complete all improvements in Hot Springs"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Дитя природы",
+      "uk": "Green Thumb",
+      "en": "Green Thumb"
+    }
+  },
+  {
+    "id": "defender-of-the-oppressed",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/262da32b77c7f4d5ea52a2d948c9a2b04619d677.jpg",
+    "description": {
+      "ru": "Завершите все улучшения в лагере у корабля",
+      "uk": "Complete all improvements in Shipwreck Camp",
+      "en": "Complete all improvements in Shipwreck Camp"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Защитник угнетенных",
+      "uk": "Defender of the Oppressed",
+      "en": "Defender of the Oppressed"
+    }
+  },
+  {
+    "id": "full-house",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/87895eb5968d4a120dee100e71a4de317a0d593c.jpg",
+    "description": {
+      "ru": "Соберите свыше 700 жителей",
+      "uk": "Have over 700 population",
+      "en": "Have over 700 population"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Негде яблоку упасть",
+      "uk": "Full House",
+      "en": "Full House"
+    }
+  },
+  {
+    "id": "master-archivist",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/9b3f8fa42da96912d147a621db29b910c230b2d5.jpg",
+    "description": {
+      "ru": "Заполните Архив",
+      "uk": "Fill the Archives",
+      "en": "Fill the Archives"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Старший архивариус",
+      "uk": "Master Archivist",
+      "en": "Master Archivist"
+    }
+  },
+  {
+    "id": "unskilled-labour",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/8d227853f1c320ac8bd5b89c197e279da2326f61.jpg",
+    "description": {
+      "ru": "Закончите любой сценарий без постройки паровых или улучшенных зданий.",
+      "uk": "Finish any scenario without constructing Steam or Advanced buildings",
+      "en": "Finish any scenario without constructing Steam or Advanced buildings"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Простой труд",
+      "uk": "Unskilled Labour",
+      "en": "Unskilled Labour"
+    }
+  },
+  {
+    "id": "worse-than-london",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/bca800e9e140d8b6a81dd7bb5026189131458f9b.jpg",
+    "description": {
+      "ru": "Закончите сценарий, не построив ни одного дома или барака",
+      "uk": "Finish a playthrough without building a single House or Bunkhouse",
+      "en": "Finish a playthrough without building a single House or Bunkhouse"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Хуже, чем Лондон",
+      "uk": "Worse than London",
+      "en": "Worse than London"
+    }
+  },
+  {
+    "id": "hyde-park-corner",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/b8721b1b687b007e0061566d0ee00c01c76c4db9.jpg",
+    "description": {
+      "ru": "Постройте площади всех размеров",
+      "uk": "Have a Town Square of each size",
+      "en": "Have a Town Square of each size"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Встретимся на площади",
+      "uk": "Hyde Park Corner",
+      "en": "Hyde Park Corner"
+    }
+  },
+  {
+    "id": "negotiator",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/1fa3add82dec8eddd70d08d5a7b6f483e74e4dc3.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Дипломат",
+      "uk": "Negotiator",
+      "en": "Negotiator"
+    }
+  },
+  {
+    "id": "perfectionist",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0c9ae5aa37c277b9609d7b282b07dfd718672511.jpg",
+    "description": {
+      "ru": "Постройте генератор со всеми улучшениями и без дефектов конструкции",
+      "uk": "Build a Generator with all upgrades and no construction faults",
+      "en": "Build a Generator with all upgrades and no construction faults"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Перфекционист",
+      "uk": "Perfectionist",
+      "en": "Perfectionist"
+    }
+  },
+  {
+    "id": "central-heating",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/a2258cd3e388972a5847b2e2627b223a190e88e4.jpg",
+    "description": {
+      "ru": "Закончите сценарий, не построив ни единого парового центра",
+      "uk": "Finish a scenario without building a single Steam Hub",
+      "en": "Finish a scenario without building a single Steam Hub"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Центральное отопление",
+      "uk": "Central Heating",
+      "en": "Central Heating"
+    }
+  },
+  {
+    "id": "all-children-on-board",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/33e498746a477779f27872a687cb81ab2387c516.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Все дети на борту",
+      "uk": "All children on board",
+      "en": "All children on board"
+    }
+  },
+  {
+    "id": "walk-on-the-grass",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/d65448e7d62bd6903a6994ad23ebcf6445db5ade.jpg",
+    "description": {
+      "ru": "Разбейте сады всех размеров",
+      "uk": "Have a Garden of each size",
+      "en": "Have a Garden of each size"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Трава у дома",
+      "uk": "Walk on the Grass",
+      "en": "Walk on the Grass"
+    }
+  },
+  {
+    "id": "messrs-gabriel",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/c61ec4c254182b6f8d2add6eee60c346fcb59f06.jpg",
+    "description": {
+      "ru": "Используйте телеграфную станцию от 20 раз",
+      "uk": "Use Telegraph Station 20 or more times",
+      "en": "Use Telegraph Station 20 or more times"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Морзе",
+      "uk": "Messrs Gabriel",
+      "en": "Messrs Gabriel"
+    }
+  },
+  {
+    "id": "frostland-explorer",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e0d93b7396b1b39ed462d90492124a6d8fa71ef7.jpg",
+    "description": {
+      "ru": "Исследуйте все места в Морозных землях в сценарии «На краю»",
+      "uk": "Explore all Frostland sites in On The Edge scenario",
+      "en": "Explore all Frostland sites in On The Edge scenario"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Исследователь Морозных земель",
+      "uk": "Frostland Explorer",
+      "en": "Frostland Explorer"
+    }
+  },
+  {
+    "id": "all-your-base-are-connect-to-us",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/edbf1df31ca7f7bc0df12f17e5bddbc382d3caeb.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Все дороги ведут на базу",
+      "uk": "All Your Base Are Connect To Us",
+      "en": "All Your Base Are Connect To Us"
+    }
+  },
+  {
+    "id": "vegetarian",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/51bfb9f3f6335c83c81c7a12c56656935c470345.jpg",
+    "description": {
+      "ru": "Имея выбор, закончите сценарий, используя исключительно теплицы",
+      "uk": "Having a choice, finish a scenario using only Hothouses",
+      "en": "Having a choice, finish a scenario using only Hothouses"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Травоядный",
+      "uk": "Vegetarian",
+      "en": "Vegetarian"
+    }
+  },
+  {
+    "id": "weathering-the-storm",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/1c74a776a955190b4255437399b465de64d4e5a3.jpg",
+    "description": {
+      "ru": "Постройте генератор в бесконечном режиме без повреждений от бурь",
+      "uk": "Build the Generator with no damage from storms in Endless Mode",
+      "en": "Build the Generator with no damage from storms in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Будет буря – мы поспорим…",
+      "uk": "Weathering the Storm",
+      "en": "Weathering the Storm"
+    }
+  },
+  {
+    "id": "contractor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2242c7bb92bad6677e49b4b4fdb2120a1af1b8fd.jpg",
+    "description": {
+      "ru": "Улучшите все поселения до самого высокого уровня",
+      "uk": "Develop all settlements to the highest level",
+      "en": "Develop all settlements to the highest level"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Подрядчик",
+      "uk": "Contractor",
+      "en": "Contractor"
+    }
+  },
+  {
+    "id": "i-ll-be-home-for-christmas",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/bee882e05208b62f826bbfdfe129fa3f1132f10b.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» до последней поставки",
+      "uk": "Build the Generator in The Last Autumn scenario before the last shipment",
+      "en": "Build the Generator in The Last Autumn scenario before the last shipment"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Домой к Рождеству",
+      "uk": "I'll Be Home for Christmas",
+      "en": "I'll Be Home for Christmas"
+    }
+  },
+  {
+    "id": "ducks-in-a-row",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/84263a054f78006a7f834f2a915c3e465533ff6e.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень», не делая пауз больше 24 часов",
+      "uk": "Build the Generator in The Last Autumn scenario without pauses between construction of its parts longer than 24 hours",
+      "en": "Build the Generator in The Last Autumn scenario without pauses between construction of its parts longer than 24 hours"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Быстро – это медленно без перерыва",
+      "uk": "Ducks in a Row",
+      "en": "Ducks in a Row"
+    }
+  },
+  {
+    "id": "marathon-medium",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/751a09c9135c9e7a320de0ba513aa1f60fa6196a.jpg",
+    "description": {
+      "ru": "Продержитесь 50 дней в режиме \"Выносливость\" на уровне сложности не ниже среднего",
+      "uk": "Survive 50 days of Endurance mode on Medium or higher difficulty",
+      "en": "Survive 50 days of Endurance mode on Medium or higher difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Средний марафон",
+      "uk": "Marathon Medium",
+      "en": "Marathon Medium"
+    }
+  },
+  {
+    "id": "better-than-london",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/bda5a7ac54ac6487b479d2da9f05ca8d0ad750ce.jpg",
+    "description": {
+      "ru": "Закончите сценарий, не построив ни одной палатки",
+      "uk": "Finish a playthrough without building a single Tent",
+      "en": "Finish a playthrough without building a single Tent"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Лучше, чем Лондон",
+      "uk": "Better than London",
+      "en": "Better than London"
+    }
+  },
+  {
+    "id": "winter-ready",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/cb23548ce3d63eb3268603973e0beedf204788a2.jpg",
+    "description": {
+      "ru": "Постройте генератор в бесконечном режиме до 49-го дня",
+      "uk": "Build the Generator before the weather changes in Endless Mode",
+      "en": "Build the Generator before the weather changes in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Чудотворец",
+      "uk": "Winter Ready",
+      "en": "Winter Ready"
+    }
+  },
+  {
+    "id": "full-dreadnought",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/46a3c1409fc9f32be412766f2fc908c1f5602a3d.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Полный Дредноут",
+      "uk": "Full Dreadnought",
+      "en": "Full Dreadnought"
+    }
+  },
+  {
+    "id": "by-the-sweat-of-their-brow",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/fbac4fd792f5a7324ef6ee1e126f75d33d0d3d75.jpg",
+    "description": {
+      "ru": "Продержитесь 75 дней без автоматонов",
+      "uk": "Survive 75 days without having automatons",
+      "en": "Survive 75 days without having automatons"
+    },
+    "secret": false,
+    "name": {
+      "ru": "В поте лица",
+      "uk": "By the Sweat of their Brow",
+      "en": "By the Sweat of their Brow"
+    }
+  },
+  {
+    "id": "no-crunch",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/32ec410b99e33d12938449ecec7e2bbf3b1f9114.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень», не используя ни увеличенных, ни двойных смен",
+      "uk": "Build the generator in The Last Autumn scenario using neither Two Shifts nor Extended Shifts",
+      "en": "Build the generator in The Last Autumn scenario using neither Two Shifts nor Extended Shifts"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Без напряга",
+      "uk": "No Crunch",
+      "en": "No Crunch"
+    }
+  },
+  {
+    "id": "iron-man-new-home",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0653cce0f93a6d441125804ae695a232c43c0063.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Новый дом\" на высокой сложности",
+      "uk": "Finish the New Home scenario on Hard difficulty",
+      "en": "Finish the New Home scenario on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь (\"Новый дом\")",
+      "uk": "Iron Man (New Home)",
+      "en": "Iron Man (New Home)"
+    }
+  },
+  {
+    "id": "sprinter",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/436fd68939e39bc66a65f6f15f515a8e8b6827d6.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Спринтер",
+      "uk": "Sprinter",
+      "en": "Sprinter"
+    }
+  },
+  {
+    "id": "guardian",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/69412c66d5e26c72a93bcb47531fafed6517ceda.jpg",
+    "description": {
+      "ru": "Завершите все улучшения в детской шахте",
+      "uk": "Complete all improvements in Children's Mine",
+      "en": "Complete all improvements in Children's Mine"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Опекун",
+      "uk": "Guardian",
+      "en": "Guardian"
+    }
+  },
+  {
+    "id": "bonus-pater-familias",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/30292ac9193ffb7f4a4d88ed46739d32fbb22d5a.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» без единой жертвы",
+      "uk": "Build the Generator in The Last Autumn scenario without anyone dying",
+      "en": "Build the Generator in The Last Autumn scenario without anyone dying"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Bonus Pater Familias",
+      "uk": "Bonus Pater Familias",
+      "en": "Bonus Pater Familias"
+    }
+  },
+  {
+    "id": "social-activist",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/d3d43623a26302524202871840fa9d1ff66b82a0.jpg",
+    "description": {
+      "ru": "Добейтесь лояльности всех поселений",
+      "uk": "Make all other settlements loyal to you",
+      "en": "Make all other settlements loyal to you"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Социальный активист",
+      "uk": "Social Activist",
+      "en": "Social Activist"
+    }
+  },
+  {
+    "id": "charcoaled",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/495bd71e55bcaffa0796f572c1cf173b3f15fcef.jpg",
+    "description": {
+      "ru": "Закончите прохождение с угольными печами в качестве единственного источника угля",
+      "uk": "Finish a playthrough with Charcoal Kilns as the only buildings that provide Coal",
+      "en": "Finish a playthrough with Charcoal Kilns as the only buildings that provide Coal"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Уголек",
+      "uk": "Charcoaled",
+      "en": "Charcoaled"
+    }
+  },
+  {
+    "id": "urban-planner",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/ba2687d4989ddea9986f69a9cb497a262e3a0b34.jpg",
+    "description": {
+      "ru": "Расселите 300 человек в тепловой зоне одного парового центра.",
+      "uk": "Have 300 people living in the heat zone of a single Steam Hub",
+      "en": "Have 300 people living in the heat zone of a single Steam Hub"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Градоустроитель",
+      "uk": "Urban Planner",
+      "en": "Urban Planner"
+    }
+  },
+  {
+    "id": "unforgiven",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/821400ed65e2642e73298e8e2342d370ef0f619c.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Непрощенные",
+      "uk": "Unforgiven",
+      "en": "Unforgiven"
+    }
+  },
+  {
+    "id": "ultramarathon-medium",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0d44952cae23ab4a027327f868de39acc245db5a.jpg",
+    "description": {
+      "ru": "Продержитесь 100 дней в режиме \"Выносливость\" на уровне сложности не ниже среднего",
+      "uk": "Survive 100 days of Endurance mode on Medium or higher difficulty",
+      "en": "Survive 100 days of Endurance mode on Medium or higher difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Средний ультрамарафон",
+      "uk": "Ultramarathon Medium",
+      "en": "Ultramarathon Medium"
+    }
+  },
+  {
+    "id": "one-more-day-syndrome",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/4469648714e44e38bf4a843bc12367fdc2d04ea3.jpg",
+    "description": {
+      "ru": "Генератор в бесконечном режиме построен, 100 день достигнут",
+      "uk": "Build the Generator and reach day 100 in Endless Mode",
+      "en": "Build the Generator and reach day 100 in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Прокрастинатор",
+      "uk": "One More Day Syndrome",
+      "en": "One More Day Syndrome"
+    }
+  },
+  {
+    "id": "my-turn-to-speak",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/77b81f0e176a7e3240613d2f242f5f52f0485182.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Теперь говорить буду я",
+      "uk": "My Turn to Speak",
+      "en": "My Turn to Speak"
+    }
+  },
+  {
+    "id": "iron-man-the-arks",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/331795d80f8ee5230dfdb425bf28dfc6f9e4ef20.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Ковчеги\" на высокой сложности",
+      "uk": "Finish The Arks scenario on Hard difficulty",
+      "en": "Finish The Arks scenario on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь (\"Ковчеги\")",
+      "uk": "Iron Man (The Arks)",
+      "en": "Iron Man (The Arks)"
+    }
+  },
+  {
+    "id": "fisher-king",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/4bfdd842ca4a732c534472fe98119f7ff0e08b14.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» без единого лагеря заготовок",
+      "uk": "Build the Generator in The Last Autumn scenario without setting up any Foragers' Camps",
+      "en": "Build the Generator in The Last Autumn scenario without setting up any Foragers' Camps"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Рыболовный магнат",
+      "uk": "Fisher King",
+      "en": "Fisher King"
+    }
+  },
+  {
+    "id": "new-home-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/16b541af3314d28e25a79ba76809515248621bd8.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Новый дом\" в режиме \"Выживание\"",
+      "uk": "Finish the New Home scenario in Survivor Mode.",
+      "en": "Finish the New Home scenario in Survivor Mode."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Выживатель: \"Новый дом\"",
+      "uk": "New Home Survivor",
+      "en": "New Home Survivor"
+    }
+  },
+  {
+    "id": "endless-social-activist",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e17b2ea1f49095918dbedab25abb05d9d496cd93.jpg",
+    "description": {
+      "ru": "Добейтесь лояльности всех поселений в бесконечном режиме",
+      "uk": "Make all other settlements loyal to you in Endless Mode",
+      "en": "Make all other settlements loyal to you in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Бесконечный социальный активизм",
+      "uk": "Endless Social Activist",
+      "en": "Endless Social Activist"
+    }
+  },
+  {
+    "id": "the-iron-saviour",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/b879f150184255b6f1d616931677757d28dc5c69.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Новый дом\" без смертей от холода, голода, болезней или переутомления на высокой сложности",
+      "uk": "Finish the New Home scenario with no deaths from cold, hunger, sickness or overwork on Hard difficulty",
+      "en": "Finish the New Home scenario with no deaths from cold, hunger, sickness or overwork on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Стальной спаситель",
+      "uk": "The Iron Saviour",
+      "en": "The Iron Saviour"
+    }
+  },
+  {
+    "id": "i-see-friends-holding-hands",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/942f8d55dcb13b6034d66343932b7604f689577c.jpg",
+    "description": {
+      "ru": "Поручите союзнику отправить экстренную помощь в другое поселение",
+      "uk": "Have an ally send Emergency Aid to another settlement",
+      "en": "Have an ally send Emergency Aid to another settlement"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Дружба крепкая не сломается",
+      "uk": "I See Friends Holding Hands",
+      "en": "I See Friends Holding Hands"
+    }
+  },
+  {
+    "id": "golden-path",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2d02adfe2bb2d5d06c78fa8fe4b7294ae84cce2b.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "Золотой путь",
+      "uk": "Golden Path",
+      "en": "Golden Path"
+    }
+  },
+  {
+    "id": "iron-man-refugees",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/6a20fe0c5f83be7388479442ec18495ac9415aee.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Беженцы\" на высокой сложности",
+      "uk": "Finish the Refugees scenario on Hard difficulty",
+      "en": "Finish the Refugees scenario on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь (\"Беженцы\")",
+      "uk": "Iron Man (Refugees)",
+      "en": "Iron Man (Refugees)"
+    }
+  },
+  {
+    "id": "the-arks-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/4196efdac9648bb7f51a9b5d06e3c82771dc76c7.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Ковчеги\" в режиме \"Выживание\"",
+      "uk": "Finish The Arks scenario in Survivor Mode.",
+      "en": "Finish The Arks scenario in Survivor Mode."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Выживатель: \"Ковчеги\"",
+      "uk": "The Arks Survivor",
+      "en": "The Arks Survivor"
+    }
+  },
+  {
+    "id": "marathon-hard",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/5591b09cc3e0e6354d07d3bc2358cfb6a1427cf5.jpg",
+    "description": {
+      "ru": "Продержитесь 50 дней в режиме \"Выносливость\" на уровне сложности не ниже высокого",
+      "uk": "Survive 50 days of Endurance mode on Hard or higher difficulty",
+      "en": "Survive 50 days of Endurance mode on Hard or higher difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Сложный марафон",
+      "uk": "Marathon Hard",
+      "en": "Marathon Hard"
+    }
+  },
+  {
+    "id": "iron-man-fall-of-winterhome",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/8f407b8876ce95bf2fc5d4f3bf3dc6fb44530582.jpg",
+    "description": {
+      "ru": "Пройдите сценарий \"Падение Винтерхоума\" на высокой сложности",
+      "uk": "Finish the Fall of Winterhome scenario on Hard difficulty.",
+      "en": "Finish the Fall of Winterhome scenario on Hard difficulty."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь (\"Падение Винтерхоума\")",
+      "uk": "Iron Man (Fall of Winterhome)",
+      "en": "Iron Man (Fall of Winterhome)"
+    }
+  },
+  {
+    "id": "marathon-extreme",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/2fe9c78e79b77166a58fb975c8c1f836268de6d5.jpg",
+    "description": {
+      "ru": "Продержитесь 50 дней в режиме \"Выносливость\" на экстремальной сложности",
+      "uk": "Survive 50 days of Endurance mode on Extreme difficulty",
+      "en": "Survive 50 days of Endurance mode on Extreme difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Экстремальный марафон",
+      "uk": "Marathon Extreme",
+      "en": "Marathon Extreme"
+    }
+  },
+  {
+    "id": "iron-man-the-last-autumn",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/bbc7b853f0a90bf701831637d77f143f7fab9c69.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» на высокой сложности",
+      "uk": "Build the Generator in The Last Autumn scenario on Hard difficulty",
+      "en": "Build the Generator in The Last Autumn scenario on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь («Последняя осень»)",
+      "uk": "Iron Man (The Last Autumn)",
+      "en": "Iron Man (The Last Autumn)"
+    }
+  },
+  {
+    "id": "you-had-to-do-it",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/29c32d721c4671ae8414561ac1ed28ee26c5b98e.jpg",
+    "description": {
+      "ru": "",
+      "uk": "",
+      "en": ""
+    },
+    "secret": true,
+    "name": {
+      "ru": "А как иначе",
+      "uk": "You Had To Do It",
+      "en": "You Had To Do It"
+    }
+  },
+  {
+    "id": "refugees-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/0058e812c665860babc34792d1988a4b23eda90c.jpg",
+    "description": {
+      "ru": "Закончите сценарий \"Беженцы\" в режиме \"Выживание\"",
+      "uk": "Finish the Refugees scenario in Survivor Mode.",
+      "en": "Finish the Refugees scenario in Survivor Mode."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Выживатель: \"Беженцы\"",
+      "uk": "Refugees Survivor",
+      "en": "Refugees Survivor"
+    }
+  },
+  {
+    "id": "ultramarathon-hard",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/a37dd81fd1858e520643158015ffed749811d958.jpg",
+    "description": {
+      "ru": "Продержитесь 100 дней в режиме \"Выносливость\" на уровне сложности не ниже высокого",
+      "uk": "Survive 100 days of Endurance mode on Hard or higher difficulty",
+      "en": "Survive 100 days of Endurance mode on Hard or higher difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Сложный ультрамарафон",
+      "uk": "Ultramarathon Hard",
+      "en": "Ultramarathon Hard"
+    }
+  },
+  {
+    "id": "on-the-waterfront",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/1816dceb56cc1843fc256bb629c0a7cf08b48d29.jpg",
+    "description": {
+      "ru": "Запустите одновременно 4 улучшенных пристани и 12 станций перезагрузки",
+      "uk": "Have 4 Advanced Docks and 12 Reloading Stations working at the same time",
+      "en": "Have 4 Advanced Docks and 12 Reloading Stations working at the same time"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Хозяин порта",
+      "uk": "On the Waterfront",
+      "en": "On the Waterfront"
+    }
+  },
+  {
+    "id": "not-great-not-terrible",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e7b504791bad7598e6f0602690c6ed00e9fecef5.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень», удерживая уровень безопасности ниже «Безопасно» и выше «Смертельно опасно»",
+      "uk": "Build the Generator in The Last Autumn scenario, employing people neither in Safe nor Deadly workplaces",
+      "en": "Build the Generator in The Last Autumn scenario, employing people neither in Safe nor Deadly workplaces"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Ни шатко ни валко",
+      "uk": "Not great, not terrible",
+      "en": "Not great, not terrible"
+    }
+  },
+  {
+    "id": "the-winterhome-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e7050084dcc08e37f01625a35afcfc275d562ac6.jpg",
+    "description": {
+      "ru": "Пройдите сценарий \"Падение Винтерхоума\" в режиме \"Выживание\".",
+      "uk": "Finish the Fall of Winterhome scenario in Survivor Mode.",
+      "en": "Finish the Fall of Winterhome scenario in Survivor Mode."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Выживатель: \"Винтерхоум\"",
+      "uk": "The Winterhome Survivor",
+      "en": "The Winterhome Survivor"
+    }
+  },
+  {
+    "id": "ultramarathon-extreme",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/e1e2d25a9b4b320415558b1e94282680730eaac2.jpg",
+    "description": {
+      "ru": "Продержитесь 100 дней в режиме \"Выносливость\" на экстремальной сложности",
+      "uk": "Survive 100 days of Endurance mode on Extreme difficulty",
+      "en": "Survive 100 days of Endurance mode on Extreme difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Экстремальный ультрамарафон",
+      "uk": "Ultramarathon Extreme",
+      "en": "Ultramarathon Extreme"
+    }
+  },
+  {
+    "id": "the-last-autumn-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/f99f208bff5ff04439995b75c0909cd214b0ba5f.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» в режиме «Выживание»",
+      "uk": "Build the Generator in The Last Autumn scenario in Survivor Mode.",
+      "en": "Build the Generator in The Last Autumn scenario in Survivor Mode."
+    },
+    "secret": false,
+    "name": {
+      "ru": "Свидетель последней осени",
+      "uk": "The Last Autumn Survivor",
+      "en": "The Last Autumn Survivor"
+    }
+  },
+  {
+    "id": "emissions-reduction",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/86c5525123cc34560f497a8d58f2a5d368424b22.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» без использования углепотребляющих построек",
+      "uk": "Build the Generator in The Last Autumn scenario using no Coal consuming buildings",
+      "en": "Build the Generator in The Last Autumn scenario using no Coal consuming buildings"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Сокращение выбросов",
+      "uk": "Emissions Reduction",
+      "en": "Emissions Reduction"
+    }
+  },
+  {
+    "id": "a-for-effort",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/5f3404f70bd3ba650ddecd4c730aba680e5b84fb.jpg",
+    "description": {
+      "ru": "Постройте генератор в бесконечном режиме со всеми возможными дефектами конструкции",
+      "uk": "Build a Generator with all construction faults in Endless Mode",
+      "en": "Build a Generator with all construction faults in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Пятерка за старания",
+      "uk": "A for Effort",
+      "en": "A for Effort"
+    }
+  },
+  {
+    "id": "iron-man-on-the-edge",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/f78e7d2fb6b930b1e0d13477fcc6d301159197ea.jpg",
+    "description": {
+      "ru": "Закончите сценарий «На краю» на высокой сложности",
+      "uk": "Finish On The Edge scenario on Hard difficulty",
+      "en": "Finish On The Edge scenario on Hard difficulty"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Как закалялась сталь («На краю»)",
+      "uk": "Iron Man (On The Edge)",
+      "en": "Iron Man (On The Edge)"
+    }
+  },
+  {
+    "id": "all-along-the-watchtower",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/235c390ab9971ff24f9cb6fb6e4f413b43608ccd.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» так, чтобы в конце остались только заключенные и инженеры",
+      "uk": "Build the Generator in The Last Autumn scenario with only convicts and engineers left at the end",
+      "en": "Build the Generator in The Last Autumn scenario with only convicts and engineers left at the end"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Вертухай",
+      "uk": "All Along the Watchtower",
+      "en": "All Along the Watchtower"
+    }
+  },
+  {
+    "id": "arise-ye-workers",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/4bdf95338bffd0e656ee13bd7a80571244a93a8f.jpg",
+    "description": {
+      "ru": "Постройте генератор в сценарии «Последняя осень» так, чтобы в конце остались только рабочие",
+      "uk": "Build the Generator in The Last Autumn scenario with only workers left at the end",
+      "en": "Build the Generator in The Last Autumn scenario with only workers left at the end"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Вставай, проклятьем заклейменный…",
+      "uk": "Arise Ye Workers",
+      "en": "Arise Ye Workers"
+    }
+  },
+  {
+    "id": "on-the-edge-survivor",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/63afdc3a1fae210df7c553e113ffee2d4baa9b5b.jpg",
+    "description": {
+      "ru": "Закончите сценарий «На краю» в режиме «Выживание»",
+      "uk": "Finish On The Edge scenario in Survivor Mode",
+      "en": "Finish On The Edge scenario in Survivor Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Переживший «На краю»",
+      "uk": "On The Edge Survivor",
+      "en": "On The Edge Survivor"
+    }
+  },
+  {
+    "id": "slave-driver",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/8306bed9807e7f24fca8d13cef00b1b4c044153d.jpg",
+    "description": {
+      "ru": "Потеряйте доверие всех поселений",
+      "uk": "Make all other settlements distrustful towards you",
+      "en": "Make all other settlements distrustful towards you"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Угнетатель",
+      "uk": "Slave Driver",
+      "en": "Slave Driver"
+    }
+  },
+  {
+    "id": "endless-slave-driver",
+    "icon": "https://shared.fastly.steamstatic.com/community_assets/images/apps/323190/05f3311122c1e56559b4baadfd8eabda900e0701.jpg",
+    "description": {
+      "ru": "Потеряйте доверие всех поселений в бесконечном режиме",
+      "uk": "Make all other settlements distrustful towards you in Endless Mode",
+      "en": "Make all other settlements distrustful towards you in Endless Mode"
+    },
+    "secret": false,
+    "name": {
+      "ru": "Бесконечное угнетение",
+      "uk": "Endless Slave Driver",
+      "en": "Endless Slave Driver"
+    }
+  }
+]

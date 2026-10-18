@@ -4,7 +4,7 @@ import {Progress} from '@/components/ui/progress';
 import {Tooltip,TooltipContent,TooltipProvider,TooltipTrigger} from '@/components/ui/tooltip';
 
 type Metric={label:string;value:number;max:number};
-type Props={label:string;metrics:readonly [Metric,Metric,Metric];theme?:'deus-ex'|'witcher'|'valhalla'};
+type Props={label:string;metrics:readonly [Metric,Metric,Metric];theme?:'deus-ex'|'witcher'|'valhalla'|'frostpunk'};
 
 // Shared with every game; Deus Ex defines the layout and interaction contract.
 export default function TrackerProgressSummary({label,metrics,theme='deus-ex'}:Props){
