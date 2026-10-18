@@ -6,14 +6,14 @@ import {Dialog,DialogContent,DialogDescription,DialogTitle,DialogTrigger} from '
 import {homeCopy} from '@/lib/home-copy';
 import type {Locale} from '@/lib/i18n';
 
-export default function HomeHowDialog({locale,variant}:{locale:Locale;variant:'nav'|'hero'})
+export default function HomeHowDialog({locale}:{locale:Locale})
 {
     const c=homeCopy[locale];
     const titleRef=useRef<HTMLHeadingElement>(null);
 
     return <Dialog modal>
-        <DialogTrigger render={<button type="button" />} className={variant==='nav'?'home-how-nav-trigger':'home-cta-secondary'}>
-            {c.how}{variant==='hero'&&<BookOpen size={16} aria-hidden="true"/>}
+        <DialogTrigger render={<button type="button" />} className="home-cta-secondary">
+            {c.how}<BookOpen size={16} aria-hidden="true"/>
         </DialogTrigger>
         <DialogContent className="home-how-dialog" closeLabel={c.close} initialFocus={titleRef}>
             <DialogTitle ref={titleRef} tabIndex={-1}>{c.howTitle}</DialogTitle>

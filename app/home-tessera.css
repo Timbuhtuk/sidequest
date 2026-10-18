@@ -51,10 +51,8 @@ body:has(.home-shell)::-webkit-scrollbar,
     border-color: var(--border);
 }
 .home-brand { font: 700 23px var(--home-display); letter-spacing: -.035em; }
-.home-header nav { gap: 28px; font: 13px var(--home-ui); }
-.home-header nav :is(a,.home-how-nav-trigger) { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid transparent; background: none; color: var(--home-text-secondary); font: inherit; cursor: pointer; }
-.home-header nav :is(a,.home-how-nav-trigger):hover { color: var(--foreground); border-color: var(--foreground); }
 .home-language[data-slot=select-trigger] {
+    margin-left: auto;
     min-height: 44px;
     width: 82px;
     padding: 10px 12px;
@@ -179,8 +177,6 @@ body:has(.home-shell)::-webkit-scrollbar,
 @media (max-width: 760px) {
     .home-header { height: 68px; padding: 0 18px; gap: 10px; flex-wrap: nowrap; }
     .home-header .home-brand { font-size: clamp(16px, 4.8vw, 20px); gap: 8px; }
-    .home-header nav { display: none; }
-    .home-language[data-slot=select-trigger] { margin-left: auto; }
     .home-hero { grid-template-columns: 1fr; gap: 24px; padding: 30px 18px; }
     .home-hero-copy { max-width: 650px; }
     .home-hero-copy p { font-size: 15px; }
