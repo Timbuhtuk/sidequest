@@ -1,10 +1,10 @@
 'use client';
 import {sitePath} from '@/lib/site-path';
 import {useEffect,useRef,useState} from 'react';
-import {ArrowDown,ArrowUpRight,MoveUpRight} from 'lucide-react';
+import {ArrowDown,ArrowRight} from 'lucide-react';
 import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from '@/components/ui/select';
 import {Progress} from '@/components/ui/progress';
-import {languageKey,languageOptions,parseLocale,type Locale} from '@/lib/i18n';
+import {languageKey,languageOptions,localizedCatalog,parseLocale,type Locale} from '@/lib/i18n';
 import {homeCopy} from '@/lib/home-copy';
 import ValhallaLibraryCard from '@/components/valhalla-library-card';
 import WitcherLibraryCard from '@/components/witcher-library-card';
@@ -15,6 +15,9 @@ export default function Home(){
   const [saved,setSaved]=useState<TrackerState|null>(null);
   const heroRef=useRef<HTMLElement>(null);
   const c=homeCopy[locale];
+  const catalog=localizedCatalog(locale);
+  const previewStage=catalog.stages[0];
+  const previewAchievements=catalog.achievements.filter(a=>a.stages.includes(previewStage.id)).slice(0,2);
   useEffect(()=>{try{const saved=parseLocale(localStorage.getItem(languageKey));if(saved)setLocale(saved)}catch{}},[]);
   useEffect(()=>{document.documentElement.lang=locale},[locale]);
   useEffect(()=>{
@@ -41,12 +44,32 @@ export default function Home(){
     <main className="home-main">
       <section ref={heroRef} className="home-hero" aria-labelledby="hero-title">
         <img className="home-landscape" src={sitePath('/pixel-world.png')} alt="" width="1672" height="941" fetchPriority="high" draggable={false}/>
-        <div className="home-hero-copy"><div className="home-hero-panel-head" aria-hidden="true"><span>01 / SIDEQUEST</span><span>▢ ─ ×</span></div><div className="home-kicker"><span className="home-square"/>{c.eyebrow}</div><h1 id="hero-title">{c.headline[0]}<br/>{c.headline[1]}<br/><span>{c.headline[2]}</span></h1><p>{c.intro}</p><div className="home-hero-actions"><a className="home-cta" href="#library">{c.choose}<ArrowUpRight size={18}/></a><a className="home-cta-secondary" href="#how">{c.how}<ArrowDown size={16}/></a></div></div>
-        <div className="home-world" aria-hidden="true"><div className="home-window-bar"><span>UNEXPLORED_WORLD.EXE</span><span>— □ ×</span></div><span className="home-world-coordinate">X: 0001 / Y: ∞</span></div>
-        <div className="home-hero-bottom"><span>{c.yourPace}</span><a href="#library">{c.scroll}<ArrowDown size={14}/></a><span>01 — ∞</span></div>
+        <div className="home-hero-copy">
+          <div className="home-kicker"><span className="home-square"/>{c.eyebrow}</div>
+          <h1 id="hero-title">{c.headline[0]}<br/><span>{c.headline[1]}</span></h1>
+          <p>{c.intro}</p>
+          <div className="home-hero-actions"><a className="home-cta" href="#library">{c.choose}<ArrowDown size={18}/></a><a className="home-cta-secondary" href="#how">{c.how}<ArrowDown size={16}/></a></div>
+          <p className="home-storage-note">{c.storage}</p>
+        </div>
+        <aside className="home-preview" aria-label={c.preview}>
+          <div className="home-preview-head"><span>{c.preview}</span><span>M01</span></div>
+          <div className="home-preview-body">
+            <h2>Deus Ex: Mankind Divided</h2>
+            <div className="home-preview-stage"><span>{c.currentStage}</span><strong>{previewStage.name}</strong></div>
+            <p className="home-preview-label">{c.available}</p>
+            <ul>{previewAchievements.map(a=><li key={a.id}><span className="home-preview-square" aria-hidden="true"/><span><strong>{a.name}</strong><span>{a.description}</span></span></li>)}</ul>
+            <a href={sitePath('/deus-ex')}>{c.open}<ArrowRight size={18}/></a>
+          </div>
+        </aside>
       </section>
-      <section className="home-library" id="library"><div className="home-section-heading"><div><span className="home-kicker">01 / {c.collection}</span><h2>{c.library}</h2></div><span className="home-counter">[ 03 ]</span></div><a className="home-game" href={sitePath('/deus-ex')} draggable={false}><div className="home-game-art"><img draggable={false} src={sitePath('/deus-ex-og.png')} alt="Deus Ex: Mankind Divided" width="1536" height="1024"/><span className="home-game-index">GAME_001</span></div><div className="home-game-copy"><div className="home-kicker">ACTION RPG · 2016</div><h3>Deus Ex:<br/>Mankind Divided</h3><p>{c.gameDescription}</p><div className="home-game-tags"><span>81 {c.achievements}</span><span>{c.dlc}</span></div><div className="home-game-progress"><div><span>{c.progress}</span><span>{saved?saved.earned.length:0} / 81</span></div><Progress value={(saved?.earned.length??0)/81*100} aria-label={c.progress}/></div><span className="home-game-open">{saved?c.continue:c.open}<MoveUpRight size={22}/></span></div></a><WitcherLibraryCard locale={locale}/><ValhallaLibraryCard locale={locale}/></section>
-      <section className="home-how" id="how"><div className="home-section-heading"><div><span className="home-kicker">02 / {c.fieldNotes}</span><h2>{c.howTitle}</h2></div><span className="home-how-sign" aria-hidden="true">[ + ]</span></div><div className="home-principles">{c.steps.map((s,i)=><article key={i}><span className="home-step-number">0{i+1}</span><h3>{s.title}</h3><p>{s.description}</p></article>)}</div></section>
+      <section className="home-library" id="library" aria-labelledby="library-title">
+        <div className="home-section-heading"><div><span className="home-kicker">{c.collection}</span><h2 id="library-title">{c.library}</h2></div><span className="home-counter">[ 03 ]</span></div>
+        <div className="home-games">
+          <a className="home-game" href={sitePath('/deus-ex')} draggable={false}><div className="home-game-art"><img draggable={false} src={sitePath('/deus-ex-og.png')} alt="" width="1536" height="1024" loading="lazy"/></div><div className="home-game-copy"><div className="home-kicker">ACTION RPG · 2016</div><h3>Deus Ex: Mankind Divided</h3><p>{c.gameDescription}</p><div className="home-game-tags"><span>81 {c.achievements}</span><span>{c.dlc}</span></div><div className="home-game-progress"><div><span>{c.progress}</span><span>{saved?saved.earned.length:0} / 81</span></div><Progress value={(saved?.earned.length??0)/81*100} aria-label={c.progress}/></div><span className="home-game-open">{saved?c.continue:c.open}<ArrowRight size={20}/></span></div></a>
+          <WitcherLibraryCard locale={locale}/><ValhallaLibraryCard locale={locale}/>
+        </div>
+      </section>
+      <section className="home-how" id="how" aria-labelledby="how-title"><div className="home-section-heading"><h2 id="how-title">{c.howTitle}</h2></div><div className="home-principles">{c.steps.map((s,i)=><article key={i}><span className="home-step-number">0{i+1}</span><div><h3>{s.title}</h3><p>{s.description}</p></div></article>)}</div></section>
     </main><footer className="home-footer"><span>{c.footer}</span></footer>
   </div>;
 }
